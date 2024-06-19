@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="update">download</button>
+</body>
+
+</html>
+<script>
+    var mainData
+    fetch("https://sandbox.surepass.io/api/v1/itr/forget-password", {
+        method: "POST",
+        body: JSON.stringify({
+            // otp: "743534",
+            client_id: "itr_eNMgycGuuljxKBHwvapq",
+            password: "Anythinfksjg@2016"
+            // username: "BGUPS4655Q",
+            // password: "Anything@2016"
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTI5OTA4MywianRpIjoiNmI2MjdiMjctODhlZC00Mjg2LTkyZjctMTA3NjgzYmMwMTUzIiwidHlwZSI6ImFjY2VzcyIsImlkZW50aXR5IjoiZGV2LmZuYXhpb21Ac3VyZXBhc3MuaW8iLCJuYmYiOjE3MDkyOTkwODMsImV4cCI6MTcxMTg5MTA4MywidXNlcl9jbGFpbXMiOnsic2NvcGVzIjpbInVzZXIiXX19.i-fVJgVq2DrbYdPxMZugAx4thoLtOTX2JptrgeY7YRw'
+        }
+    }).then(response => response.json())
+        .then(function (data) {
+            // mainData = JSON.stringify(data)
+            console.log(data)
+        })
+
+    const updateBtn = document.getElementById('update')
+    updateBtn.addEventListener('click', fun)
+
+    function fun() {
+        // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(mainData);
+        // updateBtn.setAttribute("href", dataStr);
+        // updateBtn.setAttribute("download", "scene.json");
+        // updateBtn.click();
+        // console.log(mainData)
+    }
+
+    // function downloadObjectAsJson(obj, filename) {
+    //     const jsonStr = JSON.stringify(obj);
+    //     const blob = new Blob([jsonStr], { type: "application/json" });
+    //     const url = URL.createObjectURL(blob);
+
+    //     const a = document.createElement("a");
+    //     a.href = url;
+    //     a.download = filename || 'download.json';
+    //     document.body.appendChild(a); // Append the anchor to the body to make it clickable
+    //     a.click();
+
+    //     document.body.removeChild(a); // Clean up
+    //     URL.revokeObjectURL(url); // Free up the blob URL
+    // }
+    // const myObj = { name: "John", age: 30, city: "New York" };
+
+    // downloadObjectAsJson(mainData, "myData.json");
+
+    // setTimeout(function() {
+    //     downloadObjectAsJson(mainData, "download26ASPOST.json")
+    // }, 5000)
+
+    
+
+
+    
+</script>

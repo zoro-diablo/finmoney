@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tax Form</title>
+  <!-- Remove one of the following lines -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/jit.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <style>
+    #circularcursor {
+      background-color: transparent;
+      border: 1px solid black;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      position: absolute;
+      z-index: 1;
+      transition: 0.2s;
+    }
+
+    .navbar {
+      background-color: #28a745;
+      /* Green navbar background color */
+    }
+
+    nav a:hover {
+      background-color: #28a745;
+
+    }
+
+    .navbar-dark .navbar-toggler-icon {
+      background-color: #fff;
+      /* White color for the toggler icon */
+    }
+
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: #fff !important;
+      /* White text color for links and brand */
+    }
+
+    .navbar-brand:hover,
+    .navbar-nav .nav-link:hover {
+      color: #fff !important;
+      /* White text color on hover */
+    }
+
+    .navbar-toggler {
+      border-color: #fff;
+      /* White border color for toggler button */
+    }
+
+    .navbar-toggler:focus,
+    .navbar-toggler:active {
+      outline: none;
+      /* Remove focus outline */
+      box-shadow: none;
+      /* Remove box shadow on focus */
+    }
+
+    .dropdown-menu {
+      background-color: #28a745;
+      /* Green dropdown background color */
+    }
+
+    .dropdown-item {
+      color: #fff !important;
+      /* White text color for dropdown items */
+    }
+
+    .dropdown-item:hover {
+      background-color: #218838;
+      /* Darker green on hover */
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-evenly;
+      width: 1100px;
+      margin: 50px auto;
+      align-items: flex-start;
+
+    }
+
+    .form-container> :nth-child(n+5):nth-child(-n+6) {
+      background-color: rgb(213, 218, 142);
+      color: #ffffff;
+    }
+
+    /* Background color when the regime is "old" */
+    .form-container.old-regime> :nth-child(n+5):nth-child(-n+6) {
+      background-color: #becace;
+      padding: 10px;
+      /* Change to the desired color */
+      color: #000000;
+    }
+
+    .form-container> :nth-child(-n+4) {
+      background-color: #ADD8E6;
+
+      padding: 10px
+        /* Gray background for the first 4 cells in the form */
+    }
+
+    .form-container> :nth-child(n+7):nth-child(-n+14) {
+      background-color: #becace;
+      /* Light gray background for the 2nd, 3rd, and 4th rows */
+      /* Remove margin */
+      padding: 10px;
+      /* Add padding to separate content from the border */
+      color: rgb(64, 64, 64);
+
+
+    }
+
+    .form-container> :nth-child(n+15):nth-child(-n+18) {
+      background-color: #ADD8E6;
+      /* Light gray background for the 2nd, 3rd, and 4th rows */
+      /* Remove margin */
+      padding: 10px;
+      /* Add padding to separate content from the border */
+    }
+
+    .form-container> :nth-child(n+5):nth-child(-n+6) {
+      margin-top: 5px;
+      padding-top: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+
+    .form-container> :nth-child(n+7):nth-child(-n+8) {
+      margin-top: 5px;
+      padding-top: 5px;
+    }
+
+    .form-container> :nth-child(n+13):nth-child(-n+14) {
+      margin-bottom: 5px;
+    }
+
+
+    .form-container1 {
+      width: 55px;
+      margin-top: 150px;
+      padding-left: 0px;
+    }
+
+    .form-container {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      /* Updated to 3 rows */
+      grid-template-columns: repeat(4, 1fr);
+      /* Updated to 4 columns */
+
+      padding: 10px;
+      background-color: #fffdfd;
+      border: 2px solid #afa9a9;
+      border-radius: 8px;
+      box-shadow: 0 8px 10px rgba(12, 12, 12, 0.1);
+      margin-left: 30px;
+    }
+
+
+    .additional-text-container {
+      text-align: right;
+      margin-top: 10px;
+      font-weight: bolder;
+    }
+
+    .additional-text {
+      font-size: 16px;
+      color: #555;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 50px;
+      background-color: #ffffff;
+      color: #000000;
+      border: 1px solid black;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 140px;
+
+
+    }
+
+    select {
+      width: 70px;
+    }
+
+    button:hover {
+      background-color: #616367;
+      color: #ffffff;
+    }
+
+    #tds:hover {
+      background-color: #b8c0d1;
+      color: #0f0e0e;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      border: 1px solid black;
+    }
+
+    .form-container> :nth-child(13),
+    .form-container> :nth-child(14) {
+      grid-column: span 2;
+      /* Spanning 2 columns for the last two elements */
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      padding-left: 30px;
+
+
+
+
+    }
+
+    #old-options {
+      display: block;
+      flex-basis: 100%;
+    }
+
+    .tax-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .tax-save-display {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .editable-label {
+      cursor: pointer;
+      display: inline-block;
+
+    }
+
+    .main-header {
+      margin-top: 50px;
+    }
+
+    .table-container {
+      width: 80%;
+      margin: auto;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      padding: 1%;
+    }
+
+    .dg {
+      background-color: rgb(62, 61, 61);
+      color: white;
+    }
+  </style>
+
+
+</head>
+
+<body class="bg-gray-300">
+  <div id="circularcursor"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+
+        <!-- Dropdown example -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="page1.html">Tax Residency </a>
+            <a class="dropdown-item" href="page2.html">Tax Filing Eligibility</a>
+            <a class="dropdown-item" href="page3.html">Tax Calculator based on Income</a>
+            <a class="dropdown-item" href="page4.html">Basic Tax calculator</a>
+            <a class="dropdown-item" href="page5.html">HRA</a>
+            <a class="dropdown-item" href="page6.html">ATD Calculator</a>
+            <a class="dropdown-item" href="page7.html">House Property Income</a>
+
+            <a class="dropdown-item" href="page9.html">Capital Gains and Income</a>
+            <a class="dropdown-item" href="page10.html">Home Loan Credit Calculator</a>
+            <a class="dropdown-item" href="page12.html">Remittance Tax</a>
+            <a class="dropdown-item" href="page13.html">Gift Tax Calculator</a>
+            <a class="dropdown-item" href="page14.html">Penalty Tax</a>
+
+            <a class="dropdown-item" href="page16.html">Income Surcharge</a>
+            <a class="dropdown-item" href="page17.html">Education Cess Calculator</a>
+            <a class="dropdown-item" href="page18.html">Tax Deduction Calculator</a>
+            <a class="dropdown-item" href="taxform.html">Tax Form</a>
+            <a class="dropdown-item" href="huf.html">HUF Calculator</a>
+            <a class="dropdown-item" href="table.html">ITR Table</a>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <h1 class="bg-black text-white text-center p-2 main-header">Tax Form</h1>
+
+
+
+  <div class="container">
+    <div class="form-container1">
+      <div class="form-group" style="width: 55px;">
+        <label for="regime">Regime:</label>
+        <select id="regime" onchange="toggleOptions(); calculateValues()" class="p-2 border rounded">
+          <option value="new">New</option>
+          <option value="old">Old</option>
+          <option value="old_utilized">Old Utilized</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="old-options" style="width: 55px;">
+        <label for="old-options-select">Age Category</label>
+        <select id="old-options-select" class="p-2 border rounded">
+          <option value="normal">Normal</option>
+          <option value="senior">Senior</option>
+          <option value="super-senior">Super Senior</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-container">
+
+      <div class="form-group">
+        <label for="SGP" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Salary Gross
+          Pay:</label>
+        <input type="number" id="SGP" name="SGP" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="DI" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Dividend
+          Income:</label>
+        <input type="number" id="DI" name="DI" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group" style="padding-top: 10px;">
+        <label for="TAX" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Total Taxable
+          Income:</label>
+        <input type="number" id="TAX" name="TAX" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="TL" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax Liability
+          (with cess):</label>
+        <input type="number" id="TL" name="TL" onchange="calculateValues()">
+      </div>
+
+
+      <div class="form-group">
+        <label for="SD" id="gratuityLabel">Standard Deduction:</label>
+        <input type="number" id="SD" name="SD" value="50000" readonly placeholder="50000" onchange="toggleOptions"
+          style="color: #000000;">
+      </div>
+
+
+      <div class="form-group">
+        <label for="80C" id="gratuityLabel">80CCD:</label>
+        <input type="number" id="80C" name="80C" onchange="calculateValues()" onchange="toggleOptions"
+          style="color: #000000;">
+      </div>
+
+      <div class="form-group">
+        <label id="gratuityLabel" for="GR" class="editable-label" ondblclick="makeLabelEditable(this)">GRATUITY:</label>
+        <input type="number" id="GR" name="GR" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="LE" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Leave
+          Enchasement:</label>
+        <input type="number" id="LE" name="LE" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="INTERNET" id="gratuityLabel" class="editable-label"
+          ondblclick="makeLabelEditable(this)">INTERNET:</label>
+        <input type="number" id="INTERNET" name="INTERNET" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="OtherA" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Other
+          Allowance:</label>
+        <input type="number" id="OtherA" name="OtherA" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="HRA" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">HRA/Sec
+          10:</label>
+        <input type="number" id="HRA" name="HRA" onchange="calculateValues()">
+      </div>
+
+
+
+      <div class="form-group">
+        <label for="PT" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Prof Tax:</label>
+        <input type="number" id="PT" name="PT" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="80G-Cap" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">80G
+          Cap:</label>
+        <input type="number" id="80G-Cap" name="80G-Cap" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="E80G" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">E80G:</label>
+        <input type="number" id="E80G" name="E80G" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="TIAC" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Total income
+          after Charity contribution:</label>
+        <input type="number" id="TIAC" name="TIAC" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="TLAC" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax Liability
+          after Charity contribution(with cess):</label>
+        <input type="number" id="TLAC" name="TLAC" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group" style="padding-top: 33px;">
+        <label for="TS" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax Save:</label>
+        <input type="number" id="TS" name="TS" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group" style="padding-top: 33px;">
+        <label for="TD" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax
+          Deductions:</label>
+        <input type="number" id="TD" name="TD" onchange="calculateValues()">
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button class="tax-button">Tax Save under Old Regime</button>
+      <div class="tax-save-display" id="old-regime-tax-save-display"></div>
+
+      <button class="tax-button">Tax Save under New Regime</button>
+      <div class="tax-save-display" id="new-regime-tax-save-display"></div>
+
+      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">TDS till
+        date</button>
+      <div class="tax-save-display" id="tds"></div>
+
+      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">Expected Full
+        TDS</button>
+      <div class="tax-save-display" id="eft"></div>
+
+      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">Expected
+        Refund</button>
+      <div class="tax-save-display" id="er">
+      </div>
+    </div>
+
+  </div>
+
+  <table class="table-container">
+    <tr>
+      <th colspan="2"></th>
+      <th>New</th>
+      <th>Old</th>
+      <th>Old (Deduction Fully Utilized) </th>
+    </tr>
+    <tr>
+      <td rowspan="7" class="dg">Total Income</td>
+      <td>a) Salary Income</td>
+      <td id="salary_new">0</td>
+      <td id="salary">0</td>
+      <td id="salary_utilized">0</td>
+    </tr>
+
+    <tr>
+      <td>b) HP Income</td>
+      <td id="hp_new">0</td>
+      <td id="hp">0</td>
+      <td id="hp_utilized">0</td>
+    </tr>
+    <tr>
+      <td>c) Capital Gain</td>
+      <td id="cg_new">0</td>
+      <td id="cg">0</td>
+      <td id="cg_utilized">0</td>
+    </tr>
+    <tr>
+      <td>d) Income from Business/Profession</td>
+      <td id="business_new">0</td>
+      <td id="business">0</td>
+      <td id="business_utilized">0</td>
+    </tr>
+    <tr>
+      <td>e) Income from Other Source</td>
+      <td id="di_new">0</td>
+      <td id="di">0</td>
+      <td id="di_utilized">0</td>
+    </tr>
+    <tr>
+      <td>f) Exempt Income</td>
+      <td id="ei_new">0</td>
+      <td id="ei">0</td>
+      <td id="ei_utilized">0</td>
+    </tr>
+    <tr class="dg">
+      <td>Total</td>
+      <td id="total_income_new">0</td>
+      <td id="total_income_old">0</td>
+      <td id="total_income_utilized">0</td>
+    </tr>
+    <tr>
+      <td rowspan="4" class="dg">Exemptions and Deductions</td>
+      <td>a) Exemptions</td>
+      <td id="exemptions_new">0</td>
+      <td id="exemptions">0</td>
+      <td id="exemptions_utilized">0</td>
+    </tr>
+    <tr>
+      <td>b) Standard Deductions</td>
+      <td id="sd_new">0</td>
+      <td id="sd">0</td>
+      <td id="sd_utilized">0</td>
+    </tr>
+    <tr>
+      <td>c) Chapter IV</td>
+      <td id="80c_new">0</td>
+      <td id="80c">0</td>
+      <td id="80c_utilized">0</td>
+    </tr>
+    <tr class="dg">
+      <td>Total</td>
+      <td id="total_exemptions_new">0</td>
+      <td id="total_exemptions_old">0</td>
+      <td id="total_exemptions_utilized">0</td>
+    </tr>
+
+    <!-- <tr>
+      <td rowspan="2" class="dg">Taxable Income</td>
+      <td></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr> -->
+    <tr class="dg">
+      <td class="dg">Taxable Income</td>
+      <td>Total</td>
+      <td id="total_taxable_income_new">0</td>
+      <td id="total_taxable_income">0</td>
+      <td id="total_taxable_income_utilized">0</td>
+    </tr>
+    <tr>
+      <td rowspan="6" class="dg">Tax due on Above</td>
+      <td>a) Tax @ Normal Rate</td>
+      <td id="tax_due_new">0</td>
+      <td id="tax_due">0</td>
+      <td id="tax_due_utilized">0</td>
+    </tr>
+    <tr>
+      <td>b) Tax @ Special Rate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>c) Rebate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>d) Education Cess</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>f) TDS</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="dg">
+      <td>Total</td>
+      <td id="total_tax_new">0</td>
+      <td id="total_tax_old">0</td>
+      <td id="total_tax_utilized">0</td>
+    </tr>
+  </table>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+
+    const jsonData = localStorage.getItem('jsonData')
+    const data = JSON.parse(jsonData)
+
+    let finalData
+
+    if (data) {
+      if (data.ITR.ITR1 != undefined) {
+        finalData = data.ITR.ITR1
+      } else if (data.ITR.ITR2 != undefined) {
+        finalData = data.ITR.ITR2
+      } else if (data.ITR.ITR3 != undefined) {
+        finalData = data.ITR.ITR3
+      } else if (data.ITR.ITR4 != undefined) {
+        finalData = data.ITR.ITR4
+      } else if (data.ITR.ITR5 != undefined) {
+        finalData = data.ITR.ITR5
+      }
+    }
+
+
+
+    // const incomeVal = data.ITR.ITR2['PartB-TI'].GrossTotalIncome
+    let incomeVal
+
+    if (data) {
+      if (data.ITR.ITR1 != undefined) {
+        incomeVal = finalData.ITR1_IncomeDeductions.GrossTotIncome
+      } else if (data.ITR.ITR4 != undefined) {
+        incomeVal = finalData.IncomeDeductions.GrossTotIncome
+      } else {
+        incomeVal = finalData['PartB-TI'].GrossTotalIncome
+      }
+    } else {
+      incomeVal = 0
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      toggleOptions();
+      calculateValues();
+    });
+
+
+
+
+    function toggleOptions() {
+
+
+      var regime = document.getElementById("regime").value;
+      var oldOptions = document.getElementById("old-options");
+      var formContainer = document.querySelector(".form-container");
+
+      if (regime === "old") {
+        document.getElementById('SD').value = ''
+        document.getElementById("80C").value = ''
+        document.getElementById("GR").value = ''
+        document.getElementById("LE").value = ''
+        document.getElementById("SD").value = ''
+        document.getElementById("INTERNET").value = ''
+        document.getElementById("OtherA").value = ''
+        document.getElementById("HRA").value = ''
+        document.getElementById("PT").value = ''
+        oldOptions.style.display = "block";
+        formContainer.classList.add("old-regime");
+        document.getElementById("SD").readOnly = true; // Set SD to readonly for old regime
+        document.getElementById("80C").readOnly = false; // Set 80C to editable for old regime
+        document.getElementById("SD").value = "50000"; // Set the value for the old regime
+      } else if (regime === 'old_utilized') {
+        document.getElementById('SD').value = ''
+        document.getElementById("80C").value = ''
+        document.getElementById("GR").value = ''
+        document.getElementById("LE").value = ''
+        document.getElementById("SD").value = ''
+        document.getElementById("INTERNET").value = ''
+        document.getElementById("OtherA").value = ''
+        document.getElementById("HRA").value = ''
+        document.getElementById("PT").value = ''
+        oldOptions.style.display = "block";
+        formContainer.classList.add("old-regime");
+        document.getElementById("SD").readOnly = true; // Set SD to readonly for old regime
+        document.getElementById("80C").readOnly = false; // Set 80C to editable for old regime
+        document.getElementById("SD").value = "50000"; // Set the value for the old regime
+      } else {
+        document.getElementById('SD').value = ''
+        document.getElementById("80C").value = ''
+        document.getElementById("GR").value = ''
+        document.getElementById("LE").value = ''
+        document.getElementById("SD").value = ''
+        document.getElementById("INTERNET").value = ''
+        document.getElementById("OtherA").value = ''
+        document.getElementById("HRA").value = ''
+        document.getElementById("PT").value = ''
+        oldOptions.style.display = "none";
+        formContainer.classList.remove("old-regime");
+        document.getElementById("SD").readOnly = false; // Set SD to editable for new regime
+        document.getElementById("80C").readOnly = false; // Set 80C to editable for new regime
+        document.getElementById("SD").value = "50000"; // Set the value for the new regime
+        if (+document.getElementById("80C").value > 50000) {
+          document.getElementById("80C").value = "50000"
+        }
+      }
+    }
+    function calculateValues() {
+
+
+
+      var SD = 50000; // Setting the default value for SD
+      // Set SD field to readonly
+      document.getElementById("SD").readOnly = true;
+      // TAX
+      var GR = parseFloat(document.getElementById("GR").value) || 0;
+      var LE = parseFloat(document.getElementById("LE").value) || 0;
+      var INTERNET = parseFloat(document.getElementById("INTERNET").value) || 0;
+      var OtherA = parseFloat(document.getElementById("OtherA").value) || 0;
+      var HRA = parseFloat(document.getElementById("HRA").value) || 0;
+      var PT = parseFloat(document.getElementById("PT").value) || 0;
+      var DI = parseFloat(document.getElementById("DI").value) || 0;
+      var SGP = parseFloat(document.getElementById("SGP").value) || 0;
+      var SD = parseFloat(document.getElementById("SD").value) || 0;
+      var _80C = parseFloat(document.getElementById("80C").value) || 0;
+      var salary = document.getElementById('salary')
+      var salary_new = document.getElementById('salary_new')
+      var salary_utilized = document.getElementById('salary_utilized')
+      var hp = document.getElementById('hp')
+      var hp_new = document.getElementById('hp_new')
+      var hp_utilized = document.getElementById('hp_utilized')
+      var cg = document.getElementById('cg')
+      var cg_new = document.getElementById('cg_new')
+      var cg_utilized = document.getElementById('cg_utilized')
+      var business = document.getElementById('business')
+      var business_new = document.getElementById('business_new')
+      var business_utilized = document.getElementById('business_utilized')
+      var ei = document.getElementById('ei')
+      var ei_new = document.getElementById('ei_new')
+      var ei_utilized = document.getElementById('ei_utilized')
+      var di = document.getElementById('di')
+      var di_new = document.getElementById('di_new')
+      var di_utilized = document.getElementById('di_utilized')
+      var total_income_old = document.getElementById('total_income_old')
+      var total_income_new = document.getElementById('total_income_new')
+      var total_income_utilized = document.getElementById('total_income_utilized')
+      var exemptions = document.getElementById('exemptions')
+      var exemptions_utilized = document.getElementById('exemptions_utilized')
+      var exemptions_new = document.getElementById('exemptions_new')
+      var sd = document.getElementById('sd')
+      var sd_new = document.getElementById('sd_new')
+      var sd_utilized = document.getElementById('sd_utilized')
+      var _80c = document.getElementById('80c')
+      var _80c_utilized = document.getElementById('80c_utilized')
+      var _80c_new = document.getElementById('80c_new')
+      var total_exemptions_old = document.getElementById('total_exemptions_old')
+      var total_exemptions_utilized = document.getElementById('total_exemptions_utilized')
+      var total_exemptions_new = document.getElementById('total_exemptions_new')
+      var total_taxable_income = document.getElementById('total_taxable_income')
+      var total_taxable_income_new = document.getElementById('total_taxable_income_new')
+      var total_taxable_income_utilized = document.getElementById('total_taxable_income_utilized')
+      var tax_due = document.getElementById('tax_due')
+      var tax_due_new = document.getElementById('tax_due_new')
+      var tax_due_utilized = document.getElementById('tax_due_utilized')
+      var total_tax_old = document.getElementById('total_tax_old')
+      var total_tax_new = document.getElementById('total_tax_new')
+      var total_tax_utilized = document.getElementById('total_tax_utilized')
+
+
+
+      var regime = document.getElementById("regime").value; // Assuming "regime" is an input field
+
+      var TAX;
+
+      if (regime === "old" || regime === "old_utilized") {
+        TAX = (SGP + DI + incomeVal) - SD - GR - LE - INTERNET - OtherA - HRA - PT - _80C;
+      } else if (regime === "new") {
+        TAX = (SGP + DI + incomeVal) - SD - _80C;
+      }
+
+      document.getElementById("TAX").value = TAX;
+      // 80G Cap 
+      var regime = document.getElementById("regime").value;
+      var SD = parseFloat(document.getElementById("SD").value) || 0;
+      var TIAC = parseFloat(document.getElementById("TIAC").value) || 0;
+      var DI = parseFloat(document.getElementById("DI").value) || 0;
+      var TD = parseFloat(document.getElementById("TD").value) || 0;
+      var EightyGCap = 0;
+
+      if (regime === "old") {
+
+        var GR = parseFloat(document.getElementById("GR").value) || 0;
+        var LE = parseFloat(document.getElementById("LE").value) || 0;
+        var INTERNET = parseFloat(document.getElementById("INTERNET").value) || 0;
+        var OtherA = parseFloat(document.getElementById("OtherA").value) || 0;
+        var HRA = parseFloat(document.getElementById("HRA").value) || 0;
+        var PT = parseFloat(document.getElementById("PT").value) || 0;
+        var _80C = parseFloat(document.getElementById("80C").value) || 0;
+
+        var TAX = parseFloat(document.getElementById("TAX").value) || 0;;
+
+        EightyGCap = TAX * 0.1;
+        document.getElementById("80G-Cap").value = EightyGCap.toFixed(2);
+      } else if (regime === "new") {
+        EightyGCap = 0;
+        document.getElementById("80G-Cap").value = " ";
+      }
+
+
+
+      // E80G
+
+      var regime = document.getElementById("regime").value;
+
+
+
+      if (regime === "old") {
+
+
+
+        var E80G = EightyGCap / 2;
+        document.getElementById("E80G").value = E80G.toFixed(2);
+
+      } else if (regime === "new") {
+        E80G = 0;
+        document.getElementById("E80G").value = " ";
+      }
+
+
+
+
+      // TIAC
+      var TIAC;
+      var regime = document.getElementById("regime").value;
+      var SD = parseFloat(document.getElementById("SD").value) || 0;
+      var TIAC = parseFloat(document.getElementById("TIAC").value) || 0;
+      var DI = parseFloat(document.getElementById("DI").value) || 0;
+      var TD = parseFloat(document.getElementById("TD").value) || 0;
+      var E80G = parseFloat(document.getElementById("E80G").value) || 0;
+      var SD = parseFloat(document.getElementById("SD").value) || 0;
+      var _80C = parseFloat(document.getElementById("80C").value) || 0;
+
+      if (regime === "old" || regime === "old_utilized") {
+        TIAC = TAX - (E80G);
+        document.getElementById("TIAC").value = TIAC;
+      } else if (regime === "new") {
+        var DI = parseFloat(document.getElementById("DI").value) || 0;
+        var SGP = parseFloat(document.getElementById("SGP").value) || 0;
+        var SD = parseFloat(document.getElementById("SD").value) || 0;
+        var _80C = parseFloat(document.getElementById("80C").value) || 0;
+        var _80C = parseFloat(document.getElementById("80C").value) || 0;
+        var E80G = parseFloat(document.getElementById("E80G").value) || 0;
+        TIAC = (SGP + DI) - SD - _80C;
+        document.getElementById("TIAC").value = TIAC;
+      }
+
+
+      var regime = document.getElementById("regime").value;
+      var oldCategory = document.getElementById("old-options-select").value;
+
+      var TL = calculateTax(TAX, regime, oldCategory);
+      var TLAC = calculateTLAC(TIAC, regime, oldCategory);
+
+      TL = parseFloat(TL.toFixed(2));
+      TLAC = parseFloat(TLAC.toFixed(2));
+
+      document.getElementById("TL").value = TL.toFixed(2);
+      document.getElementById("TLAC").value = TLAC.toFixed(2);
+
+      // TS
+      var TL = parseFloat(document.getElementById("TL").value || 0);
+      var TLAC = parseFloat(document.getElementById("TLAC").value || 0);
+      var regime = document.getElementById("regime").value;
+      var TS;
+
+      TS = TL - TLAC;
+
+
+
+      document.getElementById("TS").value = TS.toFixed(2);
+
+
+      displayTaxSaveUnderOldRegime();
+      displayTaxSaveUnderNewRegime();
+
+      if (regime === 'old') {
+        salary.innerText = SGP
+        // salary_utilized.innerText = SGP
+        di.innerText = DI
+        // di_utilized.innerText = DI
+        total_income_old.innerText = +salary.innerText + +hp.innerText + +cg.innerText + +business.innerText + +di.innerText + +ei.innerText
+        // total_income_utilized.innerText = +salary_utilized.innerText + +hp_utilized.innerText + +cg_utilized.innerText + +business_utilized.innerText + +di_utilized.innerText + +ei_utilized.innerText
+
+
+
+
+        sd.innerText = SD + PT
+        // sd_utilized.innerText = SD + PT
+        exemptions.innerText = GR + LE + INTERNET + OtherA + HRA
+        // exemptions_utilized.innerText = GR + LE + INTERNET + OtherA + HRA
+        _80c.innerText = _80C
+        // _80c_utilized.innerText = _80C + E80G
+        total_exemptions_old.innerText = +sd.innerText + +exemptions.innerText + +_80c.innerText
+        // total_exemptions_utilized.innerText = +sd_utilized.innerText + +exemptions_utilized.innerText + +_80c_utilized.innerText
+        total_taxable_income.innerText = +total_income_old.innerText - +total_exemptions_old.innerText
+        // total_taxable_income_utilized.innerText = TIAC
+        tax_due.innerText = document.getElementById('TL').value
+        // tax_due_utilized.innerText = document.getElementById('TL').value
+
+
+        total_tax_old.innerText = TL
+        // total_tax_utilized.innerText = TLAC
+      }
+
+      if (regime === 'old_utilized') {
+        salary_utilized.innerText = SGP
+        di_utilized.innerText = DI
+        total_income_utilized.innerText = +salary_utilized.innerText + +hp_utilized.innerText + +cg_utilized.innerText + +business_utilized.innerText + +di_utilized.innerText + +ei_utilized.innerText
+        sd_utilized.innerText = SD + PT
+        exemptions_utilized.innerText = GR + LE + INTERNET + OtherA + HRA
+        _80c_utilized.innerText = _80C + E80G
+        total_exemptions_utilized.innerText = +sd_utilized.innerText + +exemptions_utilized.innerText + +_80c_utilized.innerText
+        total_taxable_income_utilized.innerText = TIAC
+        tax_due_utilized.innerText = document.getElementById('TLAC').value
+        total_tax_utilized.innerText = document.getElementById('TLAC').value
+      }
+
+      if (regime === 'new') {
+        // document.getElementById('SD').value = ''
+        // document.getElementById("80C").value = ''
+        // document.getElementById("GR").value = ''
+        // document.getElementById("LE").value = ''
+        // document.getElementById("SD").value = ''
+        // document.getElementById("INTERNET").value = ''
+        // document.getElementById("OtherA").value = ''
+        // document.getElementById("HRA").value = ''
+        // document.getElementById("PT").value = ''
+        if (+document.getElementById("80C").value > 50000) {
+          document.getElementById("80C").value = "50000"
+        }
+        salary_new.innerText = SGP
+        di_new.innerText = DI
+        sd_new.innerText = SD
+        _80c_new.innerText = document.getElementById("80C").value
+        exemptions_new.innerText = GR + LE + INTERNET + OtherA + HRA
+        total_exemptions_new.innerText = +sd_new.innerText + +exemptions_new.innerText + +_80c_new.innerText
+        total_taxable_income_new.innerText = TAX
+        tax_due_new.innerText = document.getElementById('TL').value
+        total_income_new.innerText = +salary_new.innerText + +hp_new.innerText + +cg_new.innerText + +business_new.innerText + +di_new.innerText + +ei_new.innerText
+        total_tax_new.innerText = TL
+      }
+
+
+
+    }
+
+
+    function calculateTax(TAX, regime, oldCategory) {
+      let taxAmount = 0;
+
+      if (regime === "old" || regime === "old_utilized") {
+        switch (oldCategory) {
+          case "normal":
+            if (TAX <= 250000) {
+              taxAmount = 0;
+            } else if (TAX > 250000 && TAX <= 500000) {
+              taxAmount = 0;
+            } else if (TAX > 500000 && TAX <= 1000000) {
+              taxAmount = 12500 + (0.20 * (TAX - 500000));
+            } else if (TAX > 1000000) {
+              taxAmount = 112500 + (0.30 * (TAX - 1000000));
+            }
+            break;
+          case "senior":
+            if (TAX <= 250000) {
+              taxAmount = 0;
+            } else if (TAX > 250000 && TAX <= 300000) {
+              taxAmount = 0;
+            } else if (TAX > 300000 && TAX <= 500000) {
+              taxAmount = 0;
+            } else if (TAX > 500000 && TAX <= 1000000) {
+              taxAmount = (10000 + 0.20 * (TAX - 500000));
+            } else if (TAX > 1000000) {
+              taxAmount = (110000 + 0.30 * (TAX - 1000000));
+            }
+            break;
+          case "super-senior":
+            if (TAX <= 250000) {
+              taxAmount = 0;
+            } else if (TAX > 250000 && TAX <= 300000) {
+              taxAmount = 0;
+            } else if (TAX > 300000 && TAX <= 500000) {
+              taxAmount = 0;
+            } else if (TAX > 500000 && TAX <= 1000000) {
+              taxAmount = 0.20 * (TAX - 500000);
+            } else if (TAX > 1000000) {
+              taxAmount = (100000 + 0.30 * (TAX - 1000000));
+            }
+            break;
+          default:
+            if (TAX <= 700000) {
+              taxAmount = 0;
+            } else if (TAX > 300000 && TAX <= 600000) {
+              taxAmount = 0.05 * (TAX - 300000);
+            } else if (TAX > 600000 && TAX <= 900000) {
+              taxAmount = (15000 + (0.10 * (TAX - 600000)));
+            } else if (TAX > 900000 && TAX <= 1200000) {
+              taxAmount = (45000 + (0.15 * (TAX - 900000)));
+            } else if (TAX > 1200000 && TAX <= 1500000) {
+              taxAmount = (90000 + (0.20 * (TAX - 1200000)));
+            } else if (TAX > 1500000) {
+              taxAmount = (150000 + 0.30 * (TAX - 1500000));
+            }
+        }
+      } else {
+        if (TAX <= 700000) {
+          taxAmount = 0;
+        } else if (TAX > 300000 && TAX <= 600000) {
+          taxAmount = 0.05 * (TAX - 300000);
+        } else if (TAX > 600000 && TAX <= 900000) {
+          taxAmount = (15000 + (0.10 * (TAX - 600000)));
+        } else if (TAX > 900000 && TAX <= 1200000) {
+          taxAmount = (45000 + (0.15 * (TAX - 900000)));
+        } else if (TAX > 1200000 && TAX <= 1500000) {
+          taxAmount = (90000 + (0.20 * (TAX - 1200000)));
+        } else if (TAX > 1500000) {
+          taxAmount = (150000 + 0.30 * (TAX - 1500000));
+        }
+      }
+
+
+      return (taxAmount * 0.04) + taxAmount;
+    }
+
+    function calculateTLAC(TIAC, regime, oldCategory) {
+      let result = 0;
+
+      if (regime === "old" || regime === "old_utilized") {
+        switch (oldCategory) {
+          case "normal":
+            if (TIAC <= 250000) {
+              result = 0;
+            } else if (TIAC > 250000 && TIAC <= 500000) {
+              result = 0;
+            } else if (TIAC > 500000 && TIAC <= 1000000) {
+              result = 12500 + (0.20 * (TIAC - 500000));
+            } else if (TIAC > 1000000) {
+              result = 112500 + (0.30 * (TIAC - 1000000));
+            }
+            break;
+          case "senior":
+            if (TIAC <= 250000) {
+              result = 0;
+            } else if (TIAC > 250000 && TIAC <= 300000) {
+              result = 0;
+            } else if (TIAC > 300000 && TIAC <= 500000) {
+              result = 0;
+            } else if (TIAC > 500000 && TIAC <= 1000000) {
+              result = (10000 + 0.20 * (TIAC - 500000));
+            } else if (TIAC > 1000000) {
+              result = (110000 + 0.30 * (TIAC - 1000000));
+            }
+            break;
+          case "super-senior":
+            if (TIAC <= 250000) {
+              result = 0;
+            } else if (TIAC > 250000 && TIAC <= 300000) {
+              result = 0;
+            } else if (TIAC > 300000 && TIAC <= 500000) {
+              result = 0;
+            } else if (TIAC > 500000 && TIAC <= 1000000) {
+              result = 0.20 * (TIAC - 500000);
+            } else if (TIAC > 1000000) {
+              result = (100000 + 0.30 * (TIAC - 1000000));
+            }
+            break;
+          default:
+            if (TIAC <= 700000) {
+              result = 0;
+            } else if (TIAC > 300000 && TIAC <= 600000) {
+              result = 0.05 * (TIAC - 300000);
+            } else if (TIAC > 600000 && TIAC <= 900000) {
+              result = (15000 + (0.10 * (TIAC - 600000)));
+            } else if (TIAC > 900000 && TIAC <= 1200000) {
+              result = (45000 + (0.15 * (TIAC - 900000)));
+            } else if (TIAC > 1200000 && TIAC <= 1500000) {
+              result = (90000 + (0.20 * (TIAC - 1200000)));
+            } else if (TIAC > 1500000) {
+              result = (150000 + 0.30 * (TIAC - 1500000));
+            }
+        }
+      } else {
+        if (TIAC <= 700000) {
+          result = 0;
+        } else if (TIAC > 300000 && TIAC <= 600000) {
+          result = 0.05 * (TIAC - 300000);
+        } else if (TIAC > 600000 && TIAC <= 900000) {
+          result = (15000 + (0.10 * (TIAC - 600000)));
+        } else if (TIAC > 900000 && TIAC <= 1200000) {
+          result = (45000 + (0.15 * (TIAC - 900000)));
+        } else if (TIAC > 1200000 && TIAC <= 1500000) {
+          result = (90000 + (0.20 * (TIAC - 1200000)));
+        } else if (TIAC > 1500000) {
+          result = (150000 + 0.30 * (TIAC - 1500000));
+        }
+      }
+
+
+      return (result * 0.04) + result;
+    }
+
+    var taxSaveDisplay = document.getElementById("tds");
+    taxSaveDisplay.innerHTML = "0.00";
+    var taxSaveDisplay = document.getElementById("eft");
+    taxSaveDisplay.innerHTML = "0.00";
+    var taxSaveDisplay = document.getElementById("er");
+    taxSaveDisplay.innerHTML = "0.00";
+    function displayTaxSaveUnderOldRegime() {
+      var regime = document.getElementById("regime").value;
+      var TS = parseFloat(document.getElementById("TS").value) || 0;
+
+      if (regime === "old" || regime === "old_utilized") {
+        var taxSaveDisplay = document.getElementById("old-regime-tax-save-display");
+        taxSaveDisplay.innerHTML = TS.toFixed(2);
+      } else {
+        var taxSaveDisplay = document.getElementById("old-regime-tax-save-display");
+        taxSaveDisplay.innerHTML = "0.00";
+      }
+    }
+
+    function displayTaxSaveUnderNewRegime() {
+      var regime = document.getElementById("regime").value;
+      var TS = parseFloat(document.getElementById("TS").value) || 0;
+
+      if (regime === "new") {
+
+        var taxSaveDisplay = document.getElementById("new-regime-tax-save-display");
+        taxSaveDisplay.innerHTML = TS.toFixed(2);
+      } else {
+
+        var taxSaveDisplay = document.getElementById("new-regime-tax-save-display");
+        taxSaveDisplay.innerHTML = " 0.00";
+      }
+    }
+
+    function makeLabelEditable(label) {
+      const originalText = label.innerText;
+
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = originalText;
+
+
+      label.replaceWith(input);
+
+
+      input.focus();
+
+
+      input.addEventListener('blur', function () {
+        const newText = input.value.trim();
+        label.innerText = newText || originalText;
+        input.replaceWith(label);
+      });
+    }
+
+    $(document).ready(function () {
+      $(document).on('mousemove', function (e) {
+        $('#circularcursor').css({
+          left: e.pageX,
+          top: e.pageY
+        });
+      })
+    });
+
+  </script>
+
+</body>
+
+</html>

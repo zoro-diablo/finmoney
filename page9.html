@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Gains and Income Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <style>
+        #circularcursor {
+            background-color: transparent;
+            border: 1px solid black;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+            transition: 0.2s;
+        }
+
+        .navbar {
+            background-color: #28a745;
+            /* Green navbar background color */
+        }
+
+        nav a:hover {
+            background-color: #28a745;
+
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-color: #fff;
+            /* White color for the toggler icon */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            /* White text color for links and brand */
+        }
+
+        .navbar-brand:hover,
+        .navbar-nav .nav-link:hover {
+            color: #fff !important;
+            /* White text color on hover */
+        }
+
+        .navbar-toggler {
+            border-color: #fff;
+            /* White border color for toggler button */
+        }
+
+        .navbar-toggler:focus,
+        .navbar-toggler:active {
+            outline: none;
+            /* Remove focus outline */
+            box-shadow: none;
+            /* Remove box shadow on focus */
+        }
+
+        .dropdown-menu {
+            background-color: #28a745;
+            /* Green dropdown background color */
+        }
+
+        .dropdown-item {
+            color: #fff !important;
+            /* White text color for dropdown items */
+        }
+
+        .dropdown-item:hover {
+            background-color: #218838;
+            /* Darker green on hover */
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: rgb(228, 233, 235);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #flex-container {
+            display: flex;
+            justify-content: left;
+            flex-direction: row;
+            position: relative;
+            top: 70px;
+            gap: 1%;
+            margin: 2%;
+        }
+
+        .flex-child {
+            height: 100px;
+            width: 100px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            margin-top: 10px;
+            margin: 2%;
+            display: flex;
+            align-items: center;
+            padding: 1%;
+        }
+
+        .flex-child:hover {
+            height: 170px;
+            width: 170px;
+            transition: 0.5s;
+            cursor: pointer;
+            padding: 1%;
+        }
+
+        h1 {
+            margin-top: 100px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: black;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: gray;
+            font-weight: light;
+            font-size: small;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: darkgray;
+        }
+
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #shortSpan,
+        #longSpan {
+            color: blue;
+        }
+
+        .inner-container {
+            border: 1px solid rgb(205, 203, 203);
+            padding: 2%;
+        }
+
+        .carousel-container {
+            width: 100%;
+            height: auto;
+            background-color: lightgrey;
+            padding: 2%;
+        }
+
+        .carousel-container input {
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="circularcursor"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+
+                <!-- Dropdown example -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="page1.html">Tax Residency </a>
+                        <a class="dropdown-item" href="page2.html">Tax Filing Eligibility</a>
+                        <a class="dropdown-item" href="page3.html">Tax Calculator based on Income</a>
+                        <a class="dropdown-item" href="page4.html">Basic Tax calculator</a>
+                        <a class="dropdown-item" href="page5.html">HRA</a>
+                        <a class="dropdown-item" href="page6.html">ATD Calculator</a>
+                        <a class="dropdown-item" href="page7.html">House Property Income</a>
+
+                        <a class="dropdown-item" href="page9.html">Capital Gains and Income</a>
+                        <a class="dropdown-item" href="page10.html">Home Loan Credit Calculator</a>
+                        <a class="dropdown-item" href="page12.html">Remittance Tax</a>
+                        <a class="dropdown-item" href="page13.html">Gift Tax Calculator</a>
+                        <a class="dropdown-item" href="page14.html">Penalty Tax</a>
+
+                        <a class="dropdown-item" href="page16.html">Income Surcharge</a>
+                        <a class="dropdown-item" href="page17.html">Education Cess Calculator</a>
+                        <a class="dropdown-item" href="page18.html">Tax Deduction Calculator</a>
+                        <a class="dropdown-item" href="taxform.html">Tax Form</a>
+                        <a class="dropdown-item" href="huf.html">HUF Calculator</a>
+                        <a class="dropdown-item" href="table.html">ITR Table</a>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="flex-container">
+        <div class="flex-child" id="longTerm"></div>
+        <div class="flex-child" id="shortTerm"></div>
+    </div>
+    <div class="container">
+        <h1>Capital Gains and Income Calculator</h1>
+
+        <!-- Capital Gains Section -->
+        <label for="costOfAcquisition">Enter the cost of acquisition of asset:</label>
+        <input type="number" id="costOfAcquisition" placeholder="Enter cost of acquisition">
+        <br>
+        <label for="costOfAcquisitionIndexation">Aquisition cost of Indexation:</label>
+        <input type="number" id="costOfAcquisitionIndexation" placeholder="Enter aquisition cost of indexation">
+        <br>
+        <label for="sellingPrice">Enter the selling price of the asset:</label>
+        <input type="number" id="sellingPrice" placeholder="Enter selling price">
+        <br>
+        <label for="purchaseYear">Enter the purchase year of the asset (in format YYYY):</label>
+        <input type="month" id="purchaseYear" class="yearpicker" placeholder="Enter purchase year">
+        <br>
+        <label for="saleYear">Enter the sale year of the asset (in format YYYY):</label>
+        <input type="month" id="saleYear" class="yearpicker" placeholder="Enter sale year" required />
+        <br>
+        <label for="expenseOnSale">Expense on Sale:</label>
+        <input type="number" id="expenseOnSale" placeholder="Enter expense on Sale">
+        <br>
+        <!-- <div class="inner-container">
+            <button id="updateImprovement">></button>
+            <label for="costOfImprovements">Enter the cost of any improvements made to the asset:</label>
+            <input type="number" id="costOfImprovements" placeholder="Enter cost of improvements">
+            <br>
+            <label for="dateOfImprovement">Enter the date of Improvement:</label>
+            <input type="month" id="dateOfImprovement" placeholder="Enter date of Improvement">
+            <br>
+            <label for="improvementCostOfIndexation">Improvement Cost of Indexation:</label>
+            <input type="number" id="improvementCostOfIndexation" placeholder="Enter improvement cost">
+        </div> -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-container">
+                        <h4>Name of The Improvement:</h4>
+                        <br>
+                        <label for="costOfImprovements">Enter the cost of any improvements made to the asset:</label>
+                        <input type="number" id="costOfImprovements1" placeholder="Enter cost of improvements">
+                        <br>
+                        <label for="dateOfImprovement">Enter the date of Improvement:</label>
+                        <input type="month" id="dateOfImprovement1" placeholder="Enter date of Improvement">
+                        <br>
+                        <label for="improvementCostOfIndexation">Improvement Cost of Indexation:</label>
+                        <input type="number" id="improvementCostOfIndexation1" placeholder="Enter improvement cost">
+                        <label for="totalDeduction">Total Improvement Cost Of Indexation</label>
+                        <input type="number" class="totalImprovement" placeholder="">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-container">
+                        <h4>Name of The Improvement:</h4>
+                        <br>
+                        <label for="costOfImprovements">Enter the cost of any improvements made to the asset:</label>
+                        <input type="number" id="costOfImprovements2" placeholder="Enter cost of improvements">
+                        <br>
+                        <label for="dateOfImprovement">Enter the date of Improvement:</label>
+                        <input type="month" id="dateOfImprovement2" placeholder="Enter date of Improvement">
+                        <br>
+                        <label for="improvementCostOfIndexation">Improvement Cost of Indexation:</label>
+                        <input type="number" id="improvementCostOfIndexation2" placeholder="Enter improvement cost">
+                        <label for="totalDeduction">Total Improvement Cost Of Indexation</label>
+                        <input type="number" class="totalImprovement" placeholder="">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-container">
+                        <h4>Name of The Improvement:</h4>
+                        <br>
+                        <label for="costOfImprovements">Enter the cost of any improvements made to the asset:</label>
+                        <input type="number" id="costOfImprovements3" placeholder="Enter cost of improvements">
+                        <br>
+                        <label for="dateOfImprovement">Enter the date of Improvement:</label>
+                        <input type="month" id="dateOfImprovement3" placeholder="Enter date of Improvement">
+                        <br>
+                        <label for="improvementCostOfIndexation">Improvement Cost of Indexation:</label>
+                        <input type="number" id="improvementCostOfIndexation3" placeholder="Enter improvement cost">
+                        <br>
+                        <label for="totalDeduction">Total Improvement Cost Of Indexation</label>
+                        <input type="number" class="totalImprovement" placeholder="">
+                    </div>
+
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+
+        <br>
+        <label for="totalDeduction">Total Deduction:</label>
+        <input type="number" id="totalDeduction" placeholder="Enter total deduction">
+        <br>
+        <button id="capitalGainsBtn">Calculate Capital Gains</button>
+        <br>
+        <p id="capitalGainsResult"></p>
+        
+        <br>
+        <p id="taxDeductionResult"></p>
+
+        <!-- Income Section -->
+        <label for="fixedDeposit">Enter the amount in fixed deposit:</label>
+        <input type="number" id="fixedDeposit" placeholder="Enter fixed deposit amount">
+        <br>
+        <label for="interestRate">Enter the rate of interest:</label>
+        <input type="number" id="interestRate" placeholder="Enter interest rate">
+        <br>
+        <label for="duration">Enter the duration in months:</label>
+        <input type="number" id="duration" placeholder="Enter duration">
+        <br>
+        <button id="interestIncomeBtn">Calculate Interest Income</button>
+        <br>
+        <p id="interestIncomeResult"></p>
+
+        <label for="dividendIncome">Enter the amount of dividend income:</label>
+        <input type="number" id="dividendIncome" placeholder="Enter dividend income amount">
+        <br>
+        <button id="dividendIncomeBtn">Calculate Dividend Income</button>
+        <br>
+        <p id="dividendIncomeResult"></p>
+        <button id="check">Check</button>
+    </div>
+
+    <script type="module">
+        const jsonData = localStorage.getItem('jsonData')
+        const data = JSON.parse(jsonData)
+
+        const longTerm = document.getElementById('longTerm')
+        const shortTerm = document.getElementById('shortTerm')
+
+        let longVal
+        let shortVal
+        let saleIndex
+        let aquisitionIndex
+        let purchaseCostOfIndexation
+        let totalImprovementVal = 0
+        if (data) {
+            if (data?.ITR?.ITR1 != undefined) {
+                longVal = 0
+                shortVal = 0
+            } else if (data?.ITR?.ITR2 != undefined) {
+                longVal = data.ITR.ITR2.ScheduleCGFor23.LongTermCapGain23.TotalLTCG
+                shortVal = data.ITR.ITR2.ScheduleCGFor23.ShortTermCapGainFor23.TotalSTCG
+            } else {
+                longVal = 0
+                shortVal = 0
+            }
+        } else {
+            longVal = 0
+            shortVal = 0
+        }
+
+
+
+
+        longTerm.innerHTML = `<p>Long Term Capital Gain</p>`
+        shortTerm.innerHTML = `<p>Short Term Capital Gain</p>`
+
+        longTerm.addEventListener('mouseenter', () => {
+            longTerm.innerHTML = `<p>Long Term Capital Gain <br>Gain: <span id="longSpan">${longVal} </span> </br></p>`
+        })
+
+        longTerm.addEventListener('mouseleave', () => {
+            longTerm.innerHTML = `<p>Long Term Capital Gain</p>`
+        })
+
+        shortTerm.addEventListener('mouseenter', () => {
+            shortTerm.innerHTML = `<p>Short Term Capital Gain <br>Gain: <span id="shortSpan">${shortVal} </span> </br></p>`
+        })
+
+        shortTerm.addEventListener('mouseleave', () => {
+            shortTerm.innerHTML = `<p>Short Term Capital Gain</p>`
+        })
+
+
+
+        const gainsBtn = document.getElementById('capitalGainsBtn')
+        const interestsBtn = document.getElementById('interestIncomeBtn')
+        const dividendBtn = document.getElementById('dividendIncomeBtn')
+        const doi1 = document.getElementById('dateOfImprovement1')
+        const doi2 = document.getElementById('dateOfImprovement2')
+        const doi3 = document.getElementById('dateOfImprovement3')
+        const costOfAcquisitionIndexation = document.getElementById("costOfAcquisitionIndexation")
+        const improvementCostOfIndexation1 = document.getElementById("improvementCostOfIndexation1")
+        const improvementCostOfIndexation2 = document.getElementById("improvementCostOfIndexation2")
+        const improvementCostOfIndexation3 = document.getElementById("improvementCostOfIndexation3")
+        const expenseOnSale = document.getElementById("expenseOnSale")
+        const totalDeduction = document.getElementById("totalDeduction")
+        const costOfAcquisition = document.getElementById("costOfAcquisition");
+        const sellingPrice = document.getElementById("sellingPrice");
+        const purchaseYear = document.getElementById("purchaseYear");
+        const saleYear = document.getElementById("saleYear")
+        const totalImprovement = document.getElementsByClassName("totalImprovement")
+
+
+
+        const indexationTable = {
+            // 2001: 100, 2002: 105, 2003: 109, 2004: 113, 2005: 117, 2006: 122, 2007: 129, 2008: 137,
+            // 2009: 148, 2010: 167, 2011: 184, 2012: 200, 2013: 220, 2014: 240, 2015: 254, 2016: 264,
+            // 2017: 272, 2018: 280, 2019: 289, 2020: 301, 2021: 317, 2022: 331, '2024-07': 201
+            '2001-04': 100, '2001-05': 100, '2001-06': 100, '2001-07': 100, '2001-08': 100, '2001-09': 100, '2001-10': 100, '2001-11': 100, '2001-12': 100, '2002-01': 100, '2002-02': 100, '2002-03': 100,
+            '2002-04': 105, '2002-05': 105, '2002-06': 105, '2002-07': 105, '2002-08': 105, '2002-09': 105, '2002-10': 105, '2002-11': 105, '2002-12': 105, '2003-01': 105, '2003-02': 105, '2003-03': 105,
+            '2003-04': 109, '2003-05': 109, '2003-06': 109, '2003-07': 109, '2003-08': 109, '2003-09': 109, '2003-10': 109, '2003-11': 109, '2003-12': 109, '2004-01': 109, '2004-02': 109, '2004-03': 109,
+            '2004-04': 113, '2004-05': 113, '2004-06': 113, '2004-07': 113, '2004-08': 113, '2004-09': 113, '2004-10': 113, '2004-11': 113, '2004-12': 113, '2005-01': 113, '2005-02': 113, '2005-03': 113,
+            '2005-04': 117, '2005-05': 117, '2005-06': 117, '2005-07': 117, '2005-08': 117, '2005-09': 117, '2005-10': 117, '2005-11': 117, '2005-12': 117, '2006-01': 117, '2006-02': 117, '2006-03': 117,
+            '2006-04': 122, '2006-05': 122, '2006-06': 122, '2006-07': 122, '2006-08': 122, '2006-09': 122, '2006-10': 122, '2006-11': 122, '2006-12': 122, '2007-01': 122, '2007-02': 122, '2007-03': 122,
+            '2007-04': 129, '2007-05': 129, '2007-06': 129, '2007-07': 129, '2007-08': 129, '2007-09': 129, '2007-10': 129, '2007-11': 129, '2007-12': 129, '2008-01': 129, '2008-02': 129, '2008-03': 129,
+            '2008-04': 137, '2008-05': 137, '2008-06': 137, '2008-07': 137, '2008-08': 137, '2008-09': 137, '2008-10': 137, '2008-11': 137, '2008-12': 137, '2009-01': 137, '2009-02': 137, '2009-03': 137,
+            '2009-04': 148, '2009-05': 148, '2009-06': 148, '2009-07': 148, '2009-08': 148, '2009-09': 148, '2009-10': 148, '2009-11': 148, '2009-12': 148, '2010-01': 148, '2010-02': 148, '2010-03': 148,
+            '2010-04': 167, '2010-05': 167, '2010-06': 167, '2010-07': 167, '2010-08': 167, '2010-09': 167, '2010-10': 167, '2010-11': 167, '2010-12': 167, '2011-01': 167, '2011-02': 167, '2011-03': 167,
+            '2011-04': 184, '2011-05': 184, '2011-06': 184, '2011-07': 184, '2011-08': 184, '2011-09': 184, '2011-10': 184, '2011-11': 184, '2011-12': 184, '2012-01': 184, '2012-02': 184, '2012-03': 184,
+            '2012-04': 200, '2012-05': 200, '2012-06': 200, '2012-07': 200, '2012-08': 200, '2012-09': 200, '2012-10': 200, '2012-11': 200, '2012-12': 200, '2013-01': 200, '2013-02': 200, '2013-03': 200,
+            '2013-04': 220, '2013-05': 220, '2013-06': 220, '2013-07': 220, '2013-08': 220, '2013-09': 220, '2013-10': 220, '2013-11': 220, '2013-12': 220, '2014-01': 220, '2014-02': 220, '2014-03': 220,
+            '2014-04': 240, '2014-05': 240, '2014-06': 240, '2014-07': 240, '2014-08': 240, '2014-09': 240, '2014-10': 240, '2014-11': 240, '2014-12': 240, '2015-01': 240, '2015-02': 240, '2015-03': 240,
+            '2015-04': 254, '2015-05': 254, '2015-06': 254, '2015-07': 254, '2015-08': 254, '2015-09': 254, '2015-10': 254, '2015-11': 254, '2015-12': 254, '2016-01': 254, '2016-02': 254, '2016-03': 254,
+            '2016-04': 264, '2016-05': 264, '2016-06': 264, '2016-07': 264, '2016-08': 264, '2016-09': 264, '2016-10': 264, '2016-11': 264, '2016-12': 264, '2017-01': 264, '2017-02': 264, '2017-03': 264,
+            '2017-04': 272, '2017-05': 272, '2017-06': 272, '2017-07': 272, '2017-08': 272, '2017-09': 272, '2017-10': 272, '2017-11': 272, '2017-12': 272, '2018-01': 272, '2018-02': 272, '2018-03': 272,
+            '2018-04': 280, '2018-05': 280, '2018-06': 280, '2018-07': 280, '2018-08': 280, '2018-09': 280, '2018-10': 280, '2018-11': 280, '2018-12': 280, '2019-01': 280, '2019-02': 280, '2019-03': 280,
+            '2019-04': 289, '2019-05': 289, '2019-06': 289, '2019-07': 289, '2019-08': 289, '2019-09': 289, '2019-10': 289, '2019-11': 289, '2019-12': 289, '2020-01': 289, '2020-02': 289, '2020-03': 289,
+            '2020-04': 301, '2020-05': 301, '2020-06': 301, '2020-07': 301, '2020-08': 301, '2020-09': 301, '2020-10': 301, '2020-11': 301, '2020-12': 301, '2021-01': 301, '2021-02': 301, '2021-03': 301,
+            '2021-04': 317, '2021-05': 317, '2021-06': 317, '2021-07': 317, '2021-08': 317, '2021-09': 317, '2021-10': 317, '2021-11': 317, '2021-12': 317, '2022-01': 317, '2022-02': 317, '2022-03': 317,
+            '2022-04': 331, '2022-05': 331, '2022-06': 331, '2022-07': 331, '2022-08': 331, '2022-09': 331, '2022-10': 331, '2022-11': 331, '2022-12': 331, '2023-01': 331, '2023-02': 331, '2023-03': 331,
+            '2023-04': 348, '2023-05': 348, '2023-06': 348, '2023-07': 348, '2023-08': 348, '2023-09': 348, '2023-10': 348, '2023-11': 348, '2023-12': 348, '2024-01': 348, '2024-02': 348, '2024-03': 348,
+        };
+
+        doi1.addEventListener('change', fun1)
+        doi2.addEventListener('change', fun2)
+        doi3.addEventListener('change', fun3)
+
+        function fun1() {
+            if(document.getElementById("costOfImprovements1").value == '' || document.getElementById("dateOfImprovement1") == '')  {
+                return
+            }
+            const costOfImprovements1 = parseFloat(document.getElementById("costOfImprovements1").value);
+            const dateOfImprovement1 = document.getElementById("dateOfImprovement1");
+            let saleYearVal
+            let improvementYearVal
+
+            if(saleYear.value === '') {
+                alert('Enter Sale Year')
+                return
+            }
+
+            if(saleYear.value in indexationTable) {
+                saleYearVal = indexationTable[saleYear.value]
+            } else {
+                saleYearVal = 100
+            }   
+            
+
+            if(dateOfImprovement1.value in indexationTable) {
+                improvementYearVal = indexationTable[dateOfImprovement1.value]
+            } else {
+                improvementYearVal = 100
+            } 
+
+            let improvementVal1 = costOfImprovements1 * saleYearVal / improvementYearVal
+        
+
+            if(improvementCostOfIndexation1.value === '') {
+                improvementCostOfIndexation1.value = +improvementVal1.toFixed(0)
+                totalImprovementVal += +improvementVal1.toFixed(0)
+                
+            } else {
+                totalImprovementVal -= +improvementCostOfIndexation1.value 
+                improvementCostOfIndexation1.value = +improvementVal1.toFixed(0)
+                totalImprovementVal += +improvementVal1.toFixed(0)
+            }
+            
+            for (let item of totalImprovement) {
+                item.value = +totalImprovementVal.toFixed(0)
+            }
+        }
+
+        function fun2() {
+
+            if(document.getElementById("costOfImprovements2").value == '' || document.getElementById("dateOfImprovement2") == '')  {
+                return
+            }
+            const costOfImprovements2 = parseFloat(document.getElementById("costOfImprovements2").value);
+            const dateOfImprovement2 = document.getElementById("dateOfImprovement2");
+
+            let saleYearVal
+            let improvementYearVal
+
+            if(saleYear.value in indexationTable) {
+                saleYearVal = indexationTable[saleYear.value]
+            } else {
+                saleYearVal = 100
+            }   
+
+            if(dateOfImprovement2.value in indexationTable) {
+                improvementYearVal = indexationTable[dateOfImprovement2.value]
+            } else {
+                improvementYearVal = 100
+            } 
+
+            let improvementVal2 = costOfImprovements2 * saleYearVal / improvementYearVal
+            
+            if(improvementCostOfIndexation2.value === '') {
+                improvementCostOfIndexation2.value = +improvementVal2.toFixed(0)
+                totalImprovementVal += +improvementVal2.toFixed(0)
+                
+            } else {
+                totalImprovementVal -= +improvementCostOfIndexation2.value 
+                improvementCostOfIndexation2.value = +improvementVal2.toFixed(0)
+                totalImprovementVal += +improvementVal2.toFixed(0)
+            }
+            
+            for (let item of totalImprovement) {
+                item.value = +totalImprovementVal.toFixed(0)
+            }
+        }
+
+        function fun3() {
+            if(document.getElementById("costOfImprovements3").value == '' || document.getElementById("dateOfImprovement3") == '')  {
+                return
+            }
+            const costOfImprovements3 = parseFloat(document.getElementById("costOfImprovements3").value);
+            const dateOfImprovement3 = document.getElementById("dateOfImprovement3");
+
+            let saleYearVal
+            let improvementYearVal
+
+            if(saleYear.value in indexationTable) {
+                saleYearVal = indexationTable[saleYear.value]
+            } else {
+                saleYearVal = 100
+            }   
+
+            if(dateOfImprovement3.value in indexationTable) {
+                improvementYearVal = indexationTable[dateOfImprovement3.value]
+            } else {
+                improvementYearVal = 100
+            } 
+
+            let improvementVal3 = costOfImprovements3 * saleYearVal / improvementYearVal
+            
+            if(improvementCostOfIndexation3.value === '') {
+                improvementCostOfIndexation3.value = +improvementVal3.toFixed(0)
+                totalImprovementVal += +improvementVal3.toFixed(0)
+                
+            } else {
+                totalImprovementVal -= +improvementCostOfIndexation3.value 
+                improvementCostOfIndexation3.value = +improvementVal3.toFixed(0)
+                totalImprovementVal += +improvementVal3.toFixed(0)
+            }
+            
+            for (let item of totalImprovement) {
+                item.value = +totalImprovementVal.toFixed(0)
+            }
+            
+        }
+
+        gainsBtn.addEventListener('click', calculateCapitalGains)
+        interestsBtn.addEventListener('click', calculateInterestIncome)
+        dividendBtn.addEventListener('click', calculateDividendIncome)
+        function calculateCapitalGains() {
+            fun1()
+            fun2()
+            fun3()
+
+            let totalDeductionVal
+
+            const holdingPeriod = saleYear - purchaseYear;
+
+            let saleYearVal
+            let purchaseYearVal
+            if(saleYear.value in indexationTable) {
+                saleYearVal = indexationTable[saleYear.value]
+            } else {
+                saleYearVal = 100
+            }    
+            
+            if(purchaseYear.value in indexationTable) {
+                purchaseYearVal = indexationTable[purchaseYear.value]
+            } else {
+                purchaseYearVal = 100
+            }  
+
+            let costVal = +costOfAcquisition.value * saleYearVal / purchaseYearVal
+
+
+            totalDeductionVal = costVal + totalImprovementVal + +expenseOnSale.value
+            let captitalGainVal = +sellingPrice.value - +totalDeductionVal
+            let taxDeductionVal = captitalGainVal / 5
+
+
+            costOfAcquisitionIndexation.value = costVal.toFixed(0)
+
+
+            totalDeduction.value = totalDeductionVal.toFixed(0)
+
+            document.getElementById("capitalGainsResult").innerHTML = `Capital Gains: ${+captitalGainVal.toFixed()}`
+
+            document.getElementById("taxDeductionResult").innerHTML = `Tax Deduction: ${+taxDeductionVal.toFixed()}`
+
+        }
+
+
+        function calculateInterestIncome() {
+            const fixedDeposit = parseFloat(document.getElementById("fixedDeposit").value);
+            const interestRate = parseFloat(document.getElementById("interestRate").value);
+            const duration = parseInt(document.getElementById("duration").value);
+
+            const interestIncome = (fixedDeposit * interestRate * duration) / (12 * 100);
+
+            document.getElementById("interestIncomeResult").innerHTML = `Interest Income: ${interestIncome.toFixed(2)}`;
+        }
+
+        function calculateDividendIncome() {
+            const dividendIncome = parseFloat(document.getElementById("dividendIncome").value);
+
+            document.getElementById("dividendIncomeResult").innerHTML = `Dividend Income: ${dividendIncome.toFixed(2)}`;
+        }
+
+        $(document).ready(function () {
+            $(document).on('mousemove', function (e) {
+                $('#circularcursor').css({
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            })
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>

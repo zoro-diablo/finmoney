@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+        #circularcursor {
+            background-color: transparent;
+            border: 1px solid black;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+            transition: 0.2s;
+        }
+
+        body {
+            width: 80%;
+            margin: auto;
+            background-color: rgb(228, 233, 235);
+        }
+
+        .navbar {
+            background-color: #28a745;
+            /* Green navbar background color */
+        }
+
+        nav a:hover {
+            background-color: #28a745;
+
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-color: #fff;
+            /* White color for the toggler icon */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            /* White text color for links and brand */
+        }
+
+        .navbar-brand:hover,
+        .navbar-nav .nav-link:hover {
+            color: #fff !important;
+            /* White text color on hover */
+        }
+
+        .navbar-toggler {
+            border-color: #fff;
+            /* White border color for toggler button */
+        }
+
+        .navbar-toggler:focus,
+        .navbar-toggler:active {
+            outline: none;
+            /* Remove focus outline */
+            box-shadow: none;
+            /* Remove box shadow on focus */
+        }
+
+        .dropdown-menu {
+            background-color: #28a745;
+            /* Green dropdown background color */
+        }
+
+        .dropdown-item {
+            color: #fff !important;
+            /* White text color for dropdown items */
+        }
+
+        .dropdown-item:hover {
+            background-color: #218838;
+            /* Darker green on hover */
+        }
+
+        tbody {
+            font-size: 95%;
+            font-style: normal;
+        }
+
+        tfoot {
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(200, 200, 200);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        #container th,
+        td {
+            width: 25%;
+        }
+
+
+        #deductions-container tr td:nth-child(1) {
+            width: 50%;
+        }
+
+        #income-container tr td:nth-child(1) {
+            width: 50%;
+        }
+
+        td,
+        th {
+            border: 1px solid darkgrey;
+            padding: 10px 20px;
+            background-color: white;
+        }
+
+        th {
+            background-color: rgb(154, 151, 151);
+        }
+
+        td {
+            text-align: center;
+        }
+
+
+        caption {
+            padding: 10px;
+        }
+
+        .theader th {
+            background-color: rgb(8, 6, 16);
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            margin-top: 70px;
+        }
+
+        #minimize-gross-btn,
+        #minimize-regime-btn,
+        #minimize-investment-btn,
+        #minimize-deduction-btn,
+        #minimize-income-btn {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin-top: 20px;
+            margin-right: 5px;
+            background-color: black;
+            color: white;
+        }
+
+        #container td:nth-child(odd) {
+            text-align: left;
+        }
+
+
+        #regime-container td:nth-child(1) {
+            text-align: right;
+        }
+
+        #investment-container td:nth-child(1) {
+            text-align: right;
+        }
+
+
+        td {
+            position: relative;
+            transition: 0.5s;
+        }
+
+        /* td:hover {
+            background-color: rgb(112, 110, 110);
+            color: white;
+
+        } */
+
+        .deduction-flex {
+            width: 50%;
+        }
+
+        #expandable-btn {
+            cursor: pointer;
+        }
+
+        /* .expandable {
+            background-color: azure;
+        } */
+
+        input {
+            border: 1px solid white;
+            text-align: center;
+        }
+
+        table th {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="circularcursor"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+
+                <!-- Dropdown example -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="page1.html">Tax Residency </a>
+                        <a class="dropdown-item" href="page2.html">Tax Filing Eligibility</a>
+                        <a class="dropdown-item" href="page3.html">Tax Calculator based on Income</a>
+                        <a class="dropdown-item" href="page4.html">Basic Tax calculator</a>
+                        <a class="dropdown-item" href="page5.html">HRA</a>
+                        <a class="dropdown-item" href="page6.html">ATD Calculator</a>
+                        <a class="dropdown-item" href="page7.html">House Property Income</a>
+
+                        <a class="dropdown-item" href="page9.html">Capital Gains and Income</a>
+                        <a class="dropdown-item" href="page10.html">Home Loan Credit Calculator</a>
+                        <a class="dropdown-item" href="page12.html">Remittance Tax</a>
+                        <a class="dropdown-item" href="page13.html">Gift Tax Calculator</a>
+                        <a class="dropdown-item" href="page14.html">Penalty Tax</a>
+
+                        <a class="dropdown-item" href="page16.html">Income Surcharge</a>
+                        <a class="dropdown-item" href="page17.html">Education Cess Calculator</a>
+                        <a class="dropdown-item" href="page18.html">Tax Deduction Calculator</a>
+                        <a class="dropdown-item" href="taxform.html">Tax Form</a>
+                        <a class="dropdown-item" href="huf.html">HUF Calculator</a>
+                        <a class="dropdown-item" href="table.html">ITR Table</a>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" id="container">
+        <table>
+            <tr class="theader">
+                <th>General</th>
+                <th colspan="2">Monthly Salary Details 2023-2024</th>
+                <th>DELHI</th>
+            </tr>
+            <div id="gross-container">
+                <tr>
+                    <td id="test">Basic Salary + DA</td>
+                    <td id="e2"><input type="text" value="0"></td>
+                    <td>Children Education Allowance</td>
+                    <td id="h2"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>House Rent Allowance - HRA</td>
+                    <td id="e3"><input type="text" value="0"></td>
+                    <td>Children Hostel Allowance</td>
+                    <td id="h3"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>Medical Allowance</td>
+                    <td id="e4"><input type="text" value="0"></td>
+                    <td>Washing Allowance</td>
+                    <td id="h4"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>Conveyance Allowance</td>
+                    <td id="e5"><input type="text" value="0"></td>
+                    <td>Uniform Allowance</td>
+                    <td id="h5"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>Special Allowance</td>
+                    <td id="e6"><input type="text" value="0"></td>
+                    <td>Sum of All Other Reimbursements</td>
+                    <td id="h6"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>Other Allowance</td>
+                    <td id="e7"><input type="text" value="0"></td>
+                    <td>Sum of All Other Allowances</td>
+                    <td id="h7"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>Leave Travel Allowance - LTA</td>
+                    <td id="e8"><input type="text" value="0"></td>
+                    <td>Sum of All Annual Perks (If Any)</td>
+                    <td id="h8"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>Meal (Voucher) Allowance</td>
+                    <td id="e9"><input type="text" value="0"></td>
+                    <td>Monthly House Rent Paid</td>
+                    <td id="h9"><input type="text" value="0"></td>
+                </tr>
+                <tr>
+                    <td>NPS Employer Contribution</td>
+                    <td id="e10"><input type="text" value="0"></td>
+                    <td>Select Rent Location</td>
+                    <td id="h10">Metro City</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Total Monthly Gross Salary:</th>
+                    <th colspan="2" id="totalMonthlyGrossSalary"></th>
+                </tr>
+            </div>
+        </table>
+        <div>
+            <button id="minimize-gross-btn">-</button>
+        </div>
+    </div>
+    <br>
+    <div id="regime-container" class="container">
+        <table>
+            <tr>
+                <th style="width:50%" colspan="2">Taxability and Calculation as per Old and New Regime</th>
+                <th>Old Regime</th>
+                <th>New Regime</th>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Gross Annual Salary Income (Salary + Allowances + Perks):</td>
+                <td id="f14"><input type="text" value="0"></td>
+                <td id="h14"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Less: Standard Deduction:</td>
+                <td id="f17"><input type="text" value="0"></td>
+                <td id="h17"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td class="deduction-flex" colspan="2">
+                    Less: Sec10 Exemption &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <button
+                        id="expandable-btn">-</button>
+                </td>
+                <td id="f15"><input type="text" value="0"></td>
+                <td id="h15"><input type="text" value=""></td>
+            </tr>
+
+            <div id="expandable-container">
+                <tr>
+                    <td class="expandable" style="width:50%" colspan="2">Other Allowance:</td>
+                    <td class="expandable" id="f17a"><input type="text" value="0"></td>
+                    <td class="expandable" id="h17a"><input type="text" value=""></td>
+                </tr>
+                <tr>
+                    <td class="expandable" style="width:50%" colspan="2">HRA:</td>
+                    <td class="expandable" id="f17b"><input type="text" value="0"></td>
+                    <td class="expandable" id="h17b"><input type="text" value=""></td>
+                </tr>
+                <tr>
+                    <td class="expandable" style="width:50%" colspan="2">Travelling Allowance:</td>
+                    <td class="expandable" id="f17c"><input type="text" value="0"></td>
+                    <td class="expandable" id="h17c"><input type="text" value=""></td>
+                </tr>
+                <tr>
+                    <td class="expandable" style="width:50%" colspan="2">Gratuity:</td>
+                    <td class="expandable" id="f17d"><input type="text" value="0"></td>
+                    <td class="expandable" id="h17d"><input type="text" value=""></td>
+                </tr>
+                <tr>
+                    <td class="expandable" style="width:50%" colspan="2">Leave Encashment:</td>
+                    <td class="expandable" id="f17e"><input type="text" value="0"></td>
+                    <td class="expandable" id="h17e"><input type="text" value=""></td>
+                </tr>
+            </div>
+
+            <tr>
+                <td style="width:50%" colspan="2">Less: Tax On Employment (Professional Tax):</td>
+                <td id="f16"><input type="text" value="0"></td>
+                <td id="h16"><input type="text" value=""></td>
+            </tr>
+
+            <tr>
+                <td style="width:50%" colspan="2">Auto Calculation as Per Rent Amount ----- Less: HRA Exemption</td>
+                <td id="f18"><input type="text" value="0"></td>
+                <td id="h18"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Amount of LTA Travel Bills (Annually) ----- Less: LTA Exemption</td>
+                <td id="f19"><input type="text" value="0"></td>
+                <td id="h19"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Income from Salary:</td>
+                <td id="f20"><input type="text" value="0"></td>
+                <td id="h20"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Less: Loss from House Property u/s(24)</td>
+                <td id="f21"><input type="text" value="0"></td>
+                <td id="h21"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Add: Income from House Property</td>
+                <td id="f22"><input type="text" value="0"></td>
+                <td id="h22"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Add: Income from Business/Professional Income</td>
+                <td id="f22a"><input type="text" value="0"></td>
+                <td id="h22a"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Add: Income from Capital Gain</td>
+                <td id="f22b"><input type="text" value="0"></td>
+                <td id="h22b"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Add: Income from Dividends</td>
+                <td id="f22c"><input type="text" value="0"></td>
+                <td id="h22c"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Add: Income from Other Sources</td>
+                <td id="f23"><input type="text" value="0"></td>
+                <td id="h23"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <th style="width:50%" colspan="2">Gross Total Income:</th>
+                <th id="f24"></th>
+                <th id="h24"></th>
+            </tr>
+            <tr>
+                <th style="width:50%" colspan="2">Exempt Income</th>
+                <th id="f25">0</th>
+                <th id="h25">0</th>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Net Agriculture Income</td>
+                <td id="f26"><input type="text" value="0"></td>
+                <td id="h26"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td style="width:50%" colspan="2">Other</td>
+                <td id="f27"><input type="text" value="0"></td>
+                <td id="h27"><input type="text" value="0"></td>
+            </tr>
+        </table>
+        <div>
+            <button id="minimize-regime-btn">-</button>
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <table id="investments-container">
+            <tr>
+                <th style="width:50%" colspan="2">Investments U/S 80C & 80CCC</th>
+                <th style="width:50%" colspan="2"></th>
+            </tr>
+            <tr>
+                <td>Current Employer - PF</td>
+                <td id="e26"><input type="text" value="0"></td>
+                <td colspan="2" rowspan="14"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Previous Employer - PF</td>
+                <td id="e27"><input type="text" value="0"></td>
+                <!-- <td colspan="2"></td> -->
+            </tr>
+            <tr>
+                <td>Voluntary Provident Fund - VPF</td>
+                <td id="e28"><input type="text" value="0"></td>
+                <!-- <td colspan="2"></td> -->
+            </tr>
+            <tr>
+                <td>Life Insurance Premiums - LIP</td>
+                <td id="e29"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Public Provident Fund - PPF</td>
+                <td id="e30"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Children Education Tuition Fees - CEF</td>
+                <td id="e31"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Pension Funds - Section 80CCC</td>
+                <td id="e32"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Bank Fixed Deposits (5-Yr) -FD</td>
+                <td id="e33"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Unit Linked Insurance Plan - ULIP</td>
+                <td id="e34"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Home Loan Principal Repayment - HLP</td>
+                <td id="e35"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Equity Linked Savings Scheme - ELSS</td>
+                <td id="e36"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>National Savings Certificate - NSC</td>
+                <td id="e37"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Stamp Duty and Registration Charges</td>
+                <td id="e38"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td>Other Investments e.g. Sukanya Account</td>
+                <td id="e39"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <th>Total Investments U/S 80C & 80CCC</th>
+                <th id="e40"></th>
+                <th id="f40"></th>
+                <th></th>
+            </tr>
+        </table>
+        <div>
+            <button id="minimize-investment-btn">-</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <table id="deductions-container">
+            <tr>
+                <td colspan="2">Deduction u/s 80D</td>
+                <td id="f41"><input type="text" value="0"></td>
+                <td id="h41"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80CCD(1B)</td>
+                <td id="f42"><input type="text" value="0"></td>
+                <td id="h42"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80CCD2</td>
+                <td id="f43"><input type="text" value="0"></td>
+                <td id="h43"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80DD</td>
+                <td id="f44"><input type="text" value="0"></td>
+                <td id="h44"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80DDB</td>
+                <td id="f45"><input type="text" value="0"></td>
+                <td id="h45"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80E</td>
+                <td id="f46"><input type="text" value="0"></td>
+                <td id="h46"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80EE</td>
+                <td id="f47"><input type="text" value="0"></td>
+                <td id="h47"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80EEA</td>
+                <td id="f48"><input type="text" value="0"></td>
+                <td id="h48"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80G</td>
+                <td id="f49"><input type="text" value="0"></td>
+                <td id="h49"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80TTA</td>
+                <td id="f50"><input type="text" value="0"></td>
+                <td id="h50"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2">Deduction u/s 80U</td>
+                <td id="f51"><input type="text" value="0"></td>
+                <td id="h51"><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <th colspan="2">Total Deduction U/C VIA</th>
+                <th id="f52"></th>
+                <th id="h52"></th>
+            </tr>
+        </table>
+        <div>
+            <button id="minimize-deduction-btn">-</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <table id="income-container">
+            <tr>
+                <th colspan="2">Taxable Income</th>
+                <th id="f54">0</th>
+                <th id="h54">0</th>
+            </tr>
+            <tr>
+                <td colspan="2">Income Tax</td>
+                <td id="f55"><input type="text" value="0"></td>
+                <td id="h55"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Income Taxable @ special Rates</td>
+                <td id="f54a"><input type="text" value="0"></td>
+                <td id="h54a"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Aggregate Income</td>
+                <td id="f54b"><input type="text" value="0"></td>
+                <td id="h54b"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Net Agriculture Income</td>
+                <td id="f54b0"><input type="text" value="0"></td>
+                <td id="h54b0"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Balance after Set off Loss</td>
+                <td id="f54ba"><input type="text" value="0"></td>
+                <td id="h54ba"><input type="text" value="0"></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">Deemed Income</td>
+                <td id="f54bc"><input type="text" value="0"></td>
+                <td id="h54bc"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Tax @ Normal Rates</td>
+                <td id="f54c"><input type="text" value="0"></td>
+                <td id="h54c"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Tax @ Special Rates</td>
+                <td id="f54d"><input type="text" value="0"></td>
+                <td id="h54d"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Less: Rebate 87A</td>
+                <td id="f56"><input type="text" value="0"></td>
+                <td id="h56"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Rebate on Agriculture Income</td>
+                <td id="f56a"><input type="text" value="0"></td>
+                <td id="h56a"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Balance Tax Liability</td>
+                <td id="f57"><input type="text" value="0"></td>
+                <td id="h57"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Add: Surcharge</td>
+                <td id="f58"><input type="text" value="0"></td>
+                <td id="h58"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Total Tax</td>
+                <td id="f59"><input type="text" value="0"></td>
+                <td id="h59"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Add: Edu, Health Cess</td>
+                <td id="f60"><input type="text" value="0"></td>
+                <td id="h60"><input type="text" value="0"></td>
+            </tr>
+            <tr class="theader">
+                <th colspan="2">Net Annual Tax</th>
+                <th id="f61"></th>
+                <th id="h61"></th>
+            </tr>
+            <tr>
+                <td colspan="2">Advance Tax</td>
+                <td id="f62"><input type="text" value="0"></td>
+                <td id="h62"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">TDS</td>
+                <td id="f63"><input type="text" value="0"></td>
+                <td id="h63"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">TCS</td>
+                <td id="f63a"><input type="text" value="0"></td>
+                <td id="h63a"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Self Assessment Tax</td>
+                <td id="f64"><input type="text" value="0"></td>
+                <td id="h64"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Total Taxes Paid</td>
+                <td id="f65"><input type="text" value="0"></td>
+                <td id="h65"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Balance Tax Payable</td>
+                <td id="f66"><input type="text" value="0"></td>
+                <td id="h66"><input type="text" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Refund Due</td>
+                <td id="f67"><input type="text" value="0"></td>
+                <td id="h67"><input type="text" value="0"></td>
+            </tr>
+        </table>
+        <div>
+            <button id="minimize-income-btn">-</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+<script>
+
+    // const rentData = localStorage.getItem('rent_sum')
+    // const rentValue = JSON.parse(rentData)
+
+    const jsonData = localStorage.getItem('jsonData')
+    const data = JSON.parse(jsonData)
+
+    let dividendVal
+    let grossSalary
+    let deductionVal
+    let incomeSalary
+    let hra
+    let professionalTax
+    let otherSources
+    let incomeCapitalGain
+    let totalInvestment
+    // let sec80E
+    // let sec80TTA
+    let totalDeductions
+    let totalIncome
+    let incomeSpecialRate
+    let aggregateIncome
+    let taxNormalRate
+    let taxSpecialRate
+    let incomeTax
+    let rebate
+    let rebateOnAgri
+    let education
+    let grossTaxLiability
+    let advanceTax
+    let tds
+    let tcs
+    let selfAssessmentTax
+    let totalTaxesPaid
+    let balanceTaxPayable
+    let refundDue
+    let balanceAfterLoss
+    let netAgrIncome
+    let deemedIncome
+    let sec10exemp
+    let otherAllowance
+    let incomeFromHouseProperty
+    let netAgricultureIncome
+    let stdDeduction
+    let section80c
+    let section80d
+    let section80dd
+    let section80ddb
+    let section80e
+    let section80ee
+    let section80eea
+    let section80g
+    let section80u
+    let section80tta
+    let totalChapViaDeductions
+    let others
+    if (data) {
+        if (data.ITR.ITR2 != undefined) {
+            dividendVal = data.ITR.ITR2.ScheduleOS.DividendIncUs115BBDA.DateRange.Upto15Of6
+            grossSalary = data.ITR.ITR2.ScheduleS.TotalGrossSalary
+            deductionVal = data.ITR.ITR2.ScheduleS.DeductionUnderSection16ia
+            incomeSalary = data.ITR.ITR2.ScheduleS.TotIncUnderHeadSalaries
+            console.log(incomeSalary)
+            // hra = data.ITR.ITR2.ScheduleS.AllwncExemptUs10.AllwncExemptUs10Dtls[0].SalOthAmount
+            hra = 0
+            professionalTax = data.ITR.ITR2.ScheduleS.ProfessionalTaxUs16iii
+            otherSources = data.ITR.ITR2.ScheduleOS.IncChargeable
+            incomeCapitalGain = data.ITR.ITR2.ScheduleCGFor23.TotScheduleCGFor23
+            totalInvestment = data.ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80C
+            section80e = data.ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80E
+            section80tta = data.ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80TTA
+            totalDeductions = data.ITR.ITR2.ScheduleVIA.DeductUndChapVIA.TotalChapVIADeductions
+            totalIncome = data.ITR.ITR2['PartB-TI'].TotalIncome
+            incomeSpecialRate = data.ITR.ITR2['PartB-TI'].IncChargeTaxSplRate111A112
+            aggregateIncome = data.ITR.ITR2['PartB-TI'].AggregateIncome
+            taxNormalRate = data.ITR.ITR2['PartB_TTI'].ComputationOfTaxLiability.TaxPayableOnTI.TaxAtNormalRatesOnAggrInc
+            taxSpecialRate = data.ITR.ITR2['PartB_TTI'].ComputationOfTaxLiability.TaxPayableOnTI.TaxAtSpecialRates
+            incomeTax = data.ITR.ITR2['PartB-TI'].TotalTI
+            rebate = data.ITR.ITR2['PartB_TTI'].ComputationOfTaxLiability.Rebate87A
+            rebateOnAgri = data.ITR.ITR2['PartB_TTI'].ComputationOfTaxLiability.TaxPayableOnTI.RebateOnAgriInc
+            education = data.ITR.ITR2['PartB_TTI'].ComputationOfTaxLiability.EducationCess
+            grossTaxLiability = data.ITR.ITR2['PartB_TTI'].ComputationOfTaxLiability.GrossTaxLiability
+            advanceTax = data.ITR.ITR2['PartB_TTI'].TaxPaid.TaxesPaid.AdvanceTax
+            tds = data.ITR.ITR2['PartB_TTI'].TaxPaid.TaxesPaid.TDS
+            tcs = data.ITR.ITR2['PartB_TTI'].TaxPaid.TaxesPaid.TCS
+            selfAssessmentTax = data.ITR.ITR2['PartB_TTI'].TaxPaid.TaxesPaid.SelfAssessmentTax
+            totalTaxesPaid = data.ITR.ITR2['PartB_TTI'].TaxPaid.TaxesPaid.TotalTaxesPaid
+            balanceTaxPayable = data.ITR.ITR2['PartB_TTI'].TaxPaid.BalTaxPayable
+            refundDue = data.ITR.ITR2['PartB_TTI'].Refund.
+            balanceAfterLoss = data.ITR.ITR2['PartB-TI'].BalanceAfterSetoffLosses
+            netAgrIncome = data.ITR.ITR2['PartB-TI'].NetAgricultureIncomeOrOtherIncomeForRate
+            deemedIncome = data.ITR.ITR2['PartB-TI'].DeemedIncomeUs115JC
+            sec10exemp = data.ITR.ITR2.ScheduleS.AllwncExtentExemptUs10
+            // incomeFromHouseProperty = data.ITR.ITR2.ScheduleHP.TotalIncomeChargeableUnHP 
+            incomeFromHouseProperty = data.ITR.ITR2.ScheduleHP == undefined ? 0 : data.ITR.ITR2.ScheduleHP.TotalIncomeChargeableUnHP
+            console.log(netAgrIncome, 'agr income hai')
+
+            netAgricultureIncome = data.ITR.ITR2['PartB-TI'].NetAgricultureIncomeOrOtherIncomeForRate
+            stdDeduction = data.ITR.ITR2.ScheduleS.DeductionUnderSection16ia
+            section80c = 0
+            section80d = 0
+            section80dd = 0
+            section80ddb = 0
+            section80ee = 0
+            section80eea = 0
+            section80g = 0
+            section80u = 0
+            totalChapViaDeductions = 0
+            
+        } else if (data.ITR.ITR1 != undefined) {
+            stdDeduction = data.ITR.ITR1.ITR1_IncomeDeductions.DeductionUs16
+            console.log(stdDeduction, 'this is stddeduction')
+            dividendVal = 0
+            grossSalary = data.ITR.ITR1.ITR1_IncomeDeductions.GrossSalary
+            deductionVal = 0
+            incomeSalary = data.ITR.ITR1.ITR1_IncomeDeductions.IncomeFromSal
+            hra = 0
+            professionalTax = data.ITR.ITR1.ITR1_IncomeDeductions.ProfessionalTaxUs16iii != undefined ? data.ITR.ITR1.ITR1_IncomeDeductions.ProfessionalTaxUs16iii : 0
+            console.log(professionalTax, 'this is professional')
+            otherSources = 0
+            incomeCapitalGain = 0
+            totalInvestment = 0
+            sec80E = 0
+            sec80TTA = 0
+            totalDeductions = 0
+            totalIncome = 0
+            incomeSpecialRate = 0
+            aggregateIncome = 0
+            taxNormalRate = 0
+            taxSpecialRate = 0
+            incomeTax = data.ITR.ITR1.ITR1_TaxComputation.TotalTaxPayable
+            rebate = data.ITR.ITR1.ITR1_TaxComputation.Rebate87A
+            console.log(rebate, 'this is rebate value')
+            rebateOnAgri = 0
+            education = data.ITR.ITR1.ITR1_TaxComputation.EducationCess
+            grossTaxLiability = data.ITR.ITR1.ITR1_TaxComputation.NetTaxLiability
+            advanceTax = data.ITR.ITR1.TaxPaid.TaxesPaid.AdvanceTax
+            tds = data.ITR.ITR1.TaxPaid.TaxesPaid.TDS
+            tcs = data.ITR.ITR1.TaxPaid.TaxesPaid.TCS
+            selfAssessmentTax = data.ITR.ITR1.TaxPaid.TaxesPaid.SelfAssessmentTax
+            totalTaxesPaid = data.ITR.ITR1.TaxPaid.TaxesPaid.TotalTaxesPaid
+            balanceTaxPayable = 0
+            refundDue = data.ITR.ITR1.Refund.RefundDue
+            balanceAfterLoss = 0
+            netAgrIncome = 0
+            deemedIncome = 0
+            sec10exemp = 0
+            incomeFromHouseProperty = 0
+            netAgricultureIncome = 0
+            totalDeductions = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions
+            totalInvestment = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80C
+            section80d = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80D
+            section80dd = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80DD
+            section80ddb = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80DDB
+            section80e = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80E
+            section80ee = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80EE
+            section80eea = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80EEA
+            section80g = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80G
+            section80u = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80U
+            section80tta = data.ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80TTA
+            console.log(section80d, 'this is section80d')
+        } else if (data.ITR.ITR3 != undefined) {
+            dividendVal = data.ITR.ITR3.ScheduleOS.DividendIncUs115BBDA.DateRange.Upto15Of6
+        }
+        else {
+            dividendVal = 0
+            grossSalary = 0
+            deductionVal = 0
+            incomeSalary = 0
+            hra = 0
+            professionalTax = 0
+            otherSources = 0
+            incomeCapitalGain = 0
+            totalInvestment = 0
+            sec80E = 0
+            sec80TTA = 0
+            totalDeductions = 0
+            totalIncome = 0
+            incomeSpecialRate = 0
+            aggregateIncome = 0
+            taxNormalRate = 0
+            taxSpecialRate = 0
+            incomeTax = 0
+            rebate = 0
+            rebateOnAgri = 0
+            education = 0
+            grossTaxLiability = 0
+            advanceTax = 0
+            tds = 0
+            tcs = 0
+            selfAssessmentTax = 0
+            totalTaxesPaid = 0
+            balanceTaxPayable = 0
+            refundDue = 0
+            balanceAfterLoss = 0
+            netAgrIncome = 0
+            deemedIncome = 0
+            sec10exemp = 0
+            incomeFromHouseProperty = 0
+            netAgricultureIncome = 0
+            stdDeduction = 0
+        }
+    } else {
+        dividendVal = 0
+        grossSalary = 0
+        deductionVal = 0
+        incomeSalary = 0
+        hra = 0
+        professionalTax = 0
+        otherSources = 0
+        incomeCapitalGain = 0
+        totalInvestment = 0
+        sec80E = 0
+        sec80TTA = 0
+        totalDeductions = 0
+        totalIncome = 0
+        incomeSpecialRate = 0
+        aggregateIncome = 0
+        taxNormalRate = 0
+        taxSpecialRate = 0
+        incomeTax = 0
+        rebate = 0
+        rebateOnAgri = 0
+        education = 0
+        grossTaxLiability = 0
+        advanceTax = 0
+        tds = 0
+        tcs = 0
+        selfAssessmentTax = 0
+        totalTaxesPaid = 0
+        balanceTaxPayable = 0
+        refundDue = 0
+        balanceAfterLoss = 0
+        netAgrIncome = 0
+        deemedIncome = 0
+        sec10exemp = 0
+        incomeFromHouseProperty = 0
+        netAgricultureIncome = 0
+        stdDeduction = 0
+    }
+
+
+
+    const e2 = document.getElementById('e2')
+    const e3 = document.getElementById('e3')
+    const e4 = document.getElementById('e4')
+    const e5 = document.getElementById('e5')
+    const e6 = document.getElementById('e6')
+    const e7 = document.getElementById('e7')
+    const e8 = document.getElementById('e8')
+    const e9 = document.getElementById('e9')
+    const e10 = document.getElementById('e10')
+    const h2 = document.getElementById('h2')
+    const h3 = document.getElementById('h3')
+    const h4 = document.getElementById('h4')
+    const h5 = document.getElementById('h5')
+    const h6 = document.getElementById('h6')
+    const h7 = document.getElementById('h7')
+    const h8 = document.getElementById('h8')
+    const h9 = document.getElementById('h9')
+    const f14 = document.getElementById('f14')
+    const f15 = document.getElementById('f15')
+    const f16 = document.getElementById('f16')
+    const f17 = document.getElementById('f17')
+    const f17b = document.getElementById('f17b')
+    const f18 = document.getElementById('f18')
+    const f19 = document.getElementById('f19')
+    const f20 = document.getElementById('f20')
+    const f21 = document.getElementById('f21')
+    const f22 = document.getElementById('f22')
+    const f22b = document.getElementById('f22b')
+    const f22c = document.getElementById('f22c')
+    const f23 = document.getElementById('f23')
+    const f24 = document.getElementById('f24')
+    const f25 = document.getElementById('f25')
+    const f26 = document.getElementById('f26')
+    const f27 = document.getElementById('f27')
+    const h14 = document.getElementById('h14')
+    const h15 = document.getElementById('h15')
+    const h16 = document.getElementById('h16')
+    const h17 = document.getElementById('h17')
+    const h17b = document.getElementById('h17b')
+    const h18 = document.getElementById('h18')
+    const h19 = document.getElementById('h19')
+    const h20 = document.getElementById('h20')
+    const h21 = document.getElementById('h21')
+    const h22 = document.getElementById('h22')
+    const h22b = document.getElementById('h22b')
+    const h22c = document.getElementById('h22c')
+    const h23 = document.getElementById('h23')
+    const h24 = document.getElementById('h24')
+    const h25 = document.getElementById('h25')
+    const h26 = document.getElementById('h26')
+    const h27 = document.getElementById('h27')
+    const e26 = document.getElementById('e26')
+    const e27 = document.getElementById('e27')
+    const e28 = document.getElementById('e28')
+    const e29 = document.getElementById('e29')
+    const e30 = document.getElementById('e30')
+    const e31 = document.getElementById('e31')
+    const e32 = document.getElementById('e32')
+    const e33 = document.getElementById('e33')
+    const e34 = document.getElementById('e34')
+    const e35 = document.getElementById('e35')
+    const e36 = document.getElementById('e36')
+    const e37 = document.getElementById('e37')
+    const e38 = document.getElementById('e38')
+    const e39 = document.getElementById('e39')
+    const e40 = document.getElementById('e40')
+    const f40 = document.getElementById('f40')
+    const f41 = document.getElementById('f41')
+    const f42 = document.getElementById('f42')
+    const f43 = document.getElementById('f43')
+    const f44 = document.getElementById('f44')
+    const f45 = document.getElementById('f45')
+    const f46 = document.getElementById('f46')
+    const f47 = document.getElementById('f47')
+    const f48 = document.getElementById('f48')
+    const f49 = document.getElementById('f49')
+    const f50 = document.getElementById('f50')
+    const f51 = document.getElementById('f51')
+    const f52 = document.getElementById('f52')
+    const f54 = document.getElementById('f54')
+    const f54a = document.getElementById('f54a')
+    const f54b = document.getElementById('f54b')
+    const f54b0 = document.getElementById('f54b0')
+    const f54ba = document.getElementById('f54ba')
+    const f54bc = document.getElementById('f54bc')
+    const f54c = document.getElementById('f54c')
+    const f54d = document.getElementById('f54d')
+    const f55 = document.getElementById('f55')
+    const f56 = document.getElementById('f56')
+    const f56a = document.getElementById('f56a')
+    const f57 = document.getElementById('f57')
+    const f58 = document.getElementById('f58')
+    const f59 = document.getElementById('f59')
+    const f60 = document.getElementById('f60')
+    const f61 = document.getElementById('f61')
+    const f62 = document.getElementById('f62')
+    const f63 = document.getElementById('f63')
+    const f63a = document.getElementById('f63a')
+    const f64 = document.getElementById('f64')
+    const f65 = document.getElementById('f65')
+    const f66 = document.getElementById('f66')
+    const f67 = document.getElementById('f67')
+    const h40 = document.getElementById('h40')
+    const h41 = document.getElementById('h41')
+    const h42 = document.getElementById('h42')
+    const h43 = document.getElementById('h43')
+    const h44 = document.getElementById('h44')
+    const h45 = document.getElementById('h45')
+    const h46 = document.getElementById('h46')
+    const h47 = document.getElementById('h47')
+    const h48 = document.getElementById('h48')
+    const h49 = document.getElementById('h49')
+    const h50 = document.getElementById('h50')
+    const h51 = document.getElementById('h51')
+    const h52 = document.getElementById('h52')
+    const h54 = document.getElementById('h54')
+    const h54a = document.getElementById('h54a')
+    const h54b = document.getElementById('h54b')
+    const h54b0 = document.getElementById('h54b0')
+    const h54ba = document.getElementById('h54ba')
+    const h54bc = document.getElementById('h54bc')
+    const h54c = document.getElementById('h54c')
+    const h54d = document.getElementById('h54d')
+    const h55 = document.getElementById('h55')
+    const h56 = document.getElementById('h56')
+    const h56a = document.getElementById('h56a')
+    const h57 = document.getElementById('h57')
+    const h58 = document.getElementById('h58')
+    const h59 = document.getElementById('h59')
+    const h60 = document.getElementById('h60')
+    const h61 = document.getElementById('h61')
+    const h62 = document.getElementById('h62')
+    const h63 = document.getElementById('h63')
+    const h63a = document.getElementById('h63a')
+    const h64 = document.getElementById('h64')
+    const h65 = document.getElementById('h65')
+    const h66 = document.getElementById('h66')
+    const h67 = document.getElementById('h67')
+
+
+
+    // h8.innerText = Math.max((e10.innerText + e26.innerText) - 75000, 0)
+    h8val = Math.max((e10.childNodes[0].value + e26.childNodes[0].value) - 75000, 0)
+    h8.innerHTML = `<input type='text' value='${h8val}'>`
+
+    const totalMonthlyGrossSalary = document.getElementById('totalMonthlyGrossSalary')
+
+    // totalMonthlyGrossSalary.innerText = +e2.innerText + +e3.innerText + +e4.innerText + +e5.innerText + +e6.innerText + +e6.innerText + +e7.innerText + +e8.innerText + +e9.innerText + +e10.innerText + +h2.innerText + +h3.innerText + +h4.innerText + +h5.innerText + +h6.innerText + +h7.innerText
+
+
+    const mainVal = +e2.childNodes[0].value + +e3.childNodes[0].value + +e4.childNodes[0].value + +e5.childNodes[0].value + +e6.childNodes[0].value + +e7.childNodes[0].value + +e8.childNodes[0].value + +e9.childNodes[0].value + +e10.childNodes[0].value + +h2.childNodes[0].value + +h3.childNodes[0].value + +h4.childNodes[0].value + +h5.childNodes[0].value + +h6.childNodes[0].value + +h7.childNodes[0].value
+
+    totalMonthlyGrossSalary.innerText = mainVal
+
+
+    window.addEventListener('click', function () {
+        totalMonthlyGrossSalary.innerText = +e2.childNodes[0].value + +e3.childNodes[0].value + +e4.childNodes[0].value + +e5.childNodes[0].value + +e6.childNodes[0].value + +e7.childNodes[0].value + +e8.childNodes[0].value + +e9.childNodes[0].value + +e10.childNodes[0].value + +h2.childNodes[0].value + +h3.childNodes[0].value + +h4.childNodes[0].value + +h5.childNodes[0].value + +h6.childNodes[0].value + +h7.childNodes[0].value
+
+        h8.innerHTML = `<input type='text' value='${Math.max((e10.childNodes[0].value + e26.childNodes[0].value) - 75000, 0)}'>`
+
+        f14.innerHTML = `<input type='text' value='${(totalMonthlyGrossSalary.innerText * 12) + +h8.childNodes[0].value + grossSalary}'>`
+
+        f15.innerHTML = `<input type='text' value='${sec10exemp}'>`
+
+        f16.innerHTML = `<input type='text' value='${professionalTax}'>`
+
+        f17.innerHTML = `<input type='text' value='${stdDeduction}'>`
+
+        f17b.innerHTML = `<input type='text' value='${hra}'>`
+
+        f19.innerHTML = `<input type='text' value='0'>`
+
+        f20.innerHTML = `<input type='text' value='${+f14.childNodes[0].value - +f15.childNodes[0].value - +f16.childNodes[0].value - +f17.childNodes[0].value - +f18.childNodes[0].value - +f19.childNodes[0].value + incomeSalary}'>`
+
+        
+
+        f22.innerHTML = `<input type='text' value='${incomeFromHouseProperty}'>`
+        h22.innerHTML = `<input type='text' value='${incomeFromHouseProperty}'>`
+
+        f22b.innerHTML = `<input type='text' value='${incomeCapitalGain}'>`
+
+        f22c.innerHTML = `<input type='text' value='${dividendVal}'>`
+
+        f23.innerHTML = `<input type='text' value='${otherSources}'>`
+
+        f24.innerText = +f20.childNodes[0].value + +f22.childNodes[0].value + +f23.childNodes[0].value
+
+        f23.innerHTML = `<input type='text' value='${otherSources}'>`
+
+        f26.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+
+        h14.innerHTML = `<input type='text' value='${totalMonthlyGrossSalary.innerText * 12 + +h8.childNodes[0].value + grossSalary}'>`
+
+        // h15.innerHTML = `<input type='text' value='${sec10exemp}'>`
+
+        // h16.innerHTML = `<input type='text' value='${professionalTax}'>`
+
+        // h17.innerHTML = `<input type='text' value='${stdDeduction}'>`
+
+        // h17b.innerHTML = `<input type='text' value='${hra}'>`
+
+        h20.innerHTML = `<input type='text' value='${+h14.childNodes[0].value - +h15.childNodes[0].value - +h17.childNodes[0].value + incomeSalary}'>`
+
+        h22b.innerHTML = `<input type='text' value='${incomeCapitalGain}'>`
+
+        // h22.innerHTML = `<input type='text' value='${+f22.childNodes[0].value}'>`
+
+        h22c.innerHTML = `<input type='text' value='${dividendVal}'>`
+
+
+        h22.innerHTML = `<input type='text' value='${+f22.childNodes[0].value}'>`
+
+
+        h23.innerHTML = `<input type='text' value='${otherSources}'>`
+
+        h24.innerText = +h20.childNodes[0].value + +h22.childNodes[0].value + +h23.childNodes[0].value
+
+        h26.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+
+        e40.innerText = +e26.childNodes[0].value + +e27.childNodes[0].value + +e28.childNodes[0].value + +e29.childNodes[0].value + +e30.childNodes[0].value + +e31.childNodes[0].value + +e32.childNodes[0].value + +e33.childNodes[0].value + +e34.childNodes[0].value + +e35.childNodes[0].value + +e36.childNodes[0].value + +e37.childNodes[0].value + +e38.childNodes[0].value + +e39.childNodes[0].value + totalInvestment
+
+        // f40.innerText = Math.min(+e40.innerText, 150000)
+
+        f41.innerHTML = `<input type='text' value='${section80d}'>`
+        // h41.innerHTML = `<input type='text' value='${section80d}'>`
+
+        f44.innerHTML = `<input type='text' value='${section80dd}'>`
+        // h44.innerHTML = `<input type='text' value='${section80dd}'>`
+
+        f45.innerHTML = `<input type='text' value='${section80ddb}'>`
+        // h45.innerHTML = `<input type='text' value='${section80ddb}'>`
+
+        f46.innerHTML = `<input type='text' value='${section80e}'>`
+        // h46.innerHTML = `<input type='text' value='${section80e}'>`
+
+        f47.innerHTML = `<input type='text' value='${section80ee}'>`
+        // h47.innerHTML = `<input type='text' value='${section80ee}'>`
+
+        f48.innerHTML = `<input type='text' value='${section80eea}'>`
+        // h48.innerHTML = `<input type='text' value='${section80eea}'>`
+
+        f49.innerHTML = `<input type='text' value='${section80g}'>`
+        // h49.innerHTML = `<input type='text' value='${section80g}'>`
+
+        f43.innerHTML = `<input type='text' value='${Math.min((+e2.childNodes[0].value * 12) * 0.1, (+e10.childNodes[0].value * 12))}'>`
+
+        f46.innerHTML = `<input type='text' value='${section80e}'>`
+
+        f50.innerHTML = `<input type='text' value='${section80tta}'>`
+        // h50.innerHTML = `<input type='text' value='${section80tta}'>`
+
+        f51.innerHTML = `<input type='text' value='${section80u}'>`
+        // h51.innerHTML = `<input type='text' value='${section80u}'>`
+
+
+        f52.innerText = +f40.innerText + Math.min(+f41.childNodes[0].value, 75000) + Math.min(+f42.childNodes[0].value, 50000) + +f43.childNodes[0].value + Math.min(+f44.childNodes[0].value, 125000) + Math.min(+f45.childNodes[0].value, 125000) + +f46.childNodes[0].value + Math.min(+f47.childNodes[0].value, 50000) + Math.min(+f48.childNodes[0].value, 150000) + +f49.childNodes[0].value + Math.min(+f50.childNodes[0].value, 10000) + Math.min(+f51.childNodes[0].value, 125000 + totalDeductions)
+
+        f54.innerText = Math.max((+f24.innerText - +f52.innerText), 0 + totalIncome)
+
+        f54a.innerHTML = `<input type='text' value='${incomeSpecialRate}'>`
+        f54b.innerHTML = `<input type='text' value='${aggregateIncome}'>`
+        f54b0.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+        f54ba.innerHTML = `<input type='text' value='${balanceAfterLoss}'>`
+        f54bc.innerHTML = `<input type='text' value='${deemedIncome}'>`
+        f54c.innerHTML = `<input type='text' value='${taxNormalRate}'>`
+        f54d.innerHTML = `<input type='text' value='${taxSpecialRate}'>`
+
+        f55.innerHTML = `<input type='text' value='${incomeTax}'>`
+
+        f56.innerHTML = `<input type='text' value='${rebate}'>`
+
+        f56a.innerHTML = `<input type='text' value='${rebateOnAgri}'>`
+
+        h46.innerHTML = `<input type='text' value='${sec80E}'>`
+
+        // h50.innerHTML = `<input type='text' value='${sec80TTA}'>`
+
+        h52.innerText = +h41.childNodes[0].value + +h42.childNodes[0].value + +h43.childNodes[0].value + +h44.childNodes[0].value + +h45.childNodes[0].value + +h46.childNodes[0].value + +h47.childNodes[0].value + +h48.childNodes[0].value + +h49.childNodes[0].value + +h50.childNodes[0].value + +h51.childNodes[0].value + totalDeductions
+
+        h54.innerText = Math.max((+h24.innerText - +h52.innerText), 0 + totalIncome)
+
+        h54a.innerHTML = `<input type='text' value='${incomeSpecialRate}'>`
+        h54b.innerHTML = `<input type='text' value='${aggregateIncome}'>`
+        h54b0.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+        h54ba.innerHTML = `<input type='text' value='${balanceAfterLoss}'>`
+        h54bc.innerHTML = `<input type='text' value='${deemedIncome}'>`
+        h54c.innerHTML = `<input type='text' value='${taxNormalRate}'>`
+        h54d.innerHTML = `<input type='text' value='${taxSpecialRate}'>`
+
+        h55.innerHTML = `<input type='text' value='${incomeTax}'>`
+
+        h56.innerHTML = `<input type='text' value='${rebate}'>`
+
+        h56a.innerHTML = `<input type='text' value='${rebateOnAgri}'>`
+
+        f57.innerHTML = `<input type='text' value='${+f55.childNodes[0].value - +f56.childNodes[0].value}'>`
+
+        f59.innerHTML = `<input type='text' value='${+f57.childNodes[0].value + +f58.childNodes[0].value}'>`
+
+        h57.innerHTML = `<input type='text' value='${+h55.childNodes[0].value - +h56.childNodes[0].value}'>`
+
+        h59.innerHTML = `<input type='text' value='${+h57.childNodes[0].value + +h58.childNodes[0].value}'>`
+
+        f60.innerHTML = `<input type='text' value='${+f59.childNodes[0].value * 0.4 + education}'>`
+        h60.innerHTML = `<input type='text' value='${+h59.childNodes[0].value * 0.4 + education}'>`
+
+        f61.innerText = +f59.childNodes[0].value + +f60.childNodes[0].value + grossTaxLiability
+        h61.innerText = +h59.childNodes[0].value + +h60.childNodes[0].value + grossTaxLiability
+
+        f62.innerHTML = `<input type='text' value='${advanceTax}'>`
+        h62.innerHTML = `<input type='text' value='${advanceTax}'>`
+
+        f63.innerHTML = `<input type='text' value='${tds}'>`
+        h63.innerHTML = `<input type='text' value='${tds}'>`
+
+        f63a.innerHTML = `<input type='text' value='${tds}'>`
+        h63a.innerHTML = `<input type='text' value='${tds}'>`
+
+        f64.innerHTML = `<input type='text' value='${selfAssessmentTax}'>`
+        h64.innerHTML = `<input type='text' value='${selfAssessmentTax}'>`
+
+        f65.innerHTML = `<input type='text' value='${totalTaxesPaid}'>`
+        h65.innerHTML = `<input type='text' value='${totalTaxesPaid}'>`
+
+        f66.innerHTML = `<input type='text' value='${balanceTaxPayable}'>`
+        h66.innerHTML = `<input type='text' value='${balanceTaxPayable}'>`
+
+        f67.innerHTML = `<input type='text' value='${refundDue}'>`
+        h67.innerHTML = `<input type='text' value='${refundDue}'>`
+    })
+
+    // f14.innerText = (totalMonthlyGrossSalary.innerText * 12) + +h8.innerText
+    f14.innerHTML = `<input type='text' value='${(totalMonthlyGrossSalary.innerText * 12) + +h8.childNodes[0].value + grossSalary}'>`
+
+    f15.innerHTML = `<input type='text' value='${sec10exemp}'>`
+
+    f17.innerHTML = `<input type='text' value='${stdDeduction}'>`
+
+    f17b.innerHTML = `<input type='text' value='${hra}'>`
+
+    // f17.innerText = Math.max(Math.min(f14.innerText, 50000), 0)
+    // f17.innerHTML = `<input type='text' value='${Math.max(Math.min(+f14.childNodes[0].value, 50000), 0)}'`
+
+    // f19.innerText = Math.min(+e8.innerText * 12, 150000)
+    f19.innerHTML = `<input type='text' value='0'>`
+
+    // f20.innerText = +f14.innerText - +f15.innerText - +f16.innerText - +f17.innerText - +f18.innerText - +f19.innerText
+    f20.innerHTML = `<input type='text' value='${+f14.childNodes[0].value - +f15.childNodes[0].value - +f16.childNodes[0].value - +f17.childNodes[0].value - +f18.childNodes[0].value - +f19.childNodes[0].value + incomeSalary}'>`
+
+    f23.innerHTML = `<input type='text' value='${otherSources}'>`
+
+
+    // f24.innerText = +f20.innerText + +f21.innerText + +f22.innerText + +f23.innerText
+    // f24.innerHTML = `<input type='text' value='${+f20.childNodes[0].value + +f21.childNodes[0].value + +f22.childNodes[0].value + +f23.childNodes[0].value}'>`
+    f24.innerText = +f20.childNodes[0].value + +f22.childNodes[0].value + +f23.childNodes[0].value
+
+    f22.innerHTML = `<input type='text' value='${incomeFromHouseProperty}'>`
+    h22.innerHTML = `<input type='text' value='${incomeFromHouseProperty}'>`
+
+    f22b.innerHTML = `<input type='text' value='${incomeCapitalGain}'>`
+
+    // f22c.innerText = dividendVal
+    f22c.innerHTML = `<input type='text' value='${dividendVal}'>`
+
+    f26.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+
+    // h14.innerText = (totalMonthlyGrossSalary.innerText * 12) + +h8.innerText
+    h14.innerHTML = `<input type='text' value='${totalMonthlyGrossSalary.innerText * 12 + +h8.childNodes[0].value + grossSalary}'>`
+
+    // h15.innerText = +h6.innerText * 12
+    // h15.innerHTML = `<input type='text' value='${sec10exemp}'>`
+
+    // h17.innerText = Math.max(Math.min(h14.innerText, 50000), 0)
+    // h17.innerHTML = `<input type='text' value='${stdDeduction}'>`
+    // console.log(h17.childNodes[0].value)
+
+    // h17b.innerHTML = `<input type='text' value='${hra}'>`
+
+    // h20.innerText = +h14.innerText - +h15.innerText - +h17.innerText
+    h20.innerHTML = `<input type='text' value='${+h14.childNodes[0].value - +h15.childNodes[0].value - +h17.childNodes[0].value + incomeSalary}'>`
+
+    // h22.innerText = +f22.innerText
+    h22.innerHTML = `<input type='text' value='${+f22.childNodes[0].value}'>`
+
+    h23.innerHTML = `<input type='text' value='${otherSources}'>`
+
+    h22b.innerHTML = `<input type='text' value='${incomeCapitalGain}'>`
+
+
+    // h22c.innerText = dividendVal
+    h22c.innerHTML = `<input type='text' value='${dividendVal}'>`
+
+
+    // h23.innerText = +f23.innerText
+    h23.innerHTML = `<input type='text' value='${+f23.childNodes[0].value}'>`
+
+
+    // h24.innerText = +h20.innerText + +h22.innerText + +h23.innerText
+    // h24.innerHTML = `<input type='text' value='${+h20.childNodes[0].value + +h22.childNodes[0].value + +h23.childNodes[0].value}'>`
+    h24.innerText = +h20.childNodes[0].value + +h22.childNodes[0].value + +h23.childNodes[0].value
+
+    h26.innerHTML = `<input type='text' value='${netAgrIncome}}'>`
+
+    // e40.innerText = +e26.innerText + +e27.innerText + +e28.innerText + +e29.innerText + +e30.innerText + +e31.innerText + +e32.innerText + +e33.innerText + +e34.innerText + +e35.innerText + +e36.innerText + +e37.innerText + +e38.innerText + +e39.innerText
+    // e40.innerHTML = `<input type='text' value='${+e26.childNodes[0].value + +e27.childNodes[0].value + +e28.childNodes[0].value + +e29.childNodes[0].value + +e30.childNodes[0].value + +e31.childNodes[0].value + +e32.childNodes[0].value + +e33.childNodes[0].value + +e34.childNodes[0].value + +e35.childNodes[0].value + +e36.childNodes[0].value + +e37.childNodes[0].value + +e38.childNodes[0].value + +e39.childNodes[0].value}'>`
+    e40.innerText = +e26.childNodes[0].value + +e27.childNodes[0].value + +e28.childNodes[0].value + +e29.childNodes[0].value + +e30.childNodes[0].value + +e31.childNodes[0].value + +e32.childNodes[0].value + +e33.childNodes[0].value + +e34.childNodes[0].value + +e35.childNodes[0].value + +e36.childNodes[0].value + +e37.childNodes[0].value + +e38.childNodes[0].value + +e39.childNodes[0].value + totalInvestment
+
+    // f40.innerText = Math.min(+e40.innerText, 150000)
+    // f40.innerHTML = `<input type='text' value='${Math.min(+e40.childNodes[0].value, 150000)}'>`
+    // f40.innerText = Math.min(+e40.innerText, 150000)
+
+    f41.innerHTML = `<input type='text' value='${section80d}'>`
+    // h41.innerHTML = `<input type='text' value='${section80d}'>`
+
+    f44.innerHTML = `<input type='text' value='${section80dd}'>`
+    // h44.innerHTML = `<input type='text' value='${section80dd}'>`
+
+    f45.innerHTML = `<input type='text' value='${section80ddb}'>`
+    // h45.innerHTML = `<input type='text' value='${section80ddb}'>`
+
+    f46.innerHTML = `<input type='text' value='${section80e}'>`
+    // h46.innerHTML = `<input type='text' value='${section80e}'>`
+
+    f47.innerHTML = `<input type='text' value='${section80ee}'>`
+    // h47.innerHTML = `<input type='text' value='${section80ee}'>`
+
+    f48.innerHTML = `<input type='text' value='${section80eea}'>`
+    // h48.innerHTML = `<input type='text' value='${section80eea}'>`
+
+    f49.innerHTML = `<input type='text' value='${section80g}'>`
+    // h49.innerHTML = `<input type='text' value='${section80g}'>`
+
+    // f43.innerText = Math.min((+e2.innerText * 12) * 0.1, (+e10.innerText * 12))
+    f43.innerHTML = `<input type='text' value='${Math.min((+e2.childNodes[0].value * 12) * 0.1, (+e10.childNodes[0].value * 12))}'>`
+
+    f46.innerHTML = `<input type='text' value='${section80e}'>`
+
+    f50.innerHTML = `<input type='text' value='${section80tta}'>`
+    // h50.innerHTML = `<input type='text' value='${section80tta}'>`
+
+    f51.innerHTML = `<input type='text' value='${section80u}'>`
+    // h51.innerHTML = `<input type='text' value='${section80u}'>`
+
+    //f52
+    f52.innerText = +f40.innerText + Math.min(+f41.childNodes[0].value, 75000) + Math.min(+f42.childNodes[0].value, 50000) + +f43.childNodes[0].value + Math.min(+f44.childNodes[0].value, 125000) + Math.min(+f45.childNodes[0].value, 125000) + +f46.childNodes[0].value + Math.min(+f47.childNodes[0].value, 50000) + Math.min(+f48.childNodes[0].value, 150000) + +f49.childNodes[0].value + Math.min(+f50.childNodes[0].value, 10000) + Math.min(+f51.childNodes[0].value, 125000 + totalDeductions)
+
+
+
+
+
+    // f54.innerText = Math.max((+f24.innerText - +f52.innerText), 0)
+    f54.innerText = Math.max((+f24.innerText - +f52.innerText), 0) + totalIncome
+
+    f54a.innerHTML = `<input type='text' value='${incomeSpecialRate}'>`
+    f54b.innerHTML = `<input type='text' value='${aggregateIncome}'>`
+    f54b0.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+    f54ba.innerHTML = `<input type='text' value='${balanceAfterLoss}'>`
+    f54bc.innerHTML = `<input type='text' value='${deemedIncome}'>`
+    f54c.innerHTML = `<input type='text' value='${taxNormalRate}'>`
+    f54d.innerHTML = `<input type='text' value='${taxSpecialRate}'>`
+
+    f55.innerHTML = `<input type='text' value='${incomeTax}'>`
+
+    f56.innerHTML = `<input type='text' value='${rebate}'>`
+
+    f56a.innerHTML = `<input type='text' value='${rebateOnAgri}'>`
+
+    f57.innerHTML = `<input type='text' value='${+f55.childNodes[0].value - +f56.childNodes[0].value}'>`
+
+    f59.innerHTML = `<input type='text' value='${+f57.childNodes[0].value + +f58.childNodes[0].value}'>`
+
+    // h46.innerHTML = `<input type='text' value='${section80e}'>`
+
+
+    // h52.innerText = +h41.innerText + +h42.innerText + +h43.innerText + +h44.innerText + +h45.innerText + +h46.innerText + +h47.innerText + +h48.innerText + +h49.innerText + +h50.innerText + +h51.innerText
+    // h52.innerHTML = `<input type='text' value='${+h41.childNodes[0].value + +h42.childNodes[0].value + +h43.childNodes[0].value + +h44.childNodes[0].value + +h45.childNodes[0].value + +h46.childNodes[0].value + +h47.childNodes[0].value + +h48.childNodes[0].value + +h49.childNodes[0].value + +h50.childNodes[0].value + +h51.childNodes[0].value}'>`
+    h52.innerText = +h41.childNodes[0].value + +h42.childNodes[0].value + +h43.childNodes[0].value + +h44.childNodes[0].value + +h45.childNodes[0].value + +h46.childNodes[0].value + +h47.childNodes[0].value + +h48.childNodes[0].value + +h49.childNodes[0].value + +h50.childNodes[0].value + +h51.childNodes[0].value + totalDeductions
+
+    // h54.innerText = Math.max((+h24.innerText - +h52.innerText), 0)
+    h54.innerText = Math.max((+h24.innerText - +h52.innerText), 0) + totalIncome
+
+    h54a.innerHTML = `<input type='text' value='${incomeSpecialRate}'>`
+    h54b.innerHTML = `<input type='text' value='${aggregateIncome}'>`
+    h54b0.innerHTML = `<input type='text' value='${netAgrIncome}'>`
+    h54ba.innerHTML = `<input type='text' value='${balanceAfterLoss}'>`
+    h54bc.innerHTML = `<input type='text' value='${deemedIncome}'>`
+    h54c.innerHTML = `<input type='text' value='${taxNormalRate}'>`
+    h54d.innerHTML = `<input type='text' value='${taxSpecialRate}'>`
+
+    h55.innerHTML = `<input type='text' value='${incomeTax}'>`
+
+    h56.innerHTML = `<input type='text' value='${rebate}'>`
+
+    h56a.innerHTML = `<input type='text' value='${rebateOnAgri}'>`
+
+    // h57.innerText = +h55.innerText - +h56.innerText
+    h57.innerHTML = `<input type='text' value='${+h55.childNodes[0].value - +h56.childNodes[0].value}'>`
+
+    // h59.innerText = +h57.innerText + +h58.innerText
+    h59.innerHTML = `<input type='text' value='${+h57.childNodes[0].value + +h58.childNodes[0].value}'>`
+
+    f60.innerHTML = `<input type='text' value='${+f59.childNodes[0].value * 0.4 + education}'>`
+    h60.innerHTML = `<input type='text' value='${+h59.childNodes[0].value * 0.4 + education}'>`
+
+    f61.innerText = +f59.childNodes[0].value + +f60.childNodes[0].value + grossTaxLiability
+    h61.innerText = +h59.childNodes[0].value + +h60.childNodes[0].value + grossTaxLiability
+
+    f62.innerHTML = `<input type='text' value='${advanceTax}'>`
+    h62.innerHTML = `<input type='text' value='${advanceTax}'>`
+
+    f63.innerHTML = `<input type='text' value='${tds}'>`
+    h63.innerHTML = `<input type='text' value='${tds}'>`
+
+    f63a.innerHTML = `<input type='text' value='${tcs}'>`
+    h63a.innerHTML = `<input type='text' value='${tcs}'>`
+
+    f64.innerHTML = `<input type='text' value='${selfAssessmentTax}'>`
+    h64.innerHTML = `<input type='text' value='${selfAssessmentTax}'>`
+
+    f65.innerHTML = `<input type='text' value='${totalTaxesPaid}'>`
+    h65.innerHTML = `<input type='text' value='${totalTaxesPaid}'>`
+
+    f66.innerHTML = `<input type='text' value='${balanceTaxPayable}'>`
+    h66.innerHTML = `<input type='text' value='${balanceTaxPayable}'>`
+
+    f67.innerHTML = `<input type='text' value='${refundDue}'>`
+    h67.innerHTML = `<input type='text' value='${refundDue}'>`
+
+
+    const grossContainer = document.getElementById('gross-container')
+    const grossBtn = document.getElementById('minimize-gross-btn')
+    const regimeBtn = document.getElementById('minimize-regime-btn')
+    const investmentBtn = document.getElementById('minimize-investment-btn')
+    const incomeBtn = document.getElementById('minimize-income-btn')
+    const deductiontBtn = document.getElementById('minimize-deduction-btn')
+    const expandableBtn = document.getElementById('expandable-btn')
+    const test = document.getElementById('test')
+
+    const block = document.getElementById('container')
+    const regimeContainer = document.getElementById('regime-container')
+    const investmentContainer = document.getElementById('investments-container')
+    const incomeContainer = document.getElementById('income-container')
+    const deductionContainer = document.getElementById('deductions-container')
+    const expandableContainer = document.getElementById('expandable-container')
+
+    expandableBtn.addEventListener('click', () => {
+
+        const tds = document.getElementsByClassName('expandable')
+        if (expandableBtn.innerText == '-') {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = 'none'
+                expandableBtn.innerText = '+'
+            }
+        } else {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = ''
+                expandableBtn.innerText = '-'
+            }
+        }
+
+    })
+
+
+    grossBtn.addEventListener('click', () => {
+        const tds = block.querySelectorAll('td')
+        if (grossBtn.innerText == '-') {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = 'none'
+                grossBtn.innerText = '+'
+            }
+        } else {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = ''
+                grossBtn.innerText = '-'
+            }
+        }
+
+    })
+
+    regimeBtn.addEventListener('click', () => {
+        const tds = regimeContainer.querySelectorAll('td')
+        if (regimeBtn.innerText == '-') {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = 'none'
+                regimeBtn.innerText = '+'
+            }
+        } else {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = ''
+                regimeBtn.innerText = '-'
+            }
+        }
+
+    })
+
+    investmentBtn.addEventListener('click', () => {
+        const tds = investmentContainer.querySelectorAll('td')
+        if (investmentBtn.innerText == '-') {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = 'none'
+                investmentBtn.innerText = '+'
+            }
+        } else {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = ''
+                investmentBtn.innerText = '-'
+            }
+        }
+
+    })
+
+    incomeBtn.addEventListener('click', () => {
+        const tds = incomeContainer.querySelectorAll('td')
+        if (incomeBtn.innerText == '-') {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = 'none'
+                incomeBtn.innerText = '+'
+            }
+        } else {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = ''
+                incomeBtn.innerText = '-'
+            }
+        }
+
+    })
+
+    deductiontBtn.addEventListener('click', () => {
+        const tds = deductionContainer.querySelectorAll('td')
+        if (deductiontBtn.innerText == '-') {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = 'none'
+                deductiontBtn.innerText = '+'
+            }
+        } else {
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].style.display = ''
+                deductiontBtn.innerText = '-'
+            }
+        }
+
+    })
+
+    $(document).ready(function () {
+        $(document).on('mousemove', function (e) {
+            $('#circularcursor').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+        })
+    });
+
+    const alltds = document.querySelectorAll('td')
+
+
+    // for(let i = 0; i < alltds.length; i++) {
+    //     alltds[i].addEventListener('click', () => {
+    //         alltds[i].innerHTML = `<input type='text' value='hi'>`
+    //     })
+    // }
+
+
+</script>

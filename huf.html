@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUF Taxation</title>
+  <!-- Remove one of the following lines -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/jit.min.js"></script>
+
+  <style>
+    #circularcursor {
+      background-color: transparent;
+      border: 1px solid black;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      position: absolute;
+      z-index: 1;
+      transition: 0.2s;
+    }
+
+    .navbar {
+      background-color: #28a745;
+      /* Green navbar background color */
+    }
+
+    nav a:hover {
+      background-color: #28a745;
+
+    }
+
+    .navbar-dark .navbar-toggler-icon {
+      background-color: #fff;
+      /* White color for the toggler icon */
+    }
+
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: #fff !important;
+      /* White text color for links and brand */
+    }
+
+    .navbar-brand:hover,
+    .navbar-nav .nav-link:hover {
+      color: #fff !important;
+      /* White text color on hover */
+    }
+
+    .navbar-toggler {
+      border-color: #fff;
+      /* White border color for toggler button */
+    }
+
+    .navbar-toggler:focus,
+    .navbar-toggler:active {
+      outline: none;
+      /* Remove focus outline */
+      box-shadow: none;
+      /* Remove box shadow on focus */
+    }
+
+    .dropdown-menu {
+      background-color: #28a745;
+      /* Green dropdown background color */
+    }
+
+    .dropdown-item {
+      color: #fff !important;
+      /* White text color for dropdown items */
+    }
+
+    .dropdown-item:hover {
+      background-color: #218838;
+      /* Darker green on hover */
+    }
+
+    h1 {
+      margin-top: 70px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-evenly;
+      width: 1100px;
+      margin: 20px auto;
+      align-items: flex-start;
+
+    }
+
+    .form-container> :nth-child(n+5):nth-child(-n+6) {
+      background-color: rgb(213, 218, 142);
+      color: #ffffff;
+    }
+
+    /* Background color when the regime is "old" */
+    .form-container.old-regime> :nth-child(n+5):nth-child(-n+6) {
+      background-color: #becace;
+      padding: 10px;
+      /* Change to the desired color */
+      color: #000000;
+    }
+
+    .form-container> :nth-child(-n+4) {
+      background-color: #ADD8E6;
+
+      padding: 10px
+        /* Gray background for the first 4 cells in the form */
+    }
+
+    .form-container> :nth-child(n+7):nth-child(-n+14) {
+      background-color: #becace;
+      /* Light gray background for the 2nd, 3rd, and 4th rows */
+      /* Remove margin */
+      padding: 10px;
+      /* Add padding to separate content from the border */
+      color: rgb(64, 64, 64);
+
+
+    }
+
+    .form-container> :nth-child(n+15):nth-child(-n+18) {
+      background-color: #ADD8E6;
+      /* Light gray background for the 2nd, 3rd, and 4th rows */
+      /* Remove margin */
+      padding: 10px;
+      /* Add padding to separate content from the border */
+    }
+
+    .form-container> :nth-child(n+5):nth-child(-n+6) {
+      margin-top: 5px;
+      padding-top: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+
+    .form-container> :nth-child(n+7):nth-child(-n+8) {
+      margin-top: 5px;
+      padding-top: 5px;
+    }
+
+    .form-container> :nth-child(n+13):nth-child(-n+14) {
+      margin-bottom: 5px;
+    }
+
+
+    .form-container1 {
+      width: 55px;
+      margin-top: 150px;
+      padding-left: 0px;
+    }
+
+    .form-container {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      /* Updated to 3 rows */
+      grid-template-columns: repeat(4, 1fr);
+      /* Updated to 4 columns */
+
+      padding: 10px;
+      background-color: #fffdfd;
+      border: 2px solid #afa9a9;
+      border-radius: 8px;
+      box-shadow: 0 8px 10px rgba(12, 12, 12, 0.1);
+      margin-left: 30px;
+    }
+
+
+    .additional-text-container {
+      text-align: right;
+      margin-top: 10px;
+      font-weight: bolder;
+    }
+
+    .additional-text {
+      font-size: 16px;
+      color: #555;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 50px;
+      background-color: #ffffff;
+      color: #000000;
+      border: 1px solid black;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 140px;
+
+
+    }
+
+    select {
+      width: 70px;
+    }
+
+    button:hover {
+      background-color: #616367;
+      color: #ffffff;
+    }
+
+    #tds:hover {
+      background-color: #b8c0d1;
+      color: #0f0e0e;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      border: 1px solid black;
+    }
+
+    .form-container> :nth-child(13),
+    .form-container> :nth-child(14) {
+      grid-column: span 2;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      padding-left: 30px;
+
+
+
+
+    }
+
+    #old-options {
+      display: block;
+      flex-basis: 100%;
+    }
+
+    .tax-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .tax-save-display {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .editable-label {
+      cursor: pointer;
+      display: inline-block;
+
+    }
+  </style>
+
+</head>
+
+<body class="bg-gray-300">
+
+  <div id="circularcursor"></div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+
+        <!-- Dropdown example -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="page1.html">Tax Residency </a>
+            <a class="dropdown-item" href="page2.html">Tax Filing Eligibility</a>
+            <a class="dropdown-item" href="page3.html">Tax Calculator based on Income</a>
+            <a class="dropdown-item" href="page4.html">Basic Tax calculator</a>
+            <a class="dropdown-item" href="page5.html">HRA</a>
+            <a class="dropdown-item" href="page6.html">ATD Calculator</a>
+            <a class="dropdown-item" href="page7.html">House Property Income</a>
+
+            <a class="dropdown-item" href="page9.html">Capital Gains and Income</a>
+            <a class="dropdown-item" href="page10.html">Home Loan Credit Calculator</a>
+            <a class="dropdown-item" href="page11.html">Agriculture Tax Calculator</a>
+            <a class="dropdown-item" href="page12.html">Remittance Tax</a>
+            <a class="dropdown-item" href="page13.html">Gift Tax Calculator</a>
+            <a class="dropdown-item" href="page14.html">Penalty Tax</a>
+
+            <a class="dropdown-item" href="page16.html">Income Surcharge</a>
+            <a class="dropdown-item" href="page17.html">Education Cess Calculator</a>
+            <a class="dropdown-item" href="page18.html">Tax Deduction Calculator</a>
+            <a class="dropdown-item" href="taxform.html">Tax Form</a>
+            <a class="dropdown-item" href="huf.html">HUF Calculator</a>
+            <a class="dropdown-item" href="table.html">ITR Table</a>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <h1 class="bg-black text-white text-center p-2">HUF Taxation</h1>
+
+
+
+  <div class="container">
+    <div class="form-container1">
+      <div class="form-group" style="width: 55px;">
+        <label for="regime">Regime:</label>
+        <select id="regime" onchange="toggleOptions(); calculateValues()" class="p-2 border rounded">
+          <option value="new">New</option>
+          <option value="old">Old</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="old-options" style="width: 55px;">
+
+
+      </div>
+    </div>
+
+    <div class="form-container">
+
+      <div class="form-group">
+        <label for="SGP" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Salary Gross
+          Pay:</label>
+        <input type="number" id="SGP" name="SGP" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="DI" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Dividend
+          Income:</label>
+        <input type="number" id="DI" name="DI" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group" style="padding-top: 10px;">
+        <label for="TAX" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Total Taxable
+          Income:</label>
+        <input type="number" id="TAX" name="TAX" onchange="calculateValues()">
+      </div>
+      <div class="form-group">
+        <label for="TL" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax Liability
+          (with cess):</label>
+        <input type="number" id="TL" name="TL" onchange="calculateValues()">
+      </div>
+
+
+      <div class="form-group">
+        <label for="SD" id="gratuityLabel">Standard Deduction:</label>
+        <input type="number" id="SD" name="SD" value="0" readonly placeholder="0" onchange="toggleOptions"
+          style="color: #000000;">
+      </div>
+
+
+      <div class="form-group">
+        <label for="80C" id="gratuityLabel">80CCD:</label>
+        <input type="number" id="80C" name="80C" onchange="calculateValues()" onchange="toggleOptions"
+          style="color: #000000;">
+      </div>
+
+      <div class="form-group">
+        <label id="gratuityLabel" for="GR" class="editable-label" ondblclick="makeLabelEditable(this)">GRATUITY:</label>
+        <input type="number" id="GR" name="GR" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="LE" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Leave
+          Enchasement:</label>
+        <input type="number" id="LE" name="LE" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="INTERNET" id="gratuityLabel" class="editable-label"
+          ondblclick="makeLabelEditable(this)">INTERNET:</label>
+        <input type="number" id="INTERNET" name="INTERNET" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="OtherA" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Other
+          Allowance:</label>
+        <input type="number" id="OtherA" name="OtherA" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="HRA" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">HRA/Sec
+          10:</label>
+        <input type="number" id="HRA" name="HRA" onchange="calculateValues()">
+      </div>
+
+
+
+      <div class="form-group">
+        <label for="PT" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Prof Tax:</label>
+        <input type="number" id="PT" name="PT" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="80G-Cap" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">80G
+          Cap:</label>
+        <input type="number" id="80G-Cap" name="80G-Cap" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="E80G" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">E80G:</label>
+        <input type="number" id="E80G" name="E80G" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="TIAC" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Total income
+          after Charity contribution:</label>
+        <input type="number" id="TIAC" name="TIAC" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group">
+        <label for="TLAC" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax Liability
+          after Charity contribution(with cess):</label>
+        <input type="number" id="TLAC" name="TLAC" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group" style="padding-top: 33px;">
+        <label for="TS" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax Save:</label>
+        <input type="number" id="TS" name="TS" onchange="calculateValues()">
+      </div>
+
+      <div class="form-group" style="padding-top: 33px;">
+        <label for="TD" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Tax
+          Deductions:</label>
+        <input type="number" id="TD" name="TD" onchange="calculateValues()">
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button class="tax-button">Tax Save under Old Regime</button>
+      <div class="tax-save-display" id="old-regime-tax-save-display"></div>
+
+      <button class="tax-button">Tax Save under New Regime</button>
+      <div class="tax-save-display" id="new-regime-tax-save-display"></div>
+
+      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">TDS till
+        date</button>
+      <div class="tax-save-display" id="tds"></div>
+
+      <div class="form-group">
+        <label for="eft" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Expected Full TDS:</label>
+        <input type="number" id="eft" name="eft" onchange="calculateValues()">
+      </div>
+      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">Expected refund</button>
+      <div class="tax-save-display" id="er">
+      </div>
+    </div>
+
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        toggleOptions();
+        calculateValues();
+      });
+
+
+      function toggleOptions() {
+        var regime = document.getElementById("regime").value;
+        var oldOptions = document.getElementById("old-options");
+        var formContainer = document.querySelector(".form-container");
+
+        if (regime === "old") {
+          oldOptions.style.display = "block";
+          formContainer.classList.add("old-regime");
+          document.getElementById("SD").readOnly = true; // Set SD to readonly for old regime
+          document.getElementById("80C").readOnly = false; // Set 80C to editable for old regime
+          document.getElementById("SD").value = "50000"; // Set the value for the old regime
+
+          // Remove unnecessary options inside old regime
+          document.getElementById("old-options-select").style.display = "none";
+        } else {
+          oldOptions.style.display = "none";
+          formContainer.classList.remove("old-regime");
+          document.getElementById("SD").readOnly = false; // Set SD to editable for new regime
+          document.getElementById("80C").readOnly = false; // Set 80C to editable for new regime
+          document.getElementById("SD").value = "50000"; // Set the value for the new regime
+
+          // Show options for the new regime
+          document.getElementById("old-options-select").style.display = "block";
+        }
+      }
+
+      function calculateValues() {
+
+
+
+
+        var SD = 0; // Setting the default value for SD
+        // Set SD field to readonly
+        document.getElementById("SD").readOnly = true;
+        // TAX
+        var GR = parseFloat(document.getElementById("GR").value) || 0;
+        var LE = parseFloat(document.getElementById("LE").value) || 0;
+        var INTERNET = parseFloat(document.getElementById("INTERNET").value) || 0;
+        var OtherA = parseFloat(document.getElementById("OtherA").value) || 0;
+        var HRA = parseFloat(document.getElementById("HRA").value) || 0;
+        var PT = parseFloat(document.getElementById("PT").value) || 0;
+        var DI = parseFloat(document.getElementById("DI").value) || 0;
+        var SGP = parseFloat(document.getElementById("SGP").value) || 0;
+        var SD = parseFloat(document.getElementById("SD").value) || 0;
+        var _80C = parseFloat(document.getElementById("80C").value) || 0;
+
+
+        var regime = document.getElementById("regime").value; // Assuming "regime" is an input field
+
+        var TAX;
+
+        if (regime === "old") {
+          TAX = (SGP + DI) - GR - LE - INTERNET - OtherA - HRA - PT - _80C;
+        } else if (regime === "new") {
+          TAX = (SGP + DI) - _80C;
+        }
+
+        document.getElementById("TAX").value = TAX;
+        // 80G Cap 
+        var regime = document.getElementById("regime").value;
+        var SD = parseFloat(document.getElementById("SD").value) || 0;
+        var TIAC = parseFloat(document.getElementById("TIAC").value) || 0;
+        var DI = parseFloat(document.getElementById("DI").value) || 0;
+        var TD = parseFloat(document.getElementById("TD").value) || 0;
+        var EightyGCap = 0;
+
+        if (regime === "old") {
+
+          var GR = parseFloat(document.getElementById("GR").value) || 0;
+          var LE = parseFloat(document.getElementById("LE").value) || 0;
+          var INTERNET = parseFloat(document.getElementById("INTERNET").value) || 0;
+          var OtherA = parseFloat(document.getElementById("OtherA").value) || 0;
+          var HRA = parseFloat(document.getElementById("HRA").value) || 0;
+          var PT = parseFloat(document.getElementById("PT").value) || 0;
+          var _80C = parseFloat(document.getElementById("80C").value) || 0;
+
+          var TAX = parseFloat(document.getElementById("TAX").value) || 0;;
+
+          EightyGCap = TAX * 0.1;
+          document.getElementById("80G-Cap").value = EightyGCap.toFixed(2);
+        } else if (regime === "new") {
+          EightyGCap = 0;
+          document.getElementById("80G-Cap").value = " ";
+        }
+
+
+
+        // E80G
+
+        var regime = document.getElementById("regime").value;
+
+
+
+        if (regime === "old") {
+
+
+
+          var E80G = EightyGCap / 2;
+          document.getElementById("E80G").value = E80G.toFixed(2);
+
+        } else if (regime === "new") {
+          E80G = 0;
+          document.getElementById("E80G").value = " ";
+        }
+
+
+
+
+        // TIAC
+        var TIAC;
+        var regime = document.getElementById("regime").value;
+        var SD = parseFloat(document.getElementById("SD").value) || 0;
+        var TIAC = parseFloat(document.getElementById("TIAC").value) || 0;
+        var DI = parseFloat(document.getElementById("DI").value) || 0;
+        var TD = parseFloat(document.getElementById("TD").value) || 0;
+        var E80G = parseFloat(document.getElementById("E80G").value) || 0;
+        var SD = parseFloat(document.getElementById("SD").value) || 0;
+        var _80C = parseFloat(document.getElementById("80C").value) || 0;
+
+        if (regime === "old") {
+          TIAC = TAX - (E80G);
+          document.getElementById("TIAC").value = TIAC;
+        } else if (regime === "new") {
+          var DI = parseFloat(document.getElementById("DI").value) || 0;
+          var SGP = parseFloat(document.getElementById("SGP").value) || 0;
+          var SD = parseFloat(document.getElementById("SD").value) || 0;
+          var _80C = parseFloat(document.getElementById("80C").value) || 0;
+          var _80C = parseFloat(document.getElementById("80C").value) || 0;
+          var E80G = parseFloat(document.getElementById("E80G").value) || 0;
+          TIAC = (SGP + DI) - _80C;
+          document.getElementById("TIAC").value = TIAC;
+        }
+
+
+        var regime = document.getElementById("regime").value;
+
+        var TL = calculateTax(TAX, regime);
+        var TLAC = calculateTLAC(TIAC, regime);
+
+        TL = parseFloat(TL.toFixed(2));
+        TLAC = parseFloat(TLAC.toFixed(2));
+
+        document.getElementById("TL").value = TL.toFixed(2);
+        document.getElementById("TLAC").value = TLAC.toFixed(2);
+
+        // TS
+        var TL = parseFloat(document.getElementById("TL").value || 0);
+        var TLAC = parseFloat(document.getElementById("TLAC").value || 0);
+        var regime = document.getElementById("regime").value;
+        var TS;
+
+        TS = TL - TLAC;
+
+
+
+        document.getElementById("TS").value = TS.toFixed(2);
+
+
+        // TD
+        // var TD = (parseFloat(document.getElementById("80C").value)  || (regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("GR").value) || (regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("LE").value) || (regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("INTERNET").value) ||(regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("OtherA").value) || (regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("HRA").value) || (regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("SD").value) || (regime === "old" ? 0 : 0))+
+        //     (parseFloat(document.getElementById("PT").value) || (regime === "old" ? 0 : 0))+
+        //     E80G;
+
+        // document.getElementById("TD").value = TD;
+
+
+        displayTaxSaveUnderOldRegime();
+        displayTaxSaveUnderNewRegime();
+
+        calculateExpectedRefund();
+      }
+
+
+      function calculateTax(TAX, regime) {
+        let taxAmount = 0;
+        if (regime === "old") {
+          if (TAX <= 250000) {
+            taxAmount = 0;
+          } else if (TAX > 250000 && TAX <= 500000) {
+            taxAmount = (0.05 * (TAX - 250000));
+          } else if (TAX > 500000 && TAX <= 1000000) {
+            taxAmount = (12500 + (0.20 * (TAX - 500000)));
+          } else if (TAX > 1000000) {
+            taxAmount = (112500 + (0.30 * (TAX - 1000000)));
+          }
+        }
+        else {
+          if (TAX <= 300000) {
+            taxAmount = 0;
+          } else if (TAX > 300000 && TAX <= 600000) {
+            taxAmount = 0.05 * (TAX - 300000);
+          } else if (TAX > 600000 && TAX <= 900000) {
+            taxAmount = (15000 + (0.10 * (TAX - 600000)));
+          } else if (TAX > 900000 && TAX <= 1200000) {
+            taxAmount = (45000 + (0.15 * (TAX - 900000)));
+          } else if (TAX > 1200000 && TAX <= 1500000) {
+            taxAmount = (90000 + (0.20 * (TAX - 1200000)));
+          } else if (TAX > 1500000) {
+            taxAmount = (150000 + 0.30 * (TAX - 1500000));
+          }
+        }
+
+        return (taxAmount * 0.04) + taxAmount;
+      }
+
+
+      function calculateTLAC(TIAC, regime) {
+        let result = 0;
+
+        
+        if (regime === "old") {
+        
+        if (TIAC <= 250000) {
+            result = 0;
+        } else if (TIAC > 250000 && TIAC <= 500000) {
+          result = (0.05 * (TIAC - 250000));
+        }
+         else if (TIAC > 500000 && TIAC <= 1000000) {
+            result = (12500 + (0.20 * (TIAC - 500000)));
+        } else if (TIAC > 1000000) {
+            result = (112500 + (0.30 * (TIAC - 1000000)));
+        }
+       
+}
+
+
+        else {
+          if (TIAC <= 300000) {
+            result = 0;
+          } else if (TIAC > 300000 && TIAC <= 600000) {
+            result = (0.05 * (TIAC - 300000));
+          } else if (TIAC > 600000 && TIAC <= 900000) {
+            result = (15000 + (0.10 * (TIAC - 600000)));
+          } else if (TIAC > 900000 && TIAC <= 1200000) {
+            result = (45000 + (0.15 * (TIAC - 900000)));
+          } else if (TIAC > 1200000 && TIAC <= 1500000) {
+            result = (90000 + (0.20 * (TIAC - 1200000)));
+          } else if (TIAC > 1500000) {
+            result = (90000 + (0.30 * (TIAC - 1500000)));
+          }
+        }
+
+
+        return (result * 0.04) + result;
+      }
+
+
+
+
+      var taxSaveDisplay = document.getElementById("tds");
+      taxSaveDisplay.innerHTML = "0.00";
+      function displayTaxSaveUnderOldRegime() {
+        var regime = document.getElementById("regime").value;
+        var TS = parseFloat(document.getElementById("TS").value) || 0;
+
+        if (regime === "old") {
+          var taxSaveDisplay = document.getElementById("old-regime-tax-save-display");
+          taxSaveDisplay.innerHTML = TS.toFixed(2);
+        } else {
+          var taxSaveDisplay = document.getElementById("old-regime-tax-save-display");
+          taxSaveDisplay.innerHTML = "0.00";
+        }
+      }
+
+      function displayTaxSaveUnderNewRegime() {
+        var regime = document.getElementById("regime").value;
+        var TS = parseFloat(document.getElementById("TS").value) || 0;
+
+        if (regime === "new") {
+
+          var taxSaveDisplay = document.getElementById("new-regime-tax-save-display");
+          taxSaveDisplay.innerHTML = TS.toFixed(2);
+        } else {
+
+          var taxSaveDisplay = document.getElementById("new-regime-tax-save-display");
+          taxSaveDisplay.innerHTML = " 0.00";
+        }
+      }
+
+      function makeLabelEditable(label) {
+        const originalText = label.innerText;
+
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = originalText;
+
+
+        label.replaceWith(input);
+
+
+        input.focus();
+
+
+        input.addEventListener('blur', function () {
+          const newText = input.value.trim();
+          label.innerText = newText || originalText;
+          input.replaceWith(label);
+        });
+      }
+
+      function calculateExpectedRefund() {
+        var TL = parseFloat(document.getElementById("TL").value) || 0;
+        var eft = parseFloat(document.getElementById("eft").value) || 0;
+        var expectedRefund = eft - TL;
+        document.getElementById("er").innerHTML = expectedRefund.toFixed(2);
+      }
+
+      $(document).ready(function () {
+        $(document).on('mousemove', function (e) {
+          $('#circularcursor').css({
+            left: e.pageX,
+            top: e.pageY
+          });
+        });
+      });
+    </script>
+
+</body>
+
+</html>
