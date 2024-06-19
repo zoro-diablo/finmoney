@@ -473,14 +473,12 @@
         date</button>
       <div class="tax-save-display" id="tds"></div>
 
-      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">Expected Full
-        TDS</button>
-      <div class="tax-save-display" id="eft"></div>
-
-      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">Expected
-        Refund</button>
-      <div class="tax-save-display" id="er">
+      <div class="form-group">
+        <label for="eft" id="gratuityLabel" class="editable-label" ondblclick="makeLabelEditable(this)">Expected Full TDS:</label>
+        <input type="number" id="eft" name="eft" onchange="calculateValues()">
       </div>
+      <button class="tax-button" style="border-color: #ffffff; background-color: #204c5a; color: #ffffff;">Expected refund</button>
+      <div class="tax-save-display" id="er"></div>
     </div>
 
   </div>
@@ -562,13 +560,6 @@
       <td id="total_exemptions_utilized">0</td>
     </tr>
 
-    <!-- <tr>
-      <td rowspan="2" class="dg">Taxable Income</td>
-      <td></td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr> -->
     <tr class="dg">
       <td class="dg">Taxable Income</td>
       <td>Total</td>
@@ -970,8 +961,7 @@
         total_tax_new.innerText = TL
       }
 
-
-
+      calculateExpectedRefund();
     }
 
 
@@ -1194,6 +1184,13 @@
       })
     });
 
+    function calculateExpectedRefund() {
+      var TL = parseFloat(document.getElementById("TL").value) || 0;
+      var eft = parseFloat(document.getElementById("eft").value) || 0;
+      var er = eft - TL;
+
+      document.getElementById("er").innerHTML = er.toFixed(2);
+    }
   </script>
 
 </body>
