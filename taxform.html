@@ -428,7 +428,7 @@
         </div>
 
         <div class="form-group">
-          <label for="SD" id="gratuityLabel">Standard Deduction:</label>
+          <label for="SD" id="gratuityLabel" class="text-gray-700">Standard Deduction:</label>
           <input
             type="number"
             id="SD"
@@ -445,10 +445,10 @@
           <label
             for="80C"
             id="gratuityLabel"
-            class="flex whitespace-nowrap text-md gap-1"
+            class="flex whitespace-nowrap text-md gap-1 text-gray-800"
             >80CCD:
             <input type="checkbox" name="chk" id="chk" class="w-3 mb-1" />
-            <label for="chk">Central Employee</label></label
+            <label for="chk" class="text-gray-700">Central Employee</label></label
           >
           <input
             type="number"
@@ -465,7 +465,7 @@
             id="gratuityLabel"
             for="GR"
             class="editable-label"
-            ondblclick="makeLabelEditable(this)"
+            ondblclick="makeLabelEditable(this)" class="text-gray-700"
             >GRATUITY:</label
           >
           <input type="number" id="GR" name="GR" onchange="calculateValues()" />
