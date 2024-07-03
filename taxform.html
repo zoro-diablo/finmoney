@@ -439,11 +439,17 @@
             onchange="toggleOptions"
             style="color: #000000"
           />
-         
         </div>
 
         <div class="form-group">
-          <label for="80C" id="gratuityLabel">80CCD:</label>
+          <label
+            for="80C"
+            id="gratuityLabel"
+            class="flex whitespace-nowrap text-md gap-1"
+            >80CCD:
+            <input type="checkbox" name="chk" id="chk" class="w-3 mb-1" />
+            <label for="chk">Central Employee</label></label
+          >
           <input
             type="number"
             id="80C"
@@ -452,10 +458,6 @@
             onchange="toggleOptions"
             style="color: #000000"
           />
-          <div class="flex whitespace-nowrap items-center">
-            <input type="checkbox" name="chk" id="chk" class=" w-7 mb-1" />
-            <label for="chk">Central Employee</label>
-          </div>
         </div>
 
         <div class="form-group">
