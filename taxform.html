@@ -805,9 +805,9 @@
     <script>
       const jsonData = localStorage.getItem('jsonData');
       const data = JSON.parse(jsonData);
-
+    
       let finalData;
-
+    
       if (data) {
         if (data.ITR.ITR1 != undefined) {
           finalData = data.ITR.ITR1;
@@ -821,10 +821,9 @@
           finalData = data.ITR.ITR5;
         }
       }
-
-      // const incomeVal = data.ITR.ITR2['PartB-TI'].GrossTotalIncome
+    
       let incomeVal;
-
+    
       if (data) {
         if (data.ITR.ITR1 != undefined) {
           incomeVal = finalData.ITR1_IncomeDeductions.GrossTotIncome;
@@ -836,33 +835,18 @@
       } else {
         incomeVal = 0;
       }
-
+    
       document.addEventListener('DOMContentLoaded', function () {
         toggleOptions();
         calculateValues();
       });
-
+    
       function toggleOptions() {
         var regime = document.getElementById('regime').value;
         var oldOptions = document.getElementById('old-options');
         var formContainer = document.querySelector('.form-container');
-
-        if (regime === 'old') {
-          document.getElementById('SD').value = '';
-          document.getElementById('80C').value = '';
-          document.getElementById('GR').value = '';
-          document.getElementById('LE').value = '';
-          document.getElementById('SD').value = '';
-          document.getElementById('INTERNET').value = '';
-          document.getElementById('OtherA').value = '';
-          document.getElementById('HRA').value = '';
-          document.getElementById('PT').value = '';
-          oldOptions.style.display = 'block';
-          formContainer.classList.add('old-regime');
-          document.getElementById('SD').readOnly = true; // Set SD to readonly for old regime
-          document.getElementById('80C').readOnly = false; // Set 80C to editable for old regime
-          document.getElementById('SD').value = '50000'; // Set the value for the old regime
-        } else if (regime === 'old_utilized') {
+    
+        if (regime === 'old' || regime === 'old_utilized') {
           document.getElementById('SD').value = '';
           document.getElementById('80C').value = '';
           document.getElementById('GR').value = '';
@@ -897,15 +881,13 @@
           }
         }
       }
+    
       function calculateValues() {
         var SD = 50000; // Setting the default value for SD
-        // Set SD field to readonly
         document.getElementById('SD').readOnly = true;
-        // TAX
         var GR = parseFloat(document.getElementById('GR').value) || 0;
         var LE = parseFloat(document.getElementById('LE').value) || 0;
-        var INTERNET =
-          parseFloat(document.getElementById('INTERNET').value) || 0;
+        var INTERNET = parseFloat(document.getElementById('INTERNET').value) || 0;
         var OtherA = parseFloat(document.getElementById('OtherA').value) || 0;
         var HRA = parseFloat(document.getElementById('HRA').value) || 0;
         var PT = parseFloat(document.getElementById('PT').value) || 0;
@@ -913,6 +895,12 @@
         var SGP = parseFloat(document.getElementById('SGP').value) || 0;
         var SD = parseFloat(document.getElementById('SD').value) || 0;
         var _80C = parseFloat(document.getElementById('80C').value) || 0;
+        var isCentralEmployee = document.getElementById('chk').checked;
+        if (isCentralEmployee) {
+          _80C = parseFloat(document.getElementById('80C').value) || 0;
+        } else if (+document.getElementById('80C').value > 50000) {
+          document.getElementById('80C').value = '50000';
+        }
         var salary = document.getElementById('salary');
         var salary_new = document.getElementById('salary_new');
         var salary_utilized = document.getElementById('salary_utilized');
@@ -933,13 +921,9 @@
         var di_utilized = document.getElementById('di_utilized');
         var total_income_old = document.getElementById('total_income_old');
         var total_income_new = document.getElementById('total_income_new');
-        var total_income_utilized = document.getElementById(
-          'total_income_utilized'
-        );
+        var total_income_utilized = document.getElementById('total_income_utilized');
         var exemptions = document.getElementById('exemptions');
-        var exemptions_utilized = document.getElementById(
-          'exemptions_utilized'
-        );
+        var exemptions_utilized = document.getElementById('exemptions_utilized');
         var exemptions_new = document.getElementById('exemptions_new');
         var sd = document.getElementById('sd');
         var sd_new = document.getElementById('sd_new');
@@ -947,35 +931,23 @@
         var _80c = document.getElementById('80c');
         var _80c_utilized = document.getElementById('80c_utilized');
         var _80c_new = document.getElementById('80c_new');
-        var total_exemptions_old = document.getElementById(
-          'total_exemptions_old'
-        );
-        var total_exemptions_utilized = document.getElementById(
-          'total_exemptions_utilized'
-        );
-        var total_exemptions_new = document.getElementById(
-          'total_exemptions_new'
-        );
-        var total_taxable_income = document.getElementById(
-          'total_taxable_income'
-        );
-        var total_taxable_income_new = document.getElementById(
-          'total_taxable_income_new'
-        );
-        var total_taxable_income_utilized = document.getElementById(
-          'total_taxable_income_utilized'
-        );
+        var total_exemptions_old = document.getElementById('total_exemptions_old');
+        var total_exemptions_utilized = document.getElementById('total_exemptions_utilized');
+        var total_exemptions_new = document.getElementById('total_exemptions_new');
+        var total_taxable_income = document.getElementById('total_taxable_income');
+        var total_taxable_income_new = document.getElementById('total_taxable_income_new');
+        var total_taxable_income_utilized = document.getElementById('total_taxable_income_utilized');
         var tax_due = document.getElementById('tax_due');
         var tax_due_new = document.getElementById('tax_due_new');
         var tax_due_utilized = document.getElementById('tax_due_utilized');
         var total_tax_old = document.getElementById('total_tax_old');
         var total_tax_new = document.getElementById('total_tax_new');
         var total_tax_utilized = document.getElementById('total_tax_utilized');
-
-        var regime = document.getElementById('regime').value; // Assuming "regime" is an input field
-
+    
+        var regime = document.getElementById('regime').value;
+    
         var TAX;
-
+    
         if (regime === 'old' || regime === 'old_utilized') {
           TAX =
             SGP +
@@ -990,18 +962,17 @@
             PT -
             _80C;
         } else if (regime === 'new') {
-          TAX = SGP + DI + incomeVal - SD - _80C;
+          TAX = SGP + DI + incomeVal - SD - _80C + GR + LE;
         }
-
+    
         document.getElementById('TAX').value = TAX;
-        // 80G Cap
-        var regime = document.getElementById('regime').value;
+    
         var SD = parseFloat(document.getElementById('SD').value) || 0;
         var TIAC = parseFloat(document.getElementById('TIAC').value) || 0;
         var DI = parseFloat(document.getElementById('DI').value) || 0;
         var TD = parseFloat(document.getElementById('TD').value) || 0;
         var EightyGCap = 0;
-
+    
         if (regime === 'old') {
           var GR = parseFloat(document.getElementById('GR').value) || 0;
           var LE = parseFloat(document.getElementById('LE').value) || 0;
@@ -1011,20 +982,18 @@
           var HRA = parseFloat(document.getElementById('HRA').value) || 0;
           var PT = parseFloat(document.getElementById('PT').value) || 0;
           var _80C = parseFloat(document.getElementById('80C').value) || 0;
-
+    
           var TAX = parseFloat(document.getElementById('TAX').value) || 0;
-
+    
           EightyGCap = TAX * 0.1;
           document.getElementById('80G-Cap').value = EightyGCap.toFixed(2);
         } else if (regime === 'new') {
           EightyGCap = 0;
           document.getElementById('80G-Cap').value = ' ';
         }
-
-        // E80G
-
+    
         var regime = document.getElementById('regime').value;
-
+    
         if (regime === 'old') {
           var E80G = EightyGCap / 2;
           document.getElementById('E80G').value = E80G.toFixed(2);
@@ -1032,8 +1001,7 @@
           E80G = 0;
           document.getElementById('E80G').value = ' ';
         }
-
-        // TIAC
+    
         var TIAC;
         var regime = document.getElementById('regime').value;
         var SD = parseFloat(document.getElementById('SD').value) || 0;
@@ -1043,7 +1011,7 @@
         var E80G = parseFloat(document.getElementById('E80G').value) || 0;
         var SD = parseFloat(document.getElementById('SD').value) || 0;
         var _80C = parseFloat(document.getElementById('80C').value) || 0;
-
+    
         if (regime === 'old' || regime === 'old_utilized') {
           TIAC = TAX - E80G;
           document.getElementById('TIAC').value = TIAC;
@@ -1054,40 +1022,37 @@
           var _80C = parseFloat(document.getElementById('80C').value) || 0;
           var _80C = parseFloat(document.getElementById('80C').value) || 0;
           var E80G = parseFloat(document.getElementById('E80G').value) || 0;
-          TIAC = SGP + DI - SD - _80C;
+          TIAC = SGP + DI - SD - _80C + GR + LE;
           document.getElementById('TIAC').value = TIAC;
         }
-
+    
         var regime = document.getElementById('regime').value;
         var oldCategory = document.getElementById('old-options-select').value;
-
+    
         var TL = calculateTax(TAX, regime, oldCategory);
         var TLAC = calculateTLAC(TIAC, regime, oldCategory);
-
+    
         TL = parseFloat(TL.toFixed(2));
         TLAC = parseFloat(TLAC.toFixed(2));
-
+    
         document.getElementById('TL').value = TL.toFixed(2);
         document.getElementById('TLAC').value = TLAC.toFixed(2);
-
-        // TS
+    
         var TL = parseFloat(document.getElementById('TL').value || 0);
         var TLAC = parseFloat(document.getElementById('TLAC').value || 0);
         var regime = document.getElementById('regime').value;
         var TS;
-
+    
         TS = TL - TLAC;
-
+    
         document.getElementById('TS').value = TS.toFixed(2);
-
+    
         displayTaxSaveUnderOldRegime();
         displayTaxSaveUnderNewRegime();
-
+    
         if (regime === 'old') {
           salary.innerText = SGP;
-          // salary_utilized.innerText = SGP
           di.innerText = DI;
-          // di_utilized.innerText = DI
           total_income_old.innerText =
             +salary.innerText +
             +hp.innerText +
@@ -1095,27 +1060,17 @@
             +business.innerText +
             +di.innerText +
             +ei.innerText;
-          // total_income_utilized.innerText = +salary_utilized.innerText + +hp_utilized.innerText + +cg_utilized.innerText + +business_utilized.innerText + +di_utilized.innerText + +ei_utilized.innerText
-
           sd.innerText = SD + PT;
-          // sd_utilized.innerText = SD + PT
           exemptions.innerText = GR + LE + INTERNET + OtherA + HRA;
-          // exemptions_utilized.innerText = GR + LE + INTERNET + OtherA + HRA
           _80c.innerText = _80C;
-          // _80c_utilized.innerText = _80C + E80G
           total_exemptions_old.innerText =
             +sd.innerText + +exemptions.innerText + +_80c.innerText;
-          // total_exemptions_utilized.innerText = +sd_utilized.innerText + +exemptions_utilized.innerText + +_80c_utilized.innerText
           total_taxable_income.innerText =
             +total_income_old.innerText - +total_exemptions_old.innerText;
-          // total_taxable_income_utilized.innerText = TIAC
           tax_due.innerText = document.getElementById('TL').value;
-          // tax_due_utilized.innerText = document.getElementById('TL').value
-
           total_tax_old.innerText = TL;
-          // total_tax_utilized.innerText = TLAC
         }
-
+    
         if (regime === 'old_utilized') {
           salary_utilized.innerText = SGP;
           di_utilized.innerText = DI;
@@ -1137,20 +1092,8 @@
           tax_due_utilized.innerText = document.getElementById('TLAC').value;
           total_tax_utilized.innerText = document.getElementById('TLAC').value;
         }
-
+    
         if (regime === 'new') {
-          // document.getElementById('SD').value = ''
-          // document.getElementById("80C").value = ''
-          // document.getElementById("GR").value = ''
-          // document.getElementById("LE").value = ''
-          // document.getElementById("SD").value = ''
-          // document.getElementById("INTERNET").value = ''
-          // document.getElementById("OtherA").value = ''
-          // document.getElementById("HRA").value = ''
-          // document.getElementById("PT").value = ''
-          if (+document.getElementById('80C').value > 50000) {
-            document.getElementById('80C').value = '50000';
-          }
           salary_new.innerText = SGP;
           di_new.innerText = DI;
           sd_new.innerText = SD;
@@ -1169,13 +1112,13 @@
             +ei_new.innerText;
           total_tax_new.innerText = TL;
         }
-
+    
         calculateExpectedRefund();
       }
-
+    
       function calculateTax(TAX, regime, oldCategory) {
         let taxAmount = 0;
-
+    
         if (regime === 'old' || regime === 'old_utilized') {
           switch (oldCategory) {
             case 'normal':
@@ -1245,13 +1188,13 @@
             taxAmount = 150000 + 0.3 * (TAX - 1500000);
           }
         }
-
+    
         return taxAmount * 0.04 + taxAmount;
       }
-
+    
       function calculateTLAC(TIAC, regime, oldCategory) {
         let result = 0;
-
+    
         if (regime === 'old' || regime === 'old_utilized') {
           switch (oldCategory) {
             case 'normal':
@@ -1321,20 +1264,21 @@
             result = 150000 + 0.3 * (TIAC - 1500000);
           }
         }
-
+    
         return result * 0.04 + result;
       }
-
+    
       var taxSaveDisplay = document.getElementById('tds');
       taxSaveDisplay.innerHTML = '0.00';
       var taxSaveDisplay = document.getElementById('eft');
       taxSaveDisplay.innerHTML = '0.00';
       var taxSaveDisplay = document.getElementById('er');
       taxSaveDisplay.innerHTML = '0.00';
+    
       function displayTaxSaveUnderOldRegime() {
         var regime = document.getElementById('regime').value;
         var TS = parseFloat(document.getElementById('TS').value) || 0;
-
+    
         if (regime === 'old' || regime === 'old_utilized') {
           var taxSaveDisplay = document.getElementById(
             'old-regime-tax-save-display'
@@ -1347,11 +1291,11 @@
           taxSaveDisplay.innerHTML = '0.00';
         }
       }
-
+    
       function displayTaxSaveUnderNewRegime() {
         var regime = document.getElementById('regime').value;
         var TS = parseFloat(document.getElementById('TS').value) || 0;
-
+    
         if (regime === 'new') {
           var taxSaveDisplay = document.getElementById(
             'new-regime-tax-save-display'
@@ -1364,25 +1308,25 @@
           taxSaveDisplay.innerHTML = ' 0.00';
         }
       }
-
+    
       function makeLabelEditable(label) {
         const originalText = label.innerText;
-
+    
         const input = document.createElement('input');
         input.type = 'text';
         input.value = originalText;
-
+    
         label.replaceWith(input);
-
+    
         input.focus();
-
+    
         input.addEventListener('blur', function () {
           const newText = input.value.trim();
           label.innerText = newText || originalText;
           input.replaceWith(label);
         });
       }
-
+    
       $(document).ready(function () {
         $(document).on('mousemove', function (e) {
           $('#circularcursor').css({
@@ -1391,14 +1335,15 @@
           });
         });
       });
-
+    
       function calculateExpectedRefund() {
         var TL = parseFloat(document.getElementById('TL').value) || 0;
         var eft = parseFloat(document.getElementById('eft').value) || 0;
         var er = eft - TL;
-
+    
         document.getElementById('er').innerHTML = er.toFixed(2);
       }
     </script>
+    
   </body>
 </html>
