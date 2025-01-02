@@ -379,7 +379,7 @@
             id="gratuityLabel"
             class="editable-label"
             ondblclick="makeLabelEditable(this)"
-            >Salary Gross Pay:</label
+            ><br />Salary Gross Pay:</label
           >
           <input
             type="number"
@@ -395,7 +395,7 @@
             id="gratuityLabel"
             class="editable-label"
             ondblclick="makeLabelEditable(this)"
-            >Dividend Income:</label
+            ><br />Dividend Income:</label
           >
           <input type="number" id="DI" name="DI" onchange="calculateValues()" />
         </div>
@@ -406,7 +406,7 @@
             id="gratuityLabel"
             class="editable-label"
             ondblclick="makeLabelEditable(this)"
-            >Total Taxable Income:</label
+            > <br>Total Taxable Income:</label
           >
           <input
             type="number"
@@ -422,20 +422,22 @@
             id="gratuityLabel"
             class="editable-label"
             ondblclick="makeLabelEditable(this)"
-            >Tax Liability (with cess):</label
+            >Tax Liability(with surcharge and cess):</label
           >
           <input type="number" id="TL" name="TL" onchange="calculateValues()" />
         </div>
 
         <div class="form-group">
-          <label for="SD" id="gratuityLabel" class="text-gray-700">Standard Deduction:</label>
+          <label for="SD" id="gratuityLabel" class="text-gray-700"
+            >Standard Deduction:</label
+          >
           <input
             type="number"
             id="SD"
             name="SD"
-            value="50000"
+            value="75000"
             readonly
-            placeholder="50000"
+            placeholder="75000"
             onchange="toggleOptions"
             style="color: #000000"
           />
@@ -448,7 +450,9 @@
             class="flex whitespace-nowrap text-md gap-1 text-gray-800"
             >80CCD:
             <input type="checkbox" name="chk" id="chk" class="w-3 mb-1" />
-            <label for="chk" class="text-gray-700">Central Employee</label></label
+            <label for="chk" class="text-gray-700"
+              >Central Employee</label
+            ></label
           >
           <input
             type="number"
@@ -465,7 +469,8 @@
             id="gratuityLabel"
             for="GR"
             class="editable-label"
-            ondblclick="makeLabelEditable(this)" class="text-gray-700"
+            ondblclick="makeLabelEditable(this)"
+            class="text-gray-700"
             >GRATUITY:</label
           >
           <input type="number" id="GR" name="GR" onchange="calculateValues()" />
@@ -629,11 +634,18 @@
       </div>
 
       <div class="button-container">
+        <button class="tax-button">Total Surcharge</button>
+        <div class="tax-save-display" id="total-surcharge-display">0.00</div>
+    
+        <button class="tax-button">Total Cess</button>
+        <div class="tax-save-display" id="total-cess-display">0.00</div>
+        
         <button class="tax-button">Tax Save under Old Regime</button>
         <div class="tax-save-display" id="old-regime-tax-save-display"></div>
 
         <button class="tax-button">Tax Save under New Regime</button>
         <div class="tax-save-display" id="new-regime-tax-save-display"></div>
+
 
         <button
           class="tax-button"
@@ -805,9 +817,9 @@
     <script>
       const jsonData = localStorage.getItem('jsonData');
       const data = JSON.parse(jsonData);
-    
+
       let finalData;
-    
+
       if (data) {
         if (data.ITR.ITR1 != undefined) {
           finalData = data.ITR.ITR1;
@@ -821,9 +833,9 @@
           finalData = data.ITR.ITR5;
         }
       }
-    
+
       let incomeVal;
-    
+
       if (data) {
         if (data.ITR.ITR1 != undefined) {
           incomeVal = finalData.ITR1_IncomeDeductions.GrossTotIncome;
@@ -835,17 +847,17 @@
       } else {
         incomeVal = 0;
       }
-    
+
       document.addEventListener('DOMContentLoaded', function () {
         toggleOptions();
         calculateValues();
       });
-    
+
       function toggleOptions() {
         var regime = document.getElementById('regime').value;
         var oldOptions = document.getElementById('old-options');
         var formContainer = document.querySelector('.form-container');
-    
+
         if (regime === 'old' || regime === 'old_utilized') {
           document.getElementById('SD').value = '';
           document.getElementById('80C').value = '';
@@ -875,19 +887,20 @@
           formContainer.classList.remove('old-regime');
           document.getElementById('SD').readOnly = false; // Set SD to editable for new regime
           document.getElementById('80C').readOnly = false; // Set 80C to editable for new regime
-          document.getElementById('SD').value = '50000'; // Set the value for the new regime
-          if (+document.getElementById('80C').value > 50000) {
-            document.getElementById('80C').value = '50000';
+          document.getElementById('SD').value = '75000'; // Set the value for the new regime
+          if (+document.getElementById('80C').value > 75000) {
+            document.getElementById('80C').value = '75000';
           }
         }
       }
-    
+
       function calculateValues() {
         var SD = 50000; // Setting the default value for SD
         document.getElementById('SD').readOnly = true;
         var GR = parseFloat(document.getElementById('GR').value) || 0;
         var LE = parseFloat(document.getElementById('LE').value) || 0;
-        var INTERNET = parseFloat(document.getElementById('INTERNET').value) || 0;
+        var INTERNET =
+          parseFloat(document.getElementById('INTERNET').value) || 0;
         var OtherA = parseFloat(document.getElementById('OtherA').value) || 0;
         var HRA = parseFloat(document.getElementById('HRA').value) || 0;
         var PT = parseFloat(document.getElementById('PT').value) || 0;
@@ -921,9 +934,13 @@
         var di_utilized = document.getElementById('di_utilized');
         var total_income_old = document.getElementById('total_income_old');
         var total_income_new = document.getElementById('total_income_new');
-        var total_income_utilized = document.getElementById('total_income_utilized');
+        var total_income_utilized = document.getElementById(
+          'total_income_utilized'
+        );
         var exemptions = document.getElementById('exemptions');
-        var exemptions_utilized = document.getElementById('exemptions_utilized');
+        var exemptions_utilized = document.getElementById(
+          'exemptions_utilized'
+        );
         var exemptions_new = document.getElementById('exemptions_new');
         var sd = document.getElementById('sd');
         var sd_new = document.getElementById('sd_new');
@@ -931,23 +948,35 @@
         var _80c = document.getElementById('80c');
         var _80c_utilized = document.getElementById('80c_utilized');
         var _80c_new = document.getElementById('80c_new');
-        var total_exemptions_old = document.getElementById('total_exemptions_old');
-        var total_exemptions_utilized = document.getElementById('total_exemptions_utilized');
-        var total_exemptions_new = document.getElementById('total_exemptions_new');
-        var total_taxable_income = document.getElementById('total_taxable_income');
-        var total_taxable_income_new = document.getElementById('total_taxable_income_new');
-        var total_taxable_income_utilized = document.getElementById('total_taxable_income_utilized');
+        var total_exemptions_old = document.getElementById(
+          'total_exemptions_old'
+        );
+        var total_exemptions_utilized = document.getElementById(
+          'total_exemptions_utilized'
+        );
+        var total_exemptions_new = document.getElementById(
+          'total_exemptions_new'
+        );
+        var total_taxable_income = document.getElementById(
+          'total_taxable_income'
+        );
+        var total_taxable_income_new = document.getElementById(
+          'total_taxable_income_new'
+        );
+        var total_taxable_income_utilized = document.getElementById(
+          'total_taxable_income_utilized'
+        );
         var tax_due = document.getElementById('tax_due');
         var tax_due_new = document.getElementById('tax_due_new');
         var tax_due_utilized = document.getElementById('tax_due_utilized');
         var total_tax_old = document.getElementById('total_tax_old');
         var total_tax_new = document.getElementById('total_tax_new');
         var total_tax_utilized = document.getElementById('total_tax_utilized');
-    
+
         var regime = document.getElementById('regime').value;
-    
+
         var TAX;
-    
+
         if (regime === 'old' || regime === 'old_utilized') {
           TAX =
             SGP +
@@ -964,15 +993,15 @@
         } else if (regime === 'new') {
           TAX = SGP + DI + incomeVal - SD - _80C + GR + LE;
         }
-    
+
         document.getElementById('TAX').value = TAX;
-    
+
         var SD = parseFloat(document.getElementById('SD').value) || 0;
         var TIAC = parseFloat(document.getElementById('TIAC').value) || 0;
         var DI = parseFloat(document.getElementById('DI').value) || 0;
         var TD = parseFloat(document.getElementById('TD').value) || 0;
         var EightyGCap = 0;
-    
+
         if (regime === 'old') {
           var GR = parseFloat(document.getElementById('GR').value) || 0;
           var LE = parseFloat(document.getElementById('LE').value) || 0;
@@ -982,18 +1011,18 @@
           var HRA = parseFloat(document.getElementById('HRA').value) || 0;
           var PT = parseFloat(document.getElementById('PT').value) || 0;
           var _80C = parseFloat(document.getElementById('80C').value) || 0;
-    
+
           var TAX = parseFloat(document.getElementById('TAX').value) || 0;
-    
+
           EightyGCap = TAX * 0.1;
           document.getElementById('80G-Cap').value = EightyGCap.toFixed(2);
         } else if (regime === 'new') {
           EightyGCap = 0;
           document.getElementById('80G-Cap').value = ' ';
         }
-    
+
         var regime = document.getElementById('regime').value;
-    
+
         if (regime === 'old') {
           var E80G = EightyGCap / 2;
           document.getElementById('E80G').value = E80G.toFixed(2);
@@ -1001,7 +1030,7 @@
           E80G = 0;
           document.getElementById('E80G').value = ' ';
         }
-    
+
         var TIAC;
         var regime = document.getElementById('regime').value;
         var SD = parseFloat(document.getElementById('SD').value) || 0;
@@ -1011,7 +1040,7 @@
         var E80G = parseFloat(document.getElementById('E80G').value) || 0;
         var SD = parseFloat(document.getElementById('SD').value) || 0;
         var _80C = parseFloat(document.getElementById('80C').value) || 0;
-    
+
         if (regime === 'old' || regime === 'old_utilized') {
           TIAC = TAX - E80G;
           document.getElementById('TIAC').value = TIAC;
@@ -1025,31 +1054,31 @@
           TIAC = SGP + DI - SD - _80C + GR + LE;
           document.getElementById('TIAC').value = TIAC;
         }
-    
+
         var regime = document.getElementById('regime').value;
         var oldCategory = document.getElementById('old-options-select').value;
-    
+
         var TL = calculateTax(TAX, regime, oldCategory);
         var TLAC = calculateTLAC(TIAC, regime, oldCategory);
-    
+
         TL = parseFloat(TL.toFixed(2));
         TLAC = parseFloat(TLAC.toFixed(2));
-    
+
         document.getElementById('TL').value = TL.toFixed(2);
         document.getElementById('TLAC').value = TLAC.toFixed(2);
-    
+
         var TL = parseFloat(document.getElementById('TL').value || 0);
         var TLAC = parseFloat(document.getElementById('TLAC').value || 0);
         var regime = document.getElementById('regime').value;
         var TS;
-    
+
         TS = TL - TLAC;
-    
+
         document.getElementById('TS').value = TS.toFixed(2);
-    
+
         displayTaxSaveUnderOldRegime();
         displayTaxSaveUnderNewRegime();
-    
+
         if (regime === 'old') {
           salary.innerText = SGP;
           di.innerText = DI;
@@ -1070,7 +1099,7 @@
           tax_due.innerText = document.getElementById('TL').value;
           total_tax_old.innerText = TL;
         }
-    
+
         if (regime === 'old_utilized') {
           salary_utilized.innerText = SGP;
           di_utilized.innerText = DI;
@@ -1092,7 +1121,7 @@
           tax_due_utilized.innerText = document.getElementById('TLAC').value;
           total_tax_utilized.innerText = document.getElementById('TLAC').value;
         }
-    
+
         if (regime === 'new') {
           salary_new.innerText = SGP;
           di_new.innerText = DI;
@@ -1112,13 +1141,13 @@
             +ei_new.innerText;
           total_tax_new.innerText = TL;
         }
-    
+
         calculateExpectedRefund();
       }
-    
+
       function calculateTax(TAX, regime, oldCategory) {
         let taxAmount = 0;
-    
+
         if (regime === 'old' || regime === 'old_utilized') {
           switch (oldCategory) {
             case 'normal':
@@ -1161,40 +1190,40 @@
             default:
               if (TAX <= 700000) {
                 taxAmount = 0;
-              } else if (TAX > 300000 && TAX <= 600000) {
+              } else if (TAX > 300000 && TAX <= 700000) {
                 taxAmount = 0.05 * (TAX - 300000);
-              } else if (TAX > 600000 && TAX <= 900000) {
-                taxAmount = 15000 + 0.1 * (TAX - 600000);
-              } else if (TAX > 900000 && TAX <= 1200000) {
-                taxAmount = 45000 + 0.15 * (TAX - 900000);
+              } else if (TAX > 700000 && TAX <= 1000000) {
+                taxAmount = 20000 + 0.1 * (TAX - 600000);
+              } else if (TAX > 1000000 && TAX <= 1200000) {
+                taxAmount = 50000 + 0.15 * (TAX - 900000);
               } else if (TAX > 1200000 && TAX <= 1500000) {
-                taxAmount = 90000 + 0.2 * (TAX - 1200000);
+                taxAmount = 80000 + 0.2 * (TAX - 1200000);
               } else if (TAX > 1500000) {
-                taxAmount = 150000 + 0.3 * (TAX - 1500000);
+                taxAmount = 140000 + 0.3 * (TAX - 1500000);
               }
           }
         } else {
           if (TAX <= 700000) {
             taxAmount = 0;
-          } else if (TAX > 300000 && TAX <= 600000) {
+          } else if (TAX > 300000 && TAX <= 700000) {
             taxAmount = 0.05 * (TAX - 300000);
-          } else if (TAX > 600000 && TAX <= 900000) {
-            taxAmount = 15000 + 0.1 * (TAX - 600000);
-          } else if (TAX > 900000 && TAX <= 1200000) {
-            taxAmount = 45000 + 0.15 * (TAX - 900000);
+          } else if (TAX > 700000 && TAX <= 1000000) {
+            taxAmount = 20000 + 0.1 * (TAX - 600000);
+          } else if (TAX > 1000000 && TAX <= 1200000) {
+            taxAmount = 50000 + 0.15 * (TAX - 900000);
           } else if (TAX > 1200000 && TAX <= 1500000) {
-            taxAmount = 90000 + 0.2 * (TAX - 1200000);
+            taxAmount = 80000 + 0.2 * (TAX - 1200000);
           } else if (TAX > 1500000) {
-            taxAmount = 150000 + 0.3 * (TAX - 1500000);
+            taxAmount = 140000 + 0.3 * (TAX - 1500000);
           }
         }
-    
+
         return taxAmount * 0.04 + taxAmount;
       }
-    
+
       function calculateTLAC(TIAC, regime, oldCategory) {
         let result = 0;
-    
+
         if (regime === 'old' || regime === 'old_utilized') {
           switch (oldCategory) {
             case 'normal':
@@ -1264,21 +1293,21 @@
             result = 150000 + 0.3 * (TIAC - 1500000);
           }
         }
-    
+
         return result * 0.04 + result;
       }
-    
+
       var taxSaveDisplay = document.getElementById('tds');
       taxSaveDisplay.innerHTML = '0.00';
       var taxSaveDisplay = document.getElementById('eft');
       taxSaveDisplay.innerHTML = '0.00';
       var taxSaveDisplay = document.getElementById('er');
       taxSaveDisplay.innerHTML = '0.00';
-    
+
       function displayTaxSaveUnderOldRegime() {
         var regime = document.getElementById('regime').value;
         var TS = parseFloat(document.getElementById('TS').value) || 0;
-    
+
         if (regime === 'old' || regime === 'old_utilized') {
           var taxSaveDisplay = document.getElementById(
             'old-regime-tax-save-display'
@@ -1291,11 +1320,11 @@
           taxSaveDisplay.innerHTML = '0.00';
         }
       }
-    
+
       function displayTaxSaveUnderNewRegime() {
         var regime = document.getElementById('regime').value;
         var TS = parseFloat(document.getElementById('TS').value) || 0;
-    
+
         if (regime === 'new') {
           var taxSaveDisplay = document.getElementById(
             'new-regime-tax-save-display'
@@ -1308,25 +1337,25 @@
           taxSaveDisplay.innerHTML = ' 0.00';
         }
       }
-    
+
       function makeLabelEditable(label) {
         const originalText = label.innerText;
-    
+
         const input = document.createElement('input');
         input.type = 'text';
         input.value = originalText;
-    
+
         label.replaceWith(input);
-    
+
         input.focus();
-    
+
         input.addEventListener('blur', function () {
           const newText = input.value.trim();
           label.innerText = newText || originalText;
           input.replaceWith(label);
         });
       }
-    
+
       $(document).ready(function () {
         $(document).on('mousemove', function (e) {
           $('#circularcursor').css({
@@ -1335,15 +1364,14 @@
           });
         });
       });
-    
+
       function calculateExpectedRefund() {
         var TL = parseFloat(document.getElementById('TL').value) || 0;
         var eft = parseFloat(document.getElementById('eft').value) || 0;
         var er = eft - TL;
-    
+
         document.getElementById('er').innerHTML = er.toFixed(2);
       }
     </script>
-    
   </body>
 </html>
