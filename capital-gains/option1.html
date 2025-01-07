@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equity Shares Tax Calculation</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        button {
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .form-section, .results-section {
+            margin-top: 20px;
+        }
+
+        /* Custom Navbar Styles */
+        .navbar {
+            background-color: #253228;
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-color: #fff;
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #fff !important;
+        }
+
+        .navbar-brand:hover,
+        .navbar-nav .nav-link:hover {
+            color: #fff !important;
+        }
+
+        .navbar-toggler {
+            border-color: #fff;
+        }
+
+        .navbar-toggler:focus,
+        .navbar-toggler:active {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .dropdown-menu {
+            background-color: #28a745;
+        }
+
+        .dropdown-item {
+            color: #fff !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: #218838;
+        }
+
+        body {
+            margin-top: 70px; /* To prevent content from being hidden behind the fixed navbar */
+        }
+    </style>
+    
+    <script>
+        const thresholdDate = new Date("2024-07-23");
+
+        function showFormOption1() {
+            document.getElementById("form-container").innerHTML = `
+                <h1 class="mt-4">Equity Shares Tax Calculation</h1>
+                <form onsubmit="event.preventDefault(); calculateTaxOption1();" class="mt-4">
+                    <div class="form-group">
+                        <label for="fullValue">Full Value of Consideration (₹):</label>
+                        <input type="number" class="form-control" id="fullValue" placeholder="Enter full value" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferExpenses">Transfer Expenses (₹):</label>
+                        <input type="number" class="form-control" id="transferExpenses" placeholder="Enter transfer expenses" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="costOfAcquisition">Cost of Acquisition (₹):</label>
+                        <input type="number" class="form-control" id="costOfAcquisition" placeholder="Enter cost of acquisition" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferDate">Transfer Date:</label>
+                        <input type="date" class="form-control" id="transferDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="costOfImprovement">Cost of Improvement (₹):</label>
+                        <input type="number" class="form-control" id="costOfImprovement" placeholder="Enter cost of improvement" step="0.01" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="exemptions">Exemptions (₹):</label>
+                        <input type="number" class="form-control" id="exemptions" placeholder="Enter exemptions" step="0.01" min="0" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Calculate Tax</button>
+                    <button type="button" class="btn btn-secondary" onclick="returnToMainMenu()">Return to Main Menu</button>
+                </form>
+            `;
+        }
+
+        function calculateTaxOption1() {
+            const fullValue = parseFloat(document.getElementById("fullValue").value);
+            const transferExpensesInput = document.getElementById("transferExpenses").value;
+            const transferExpenses = parseFloat(transferExpensesInput) || 0;
+            const costOfAcquisition = parseFloat(document.getElementById("costOfAcquisition").value);
+            const transferDateValue = document.getElementById("transferDate").value;
+            const costOfImprovement = parseFloat(document.getElementById("costOfImprovement").value) || 0;
+            const exemptions = parseFloat(document.getElementById("exemptions").value) || 0;
+
+            if (!fullValue || !costOfAcquisition || !transferDateValue) {
+                alert("All required fields must be filled.");
+                return;
+            }
+
+            const transferDate = new Date(transferDateValue);
+            if (isNaN(transferDate)) {
+                alert("Please enter a valid transfer date.");
+                return;
+            }
+
+            const netValue = fullValue - transferExpenses - 125000; // Assuming ₹1,25,000 as a standard deduction
+            const ltcg = netValue - (costOfAcquisition + costOfImprovement) - exemptions;
+
+            if (ltcg <= 0) {
+                alert("No tax applicable as LTCG is zero or negative.");
+                return;
+            }
+
+            let taxRate;
+            if (transferDate >= thresholdDate) {
+                taxRate = 0.20; // 20% for dates on or after threshold
+            } else {
+                taxRate = 0.125; // 12.5% for dates before threshold
+            }
+
+            const totalTax = ltcg * taxRate;
+            const cappedTax = Math.max(totalTax, 0);
+
+            // Display Results
+            displayResults(ltcg, taxRate, totalTax);
+
+            // Save to Local Storage
+            saveToLocalStorage("Total LTCG Tax on Equity Shares:", cappedTax);
+        }
+
+        function displayResults(ltcg, taxRate, totalTax) {
+            document.getElementById("result").innerHTML = `
+                <p><strong>Long-Term Capital Gain (LTCG):</strong> ₹${ltcg.toFixed(2)}</p>
+                <p><strong>Applicable Tax Rate:</strong> ${(taxRate * 100).toFixed(2)}%</p>
+                <p><strong>Total Tax:</strong> ₹${totalTax.toFixed(2)}</p>
+                <button onclick="redirectToIndex()">Go to Index Page</button>
+            `;
+        }
+
+        function saveToLocalStorage(label, tax) {
+            const previousInputs = JSON.parse(localStorage.getItem('userResults')) || [];
+            previousInputs.push({
+                label: label,
+                tax: parseFloat(tax.toFixed(2)),
+            });
+            localStorage.setItem('userResults', JSON.stringify(previousInputs));
+        }
+
+        function redirectToIndex() {
+            location.href = "index.html.html"; // Ensure this path is correct
+        }
+
+        function returnToMainMenu() {
+            // Redirect to the Capital Gains and Income page
+            window.location.href = "./index.html.html";
+        }
+
+        // Initialize the form on page load
+        window.onload = showFormOption1;
+    </script>
+</head>
+<body>
+    <!-- Navbar Integration -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="../index.html">Tax Calculator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html.html">Capital Gains</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdown"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        Tools
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="../page1.html">Tax Residency</a>
+                        <a class="dropdown-item" href="../page2.html">Tax Filing Eligibility</a>
+                        <a class="dropdown-item" href="../page3.html">Tax Calculator based on Income</a>
+                        <a class="dropdown-item" href="../page4.html">Basic Tax Calculator</a>
+                        <a class="dropdown-item" href="../page5.html">HRA</a>
+                        <a class="dropdown-item" href="../page6.html">Tax Deduction Calc</a>
+                        <a class="dropdown-item" href="../page7.html">House Property Income</a>
+                        <a class="dropdown-item" href="./index.html.html">Capital Gains and Income</a>
+                        <a class="dropdown-item" href="../page10.html">Home Loan Credit Calculator</a>
+                        <a class="dropdown-item" href="../page12.html">Remittance Tax</a>
+                        <a class="dropdown-item" href="../page13.html">Gift Tax Calculator</a>
+                        <a class="dropdown-item" href="../page14.html">Penalty Tax</a>
+                        <a class="dropdown-item" href="../page16.html">Income Surcharge</a>
+                        <a class="dropdown-item" href="../page17.html">Education Cess Calculator</a>
+                        <a class="dropdown-item" href="../page18.html">Tax Deduction Calculator</a>
+                        <a class="dropdown-item" href="../taxform.html">Tax Form</a>
+                        <a class="dropdown-item" href="../huf.html">HUF Calculator</a>
+                        <a class="dropdown-item" href="../table.html">ITR Table</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div id="form-container"></div>
+
+        <div class="results-section mt-4">
+            <h2 id="result"></h2>
+        </div>
+    </div>
+</body>
+</html>

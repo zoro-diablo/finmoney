@@ -1,275 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tax Calculator</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <style>
-        #circularcursor {
-            background-color: transparent;
-            border: 1px solid black;
-            height: 40px;
-            width: 40px;
-            border-radius: 50%;
-            -moz-border-radius: 50%;
-            -webkit-border-radius: 50%;
-            position: absolute;
-            z-index: 1;
-            transition: 0.2s;
-        }
+      #circularcursor {
+        background-color: transparent;
+        border: 1px solid black;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        position: absolute;
+        z-index: 1;
+        transition: 0.2s;
+      }
 
-        .navbar {
-            background-color: #28a745;
-            /* Green navbar background color */
-        }
+      .navbar {
+        background-color: #28a745;
+        /* Green navbar background color */
+      }
 
-        nav a:hover {
-            background-color: #28a745;
+      nav a:hover {
+        background-color: #28a745;
+      }
 
-        }
+      .navbar-dark .navbar-toggler-icon {
+        background-color: #fff;
+        /* White color for the toggler icon */
+      }
 
-        .navbar-dark .navbar-toggler-icon {
-            background-color: #fff;
-            /* White color for the toggler icon */
-        }
+      .navbar-brand,
+      .navbar-nav .nav-link {
+        color: #fff !important;
+        /* White text color for links and brand */
+      }
 
-        .navbar-brand,
-        .navbar-nav .nav-link {
-            color: #fff !important;
-            /* White text color for links and brand */
-        }
+      .navbar-brand:hover,
+      .navbar-nav .nav-link:hover {
+        color: #fff !important;
+        /* White text color on hover */
+      }
 
-        .navbar-brand:hover,
-        .navbar-nav .nav-link:hover {
-            color: #fff !important;
-            /* White text color on hover */
-        }
+      .navbar-toggler {
+        border-color: #fff;
+        /* White border color for toggler button */
+      }
 
-        .navbar-toggler {
-            border-color: #fff;
-            /* White border color for toggler button */
-        }
+      .navbar-toggler:focus,
+      .navbar-toggler:active {
+        outline: none;
+        /* Remove focus outline */
+        box-shadow: none;
+        /* Remove box shadow on focus */
+      }
 
-        .navbar-toggler:focus,
-        .navbar-toggler:active {
-            outline: none;
-            /* Remove focus outline */
-            box-shadow: none;
-            /* Remove box shadow on focus */
-        }
+      .dropdown-menu {
+        background-color: #28a745;
+        /* Green dropdown background color */
+      }
 
-        .dropdown-menu {
-            background-color: #28a745;
-            /* Green dropdown background color */
-        }
+      .dropdown-item {
+        color: #fff !important;
+        /* White text color for dropdown items */
+      }
 
-        .dropdown-item {
-            color: #fff !important;
-            /* White text color for dropdown items */
-        }
+      .dropdown-item:hover {
+        background-color: #218838;
+        /* Darker green on hover */
+      }
 
-        .dropdown-item:hover {
-            background-color: #218838;
-            /* Darker green on hover */
-        }
+      body {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: rgb(228, 233, 235);
+      }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: rgb(228, 233, 235);
-        }
+      #taxCalculator {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
 
-        #taxCalculator {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-        }
+      h2 {
+        text-align: center;
+        color: black;
+      }
 
-        h2 {
-            text-align: center;
-            color: black;
-        }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        color: black;
+      }
 
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            color: black;
-        }
+      input {
+        width: calc(100% - 12px);
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: gray;
+        font-weight: light;
+        font-size: small;
+      }
 
-        input {
-            width: calc(100% - 12px);
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            color: gray;
-            font-weight: light;
-            font-size: small;
-        }
+      button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
 
-        button {
-            background-color: black;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
+      button:hover {
+        background-color: darkgray;
+      }
 
-        button:hover {
-            background-color: darkgray;
-        }
-
-        #result {
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: center;
-            color: #333333;
-        }
+      #result {
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+        color: #333333;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="circularcursor"></div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
+          <!-- Dropdown example -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="page1.html">Tax Residency </a>
+              <a class="dropdown-item" href="page2.html"
+                >Tax Filing Eligibility</a
+              >
+              <a class="dropdown-item" href="page3.html"
+                >Tax Calculator based on Income</a
+              >
+              <a class="dropdown-item" href="page4.html"
+                >Basic Tax calculator</a
+              >
+              <a class="dropdown-item" href="page5.html">HRA</a>
+              <a class="dropdown-item" href="page6.html">ATD Calculator</a>
+              <a class="dropdown-item" href="page7.html"
+                >House Property Income</a
+              >
 
-                <!-- Dropdown example -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="page1.html">Tax Residency </a>
-                        <a class="dropdown-item" href="page2.html">Tax Filing Eligibility</a>
-                        <a class="dropdown-item" href="page3.html">Tax Calculator based on Income</a>
-                        <a class="dropdown-item" href="page4.html">Basic Tax calculator</a>
-                        <a class="dropdown-item" href="page5.html">HRA</a>
-                        <a class="dropdown-item" href="page6.html">ATD Calculator</a>
-                        <a class="dropdown-item" href="page7.html">House Property Income</a>
+              <a class="dropdown-item" href="capital-gains/index.html.html"
+                >Capital Gains and Income</a
+              >
+              <a class="dropdown-item" href="page10.html"
+                >Home Loan Credit Calculator</a
+              >
+              <a class="dropdown-item" href="page12.html">Remittance Tax</a>
+              <a class="dropdown-item" href="page13.html"
+                >Gift Tax Calculator</a
+              >
+              <a class="dropdown-item" href="page14.html">Penalty Tax</a>
 
-                        <a class="dropdown-item" href="page9.html">Capital Gains and Income</a>
-                        <a class="dropdown-item" href="page10.html">Home Loan Credit Calculator</a>
-                        <a class="dropdown-item" href="page12.html">Remittance Tax</a>
-                        <a class="dropdown-item" href="page13.html">Gift Tax Calculator</a>
-                        <a class="dropdown-item" href="page14.html">Penalty Tax</a>
-
-                        <a class="dropdown-item" href="page16.html">Income Surcharge</a>
-                        <a class="dropdown-item" href="page17.html">Education Cess Calculator</a>
-                        <a class="dropdown-item" href="page18.html">Tax Deduction Calculator</a>
-                        <a class="dropdown-item" href="taxform.html">Tax Form</a>
-                        <a class="dropdown-item" href="huf.html">HUF Calculator</a>
-                        <a class="dropdown-item" href="table.html">ITR Table</a>
-
-                    </div>
-                </li>
-            </ul>
-        </div>
+              <a class="dropdown-item" href="page16.html">Income Surcharge</a>
+              <a class="dropdown-item" href="page17.html"
+                >Education Cess Calculator</a
+              >
+              <a class="dropdown-item" href="page18.html"
+                >Tax Deduction Calculator</a
+              >
+              <a class="dropdown-item" href="taxform.html">Tax Form</a>
+              <a class="dropdown-item" href="huf.html">HUF Calculator</a>
+              <a class="dropdown-item" href="table.html">ITR Table</a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </nav>
     <div id="taxCalculator">
-        <h2>Tax Calculator</h2>
-        <label for="income">Enter your annual income:</label>
-        <input type="number" id="income" placeholder="Enter income">
+      <h2>Tax Calculator</h2>
+      <label for="income">Enter your annual income:</label>
+      <input type="number" id="income" placeholder="Enter income" />
 
-        <label for="natureOfIncome">Enter the nature of your income (comma-separated if multiple):</label>
-        <input type="text" id="natureOfIncome" placeholder="Enter nature of income">
+      <label for="natureOfIncome"
+        >Enter the nature of your income (comma-separated if multiple):</label
+      >
+      <input
+        type="text"
+        id="natureOfIncome"
+        placeholder="Enter nature of income"
+      />
 
-        <label for="numProperties">Enter the number of house properties:</label>
-        <input type="number" id="numProperties" placeholder="Enter number of properties">
+      <label for="numProperties">Enter the number of house properties:</label>
+      <input
+        type="number"
+        id="numProperties"
+        placeholder="Enter number of properties"
+      />
 
-        <button id="btn">Calculate ITR Form</button>
+      <button id="btn">Calculate ITR Form</button>
 
-        <div id="result"></div>
+      <div id="result"></div>
     </div>
 
     <script type="module">
-        const jsonData = localStorage.getItem('jsonData')
-        const data = JSON.parse(jsonData)
+      const jsonData = localStorage.getItem('jsonData');
+      const data = JSON.parse(jsonData);
 
-        let finalData
-        if (data) {
-            if (data.ITR.ITR1 != undefined) {
-                finalData = data.ITR.ITR1
-            } else if (data.ITR.ITR2 != undefined) {
-                finalData = data.ITR.ITR2
-            } else if (data.ITR.ITR3 != undefined) {
-                finalData = data.ITR.ITR3
-            } else if (data.ITR.ITR4 != undefined) {
-                finalData = data.ITR.ITR4
-            } else if (data.ITR.ITR5 != undefined) {
-                finalData = data.ITR.ITR5
-            }
+      let finalData;
+      if (data) {
+        if (data.ITR.ITR1 != undefined) {
+          finalData = data.ITR.ITR1;
+        } else if (data.ITR.ITR2 != undefined) {
+          finalData = data.ITR.ITR2;
+        } else if (data.ITR.ITR3 != undefined) {
+          finalData = data.ITR.ITR3;
+        } else if (data.ITR.ITR4 != undefined) {
+          finalData = data.ITR.ITR4;
+        } else if (data.ITR.ITR5 != undefined) {
+          finalData = data.ITR.ITR5;
         }
+      }
 
+      // const incomeVal = data.ITR.ITR2['PartB-TI'].GrossTotalIncome
+      let incomeVal;
 
-        // const incomeVal = data.ITR.ITR2['PartB-TI'].GrossTotalIncome
-        let incomeVal
-
-        if (data) {
-            if (data.ITR.ITR1 != undefined) {
-                incomeVal = finalData.ITR1_IncomeDeductions.GrossTotIncome
-            } else if (data.ITR.ITR4 != undefined) {
-                incomeVal = finalData.IncomeDeductions.GrossTotIncome
-            } else {
-                incomeVal = finalData['PartB-TI'].GrossTotalIncome
-            }
+      if (data) {
+        if (data.ITR.ITR1 != undefined) {
+          incomeVal = finalData.ITR1_IncomeDeductions.GrossTotIncome;
+        } else if (data.ITR.ITR4 != undefined) {
+          incomeVal = finalData.IncomeDeductions.GrossTotIncome;
         } else {
-            incomeVal = 0
+          incomeVal = finalData['PartB-TI'].GrossTotalIncome;
         }
+      } else {
+        incomeVal = 0;
+      }
 
+      const btn = document.getElementById('btn');
 
+      document.getElementById('income').value = incomeVal;
 
-        const btn = document.getElementById('btn')
+      btn.addEventListener('click', calculateITR);
+      function calculateITR() {
+        var natureOfIncome = document
+          .getElementById('natureOfIncome')
+          .value.split(',')
+          .map(function (item) {
+            return item.trim().toLowerCase();
+          });
+        var numProperties = document.getElementById('numProperties').value;
 
-        document.getElementById('income').value = incomeVal
+        var itrForm = chooseITRForm(incomeVal, natureOfIncome, numProperties);
 
-        btn.addEventListener('click', calculateITR)
-        function calculateITR() {
-            var natureOfIncome = document.getElementById('natureOfIncome').value.split(",").map(function (item) {
-                return item.trim().toLowerCase();
-            });
-            var numProperties = document.getElementById('numProperties').value;
+        document.getElementById('result').innerText =
+          'You should use ITR form: ' + itrForm;
+      }
 
-            var itrForm = chooseITRForm(incomeVal, natureOfIncome, numProperties);
+      function chooseITRForm(income, natureOfIncome, numProperties) {
+        // Your JavaScript logic for ITR form selection goes here
+        // This function should return the appropriate ITR form based on the provided parameters
+        // You can use the logic from your original Python program
+      }
 
-            document.getElementById('result').innerText = "You should use ITR form: " + itrForm;
-        }
-
-        function chooseITRForm(income, natureOfIncome, numProperties) {
-            // Your JavaScript logic for ITR form selection goes here
-            // This function should return the appropriate ITR form based on the provided parameters
-            // You can use the logic from your original Python program
-        }
-
-        $(document).ready(function () {
-            $(document).on('mousemove', function (e) {
-                $('#circularcursor').css({
-                    left: e.pageX,
-                    top: e.pageY
-                });
-            })
+      $(document).ready(function () {
+        $(document).on('mousemove', function (e) {
+          $('#circularcursor').css({
+            left: e.pageX,
+            top: e.pageY,
+          });
         });
+      });
     </script>
-</body>
-
+  </body>
 </html>

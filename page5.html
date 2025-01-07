@@ -1,391 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HRA Calculator</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <style>
-        #circularcursor {
-            background-color: transparent;
-            border: 1px solid black;
-            height: 40px;
-            width: 40px;
-            border-radius: 50%;
-            -moz-border-radius: 50%;
-            -webkit-border-radius: 50%;
-            position: absolute;
-            z-index: 1;
-            transition: 0.2s;
-        }
+      #circularcursor {
+        background-color: transparent;
+        border: 1px solid black;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        position: absolute;
+        z-index: 1;
+        transition: 0.2s;
+      }
 
-        .navbar {
-            background-color: #28a745;
-            /* Green navbar background color */
-        }
+      .navbar {
+        background-color: #28a745;
+        /* Green navbar background color */
+      }
 
-        nav a:hover {
-            background-color: #28a745;
+      nav a:hover {
+        background-color: #28a745;
+      }
 
-        }
+      .navbar-dark .navbar-toggler-icon {
+        background-color: #fff;
+        /* White color for the toggler icon */
+      }
 
-        .navbar-dark .navbar-toggler-icon {
-            background-color: #fff;
-            /* White color for the toggler icon */
-        }
+      .navbar-brand,
+      .navbar-nav .nav-link {
+        color: #fff !important;
+        /* White text color for links and brand */
+      }
 
-        .navbar-brand,
-        .navbar-nav .nav-link {
-            color: #fff !important;
-            /* White text color for links and brand */
-        }
+      .navbar-brand:hover,
+      .navbar-nav .nav-link:hover {
+        color: #fff !important;
+        /* White text color on hover */
+      }
 
-        .navbar-brand:hover,
-        .navbar-nav .nav-link:hover {
-            color: #fff !important;
-            /* White text color on hover */
-        }
+      .navbar-toggler {
+        border-color: #fff;
+        /* White border color for toggler button */
+      }
 
-        .navbar-toggler {
-            border-color: #fff;
-            /* White border color for toggler button */
-        }
+      .navbar-toggler:focus,
+      .navbar-toggler:active {
+        outline: none;
+        /* Remove focus outline */
+        box-shadow: none;
+        /* Remove box shadow on focus */
+      }
 
-        .navbar-toggler:focus,
-        .navbar-toggler:active {
-            outline: none;
-            /* Remove focus outline */
-            box-shadow: none;
-            /* Remove box shadow on focus */
-        }
+      .dropdown-menu {
+        background-color: #28a745;
+        /* Green dropdown background color */
+      }
 
-        .dropdown-menu {
-            background-color: #28a745;
-            /* Green dropdown background color */
-        }
+      .dropdown-item {
+        color: #fff !important;
+        /* White text color for dropdown items */
+      }
 
-        .dropdown-item {
-            color: #fff !important;
-            /* White text color for dropdown items */
-        }
+      .dropdown-item:hover {
+        background-color: #218838;
+        /* Darker green on hover */
+      }
 
-        .dropdown-item:hover {
-            background-color: #218838;
-            /* Darker green on hover */
-        }
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: rgb(228, 233, 235);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: rgb(228, 233, 235);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+      .container {
+        margin-top: 100px;
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        width: 50%;
+        flex-direction: column;
+      }
 
-        .container {
-            margin-top: 100px;
-            background-color: #f8f9fa;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-wrap: wrap;
-            width: 50%;
-            flex-direction: column;
-        }
+      h1 {
+        color: black;
+      }
 
-        h1 {
-            color: black;
-        }
+      label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        color: black;
+      }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-            color: black;
-        }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        color: gray;
+        font-weight: light;
+        font-size: small;
+      }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            color: gray;
-            font-weight: light;
-            font-size: small;
-        }
+      button {
+        background-color: black;
+        color: white;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+      }
 
-        button {
-            background-color: black;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
+      button:hover {
+        background-color: darkgray;
+      }
 
-        button:hover {
-            background-color: darkgray;
-        }
+      p {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #333;
+      }
 
-        p {
-            margin-top: 20px;
-            font-weight: bold;
-            color: #333;
-        }
+      .text {
+        font-size: 23px;
+        color: #494949;
+      }
 
-        .text {
-            font-size: 23px;
-            color: #494949;
-        }
+      .toggle {
+        position: relative;
+        width: 40px;
+        height: 20px;
+        border: 2px solid #494949;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.3s;
+      }
 
-        .toggle {
-            position: relative;
-            width: 40px;
-            height: 20px;
-            border: 2px solid #494949;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: .3s;
-        }
+      .circle {
+        position: absolute;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: #494949;
+        transition: 0.3s;
+      }
 
-        .circle {
-            position: absolute;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            border-radius: 20px;
-            background-color: #494949;
-            transition: .3s;
-        }
+      .active {
+        border-color: rgb(85, 227, 180);
+      }
 
-        .active {
-            border-color: rgb(85, 227, 180);
-        }
+      .active + .text {
+        color: rgb(85, 227, 180);
+      }
 
-        .active+.text {
-            color: rgb(85, 227, 180);
-        }
+      .active .circle {
+        left: 100%;
+        transform: translateX(-100%);
+        transition: 0.3s;
+        background-color: green;
+      }
 
-        .active .circle {
-            left: 100%;
-            transform: translateX(-100%);
-            transition: .3s;
-            background-color: green;
-        }
-
-
-        /* .flex-container {
+      /* .flex-container {
             display: flex;
             justify-content: space-around;
         } */
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="circularcursor"></div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
+          <!-- Dropdown example -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="page1.html">Tax Residency </a>
+              <a class="dropdown-item" href="page2.html"
+                >Tax Filing Eligibility</a
+              >
+              <a class="dropdown-item" href="page3.html"
+                >Tax Calculator based on Income</a
+              >
+              <a class="dropdown-item" href="page4.html"
+                >Basic Tax calculator</a
+              >
+              <a class="dropdown-item" href="page5.html">HRA</a>
+              <a class="dropdown-item" href="page6.html">ATD Calculator</a>
+              <a class="dropdown-item" href="page7.html"
+                >House Property Income</a
+              >
 
-                <!-- Dropdown example -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="page1.html">Tax Residency </a>
-                        <a class="dropdown-item" href="page2.html">Tax Filing Eligibility</a>
-                        <a class="dropdown-item" href="page3.html">Tax Calculator based on Income</a>
-                        <a class="dropdown-item" href="page4.html">Basic Tax calculator</a>
-                        <a class="dropdown-item" href="page5.html">HRA</a>
-                        <a class="dropdown-item" href="page6.html">ATD Calculator</a>
-                        <a class="dropdown-item" href="page7.html">House Property Income</a>
+              <a class="dropdown-item" href="capital-gains/index.html.html"
+                >Capital Gains and Income</a
+              >
+              <a class="dropdown-item" href="page10.html"
+                >Home Loan Credit Calculator</a
+              >
+              <a class="dropdown-item" href="page12.html">Remittance Tax</a>
+              <a class="dropdown-item" href="page13.html"
+                >Gift Tax Calculator</a
+              >
+              <a class="dropdown-item" href="page14.html">Penalty Tax</a>
 
-                        <a class="dropdown-item" href="page9.html">Capital Gains and Income</a>
-                        <a class="dropdown-item" href="page10.html">Home Loan Credit Calculator</a>
-                        <a class="dropdown-item" href="page12.html">Remittance Tax</a>
-                        <a class="dropdown-item" href="page13.html">Gift Tax Calculator</a>
-                        <a class="dropdown-item" href="page14.html">Penalty Tax</a>
-
-                        <a class="dropdown-item" href="page16.html">Income Surcharge</a>
-                        <a class="dropdown-item" href="page17.html">Education Cess Calculator</a>
-                        <a class="dropdown-item" href="page18.html">Tax Deduction Calculator</a>
-                        <a class="dropdown-item" href="taxform.html">Tax Form</a>
-                        <a class="dropdown-item" href="huf.html">HUF Calculator</a>
-                        <a class="dropdown-item" href="table.html">ITR Table</a>
-
-                    </div>
-                </li>
-            </ul>
-        </div>
+              <a class="dropdown-item" href="page16.html">Income Surcharge</a>
+              <a class="dropdown-item" href="page17.html"
+                >Education Cess Calculator</a
+              >
+              <a class="dropdown-item" href="page18.html"
+                >Tax Deduction Calculator</a
+              >
+              <a class="dropdown-item" href="taxform.html">Tax Form</a>
+              <a class="dropdown-item" href="huf.html">HUF Calculator</a>
+              <a class="dropdown-item" href="table.html">ITR Table</a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </nav>
     <div class="container">
-        <h1>HRA Calculator</h1>
-        <label for="basicSalary"></label>
-        <input type="number" id="basicSalary" placeholder="Enter basic salary">
-        <br>
-        <div class="flex-container">
-            <label for="cityType">Is your city a metro city? (Yes or No):</label>
-            <div class="container2">
-                <div class="toggle" id="toggleContainer">
-                    <div class="circle"></div>
-                </div>
-                <!-- <span class="text">FF</span> -->
-            </div>
+      <h1>HRA Calculator</h1>
+      <label for="basicSalary"></label>
+      <input type="number" id="basicSalary" placeholder="Enter basic salary" />
+      <br />
+      <div class="flex-container">
+        <label for="cityType">Is your city a metro city? (Yes or No):</label>
+        <div class="container2">
+          <div class="toggle" id="toggleContainer">
+            <div class="circle"></div>
+          </div>
+          <!-- <span class="text">FF</span> -->
         </div>
-        <input type="text" id="cityType" placeholder="Enter city type">
-        <br>
-        <label for="hraAllowance">Enter HRA Allowance:</label>
-        <input type="number" id="hraAllowance" placeholder="Enter HRA allowance">
-        <br>
-        <label for="actualRentPaid">Enter Actual Rent Paid:</label>
-        <input type="number" id="actualRentPaid" placeholder="Enter actual rent paid">
-        <br>
-        <label for="dearnessAllowance">Enter Dearness Allowance:</label>
-        <input type="number" id="dearnessAllowance" placeholder="Enter dearness allowance">
-        <br>
-        <button id="btn">Calculate HRA</button>
-        <br>
-        <p id="result"></p>
-        <br>
-        
+      </div>
+      <input type="text" id="cityType" placeholder="Enter city type" />
+      <br />
+      <label for="hraAllowance">Enter HRA Allowance:</label>
+      <input
+        type="number"
+        id="hraAllowance"
+        placeholder="Enter HRA allowance"
+      />
+      <br />
+      <label for="actualRentPaid">Enter Actual Rent Paid:</label>
+      <input
+        type="number"
+        id="actualRentPaid"
+        placeholder="Enter actual rent paid"
+      />
+      <br />
+      <label for="dearnessAllowance">Enter Dearness Allowance:</label>
+      <input
+        type="number"
+        id="dearnessAllowance"
+        placeholder="Enter dearness allowance"
+      />
+      <br />
+      <button id="btn">Calculate HRA</button>
+      <br />
+      <p id="result"></p>
+      <br />
     </div>
-    
-
 
     <script type="module">
-        const jsonData = localStorage.getItem('jsonData')
-        const data = JSON.parse(jsonData)
+      const jsonData = localStorage.getItem('jsonData');
+      const data = JSON.parse(jsonData);
 
-        let finalData
-        if (data) {
-            if (data.ITR.ITR1 != undefined) {
-                finalData = data.ITR.ITR1
-            } else if (data.ITR.ITR2 != undefined) {
-                finalData = data.ITR.ITR2
-            } else if (data.ITR.ITR3 != undefined) {
-                finalData = data.ITR.ITR3
-            } else if (data.ITR.ITR4 != undefined) {
-                finalData = data.ITR.ITR4
-            } else if (data.ITR.ITR5 != undefined) {
-                finalData = data.ITR.ITR5
-            }
+      let finalData;
+      if (data) {
+        if (data.ITR.ITR1 != undefined) {
+          finalData = data.ITR.ITR1;
+        } else if (data.ITR.ITR2 != undefined) {
+          finalData = data.ITR.ITR2;
+        } else if (data.ITR.ITR3 != undefined) {
+          finalData = data.ITR.ITR3;
+        } else if (data.ITR.ITR4 != undefined) {
+          finalData = data.ITR.ITR4;
+        } else if (data.ITR.ITR5 != undefined) {
+          finalData = data.ITR.ITR5;
         }
+      }
 
+      // const city = data.ITR.ITR2.PartA_GEN1.PersonalInfo.Address.CityOrTownOrDistrict
+      let city;
+      let active;
 
-
-        // const city = data.ITR.ITR2.PartA_GEN1.PersonalInfo.Address.CityOrTownOrDistrict
-        let city
-        let active
-
-
-        if (data) {
-            if (data.ITR.ITR1 != undefined || data.ITR.ITR4 != undefined) {
-                city = finalData.PersonalInfo.Address.CityOrTownOrDistrict
-            } else if (data.ITR.ITR5 != undefined) {
-                city = finalData.PartA_GEN1.OrgFirmInfo.Address.CityOrTownOrDistrict
-            } else {
-                city = finalData.PartA_GEN1.PersonalInfo.Address.CityOrTownOrDistrict
-            }
-            if (city == 'NEW DELHI' || city == 'MUMBAI' || city == 'CHENNAI' || city == 'KOLKATA') {
-                document.getElementById('cityType').value = 'Yes'
-                active = true
-            } else {
-                document.getElementById('cityType').value = 'No'
-                active = false
-            }
+      if (data) {
+        if (data.ITR.ITR1 != undefined || data.ITR.ITR4 != undefined) {
+          city = finalData.PersonalInfo.Address.CityOrTownOrDistrict;
+        } else if (data.ITR.ITR5 != undefined) {
+          city = finalData.PartA_GEN1.OrgFirmInfo.Address.CityOrTownOrDistrict;
         } else {
-            city = ''
-            active = false
+          city = finalData.PartA_GEN1.PersonalInfo.Address.CityOrTownOrDistrict;
+        }
+        if (
+          city == 'NEW DELHI' ||
+          city == 'MUMBAI' ||
+          city == 'CHENNAI' ||
+          city == 'KOLKATA'
+        ) {
+          document.getElementById('cityType').value = 'Yes';
+          active = true;
+        } else {
+          document.getElementById('cityType').value = 'No';
+          active = false;
+        }
+      } else {
+        city = '';
+        active = false;
+      }
+
+      const btn = document.getElementById('btn');
+      btn.addEventListener('click', calculateHRA);
+      function calculateHRA() {
+        const basicSalary = parseFloat(
+          document.getElementById('basicSalary').value
+        );
+        const cityType = document
+          .getElementById('cityType')
+          .value.toLowerCase();
+        const hraAllowance = parseFloat(
+          document.getElementById('hraAllowance').value
+        );
+        const actualRentPaid = parseFloat(
+          document.getElementById('actualRentPaid').value
+        );
+        const dearnessAllowance = parseFloat(
+          document.getElementById('dearnessAllowance').value
+        );
+
+        // Add logic for HRA calculation
+        let isMetro;
+        if (cityType === 'yes' || cityType === 'Yes') {
+          isMetro = true;
+        } else if (cityType === 'no' || cityType === 'No') {
+          isMetro = false;
+        } else {
+          document.getElementById('result').innerHTML =
+            "<span style='color: red;'>Invalid city type. Please enter 'Yes' or 'No'.</span>";
+          return;
         }
 
+        let rentPaid = actualRentPaid - 0.1 * (basicSalary + dearnessAllowance);
 
-
-
-        const btn = document.getElementById('btn')
-        btn.addEventListener('click', calculateHRA)
-        function calculateHRA() {
-            const basicSalary = parseFloat(document.getElementById("basicSalary").value);
-            const cityType = document.getElementById("cityType").value.toLowerCase();
-            const hraAllowance = parseFloat(document.getElementById("hraAllowance").value);
-            const actualRentPaid = parseFloat(document.getElementById("actualRentPaid").value);
-            const dearnessAllowance = parseFloat(document.getElementById("dearnessAllowance").value);
-
-            // Add logic for HRA calculation
-            let isMetro;
-            if (cityType === "yes" || cityType === "Yes") {
-                isMetro = true;
-            } else if (cityType === "no" || cityType === "No") {
-                isMetro = false;
-            } else {
-                document.getElementById("result").innerHTML = "<span style='color: red;'>Invalid city type. Please enter 'Yes' or 'No'.</span>";
-                return;
-            }
-
-            let rentPaid = actualRentPaid - (0.1 * (basicSalary + dearnessAllowance))
-
-            let DSDA;
-            if (isMetro) {
-                DSDA = (basicSalary) * 0.5;
-            } else {
-                DSDA = (basicSalary) * 0.4;
-            }
-
-            const hra = Math.min(rentPaid, hraAllowance, DSDA);
-
-            // Display the result
-            const resultElement = document.getElementById("result");
-            resultElement.innerHTML = `HRA: ${hra.toFixed(2)}`;
+        let DSDA;
+        if (isMetro) {
+          DSDA = basicSalary * 0.5;
+        } else {
+          DSDA = basicSalary * 0.4;
         }
 
-        $(document).ready(function () {
-            $(document).on('mousemove', function (e) {
-                $('#circularcursor').css({
-                    left: e.pageX,
-                    top: e.pageY
-                });
-            })
+        const hra = Math.min(rentPaid, hraAllowance, DSDA);
+
+        // Display the result
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = `HRA: ${hra.toFixed(2)}`;
+      }
+
+      $(document).ready(function () {
+        $(document).on('mousemove', function (e) {
+          $('#circularcursor').css({
+            left: e.pageX,
+            top: e.pageY,
+          });
         });
+      });
 
-        document.getElementById('toggleContainer').addEventListener('click', toggle)
-        function toggle() {
-            let toggle = document.querySelector('.toggle')
-            // let text = document.querySelector('.text')
-            active = !active
-            if (active) {
-                toggle.classList.add('active')
-                // text.innerHTML = 'N'
-                document.getElementById('cityType').value = 'Yes'
-            } else {
-                toggle.classList.remove('active')
-                // text.innerHTML = 'FF'
-                document.getElementById('cityType').value = 'No'
-            }
+      document
+        .getElementById('toggleContainer')
+        .addEventListener('click', toggle);
+      function toggle() {
+        let toggle = document.querySelector('.toggle');
+        // let text = document.querySelector('.text')
+        active = !active;
+        if (active) {
+          toggle.classList.add('active');
+          // text.innerHTML = 'N'
+          document.getElementById('cityType').value = 'Yes';
+        } else {
+          toggle.classList.remove('active');
+          // text.innerHTML = 'FF'
+          document.getElementById('cityType').value = 'No';
         }
+      }
     </script>
-</body>
-
+  </body>
 </html>
