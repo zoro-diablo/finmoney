@@ -344,7 +344,7 @@
             id="gratuityLabel"
             class="editable-label"
             ondblclick="makeLabelEditable(this)"
-            >Tax Liability(with surcharge and cess):</label
+            >Tax Liability(before surcharge and cess):</label
           >
           <input type="number" id="TL" name="TL" onchange="calculateValues()" />
         </div>
@@ -780,6 +780,7 @@
           }
         }
       }
+
       function calculateValues() {
         var SD = 50000;
         document.getElementById('SD').readOnly = true;
@@ -1001,7 +1002,8 @@
             let Z = choose_min(y, A);
             taxAmount = ensure_non_negative(Z);
           }
-          return taxAmount * 0.04 + taxAmount;
+
+          return taxAmount;
         }
         function calculateTLAC(TIAC, regime, oldCategory) {
           let result = 0;
@@ -1057,9 +1059,59 @@
             let Z = choose_min(y, A);
             result = ensure_non_negative(Z);
           }
-          return result * 0.04 + result;
+
+          return result;
         }
+
+        function calculateSurcharge(taxableIncome, taxAfterRebate, regime) {
+          let surcharge = 0;
+
+          if (regime === 'new') {
+            if (taxableIncome > 5000000 && taxableIncome <= 10000000) {
+              const tentativeSurcharge = 0.1 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 5000000);
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            } else if (taxableIncome > 10000000 && taxableIncome <= 20000000) {
+              const tentativeSurcharge = 0.15 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 10000000) + 269000;
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            } else if (taxableIncome > 20000000 && taxableIncome <= 50000000) {
+              const tentativeSurcharge = 0.25 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 20000000) + 853500;
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            } else if (taxableIncome > 50000000) {
+              const tentativeSurcharge = 0.25 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 50000000) + 3672500;
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            }
+          } else {
+            if (taxableIncome > 5000000 && taxableIncome <= 10000000) {
+              const tentativeSurcharge = 0.1 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 5000000);
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            } else if (taxableIncome > 10000000 && taxableIncome <= 20000000) {
+              const tentativeSurcharge = 0.15 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 10000000) + 281250;
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            } else if (taxableIncome > 20000000 && taxableIncome <= 50000000) {
+              const tentativeSurcharge = 0.25 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 20000000) + 871875;
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            } else if (taxableIncome > 50000000) {
+              const tentativeSurcharge = 0.37 * taxAfterRebate;
+              const marginalRelief = 0.7 * (taxableIncome - 50000000) + 3703125;
+              surcharge = Math.min(tentativeSurcharge, marginalRelief);
+            }
+          }
+          return surcharge;
+        }
+
         var TL = calculateTax(TAX, regime, oldCategory);
+
+        var surcharge = calculateSurcharge(TAX, TL, regime);
+        document.getElementById('total-surcharge-display').innerHTML =
+          surcharge.toFixed(2);
+
         var TLAC = calculateTLAC(TIAC, regime, oldCategory);
         TL = parseFloat(TL.toFixed(2));
         TLAC = parseFloat(TLAC.toFixed(2));
