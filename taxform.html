@@ -542,6 +542,10 @@
         <div class="tax-save-display" id="total-surcharge-display">0.00</div>
         <button class="tax-button">Total Cess</button>
         <div class="tax-save-display" id="total-cess-display">0.00</div>
+        <button class="tax-button">
+          Tax liability (after surcharge and cess)
+        </button>
+        <div class="tax-save-display" id="tax-liability-after">0.00</div>
         <button class="tax-button">Tax Save under Old Regime</button>
         <div class="tax-save-display" id="old-regime-tax-save-display"></div>
         <button class="tax-button">Tax Save under New Regime</button>
@@ -1107,11 +1111,13 @@
         }
 
         var TL = calculateTax(TAX, regime, oldCategory);
-
         var surcharge = calculateSurcharge(TAX, TL, regime);
+        var totalCess = (TL + surcharge) * 0.04;
+        document.getElementById("total-cess-display").innerHTML = totalCess.toFixed(2);
+        var taxLiabilityAfter = TL + surcharge + totalCess;
+        document.getElementById("tax-liability-after").innerHTML = taxLiabilityAfter.toFixed(2);
         document.getElementById('total-surcharge-display').innerHTML =
           surcharge.toFixed(2);
-
         var TLAC = calculateTLAC(TIAC, regime, oldCategory);
         TL = parseFloat(TL.toFixed(2));
         TLAC = parseFloat(TLAC.toFixed(2));
