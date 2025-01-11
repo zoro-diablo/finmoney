@@ -149,9 +149,9 @@
 
             let taxRate;
             if (transferDate >= thresholdDate) {
-                taxRate = 0.20; // 20% for dates on or after threshold
-            } else {
                 taxRate = 0.125; // 12.5% for dates before threshold
+            } else {
+                taxRate = 0.10; // 20% for dates on or after threshold
             }
 
             const totalTax = ltcg * taxRate;
